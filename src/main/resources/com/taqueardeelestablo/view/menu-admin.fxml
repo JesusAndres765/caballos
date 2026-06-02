@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefWidth="400" prefHeight="380" spacing="14"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.MenuAdminController"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <padding><Insets top="20" right="50" bottom="20" left="50"/></padding>
+
+    <Label fx:id="adminLabel" text="Administrador:"/>
+    <Label text="Menu Administrador"/>
+
+    <Button text="Crear Carrera"          onAction="#handleCrearCarrera"     prefWidth="220"/>
+    <Button text="Registrar Caballo"       onAction="#handleRegistrarCaballo" prefWidth="220"/>
+    <Button text="Registrar Administrador" onAction="#handleRegistrarAdmin"   prefWidth="220"/>
+
+    <!-- Empuja el mensaje y el logout hacia abajo -->
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+    <Button text="Terminar Sesion" onAction="#handleTerminarSesion" prefWidth="220"/>
+
+</VBox>

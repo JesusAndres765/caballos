@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="500" prefHeight="500" spacing="12"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.CrearCarreraController"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <padding><Insets top="15" right="30" bottom="15" left="30"/></padding>
+
+    <!-- Barra superior: título y botón Volver -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="adminLabel" text="Administrador:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Volver" onAction="#handleVolver"/>
+    </HBox>
+
+    <Label text="Crear Carrera:"/>
+
+    <!-- Número de caballos -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Caballos (2 - 10):"/>
+        <ComboBox fx:id="numCaballosCombo"/>
+        <Button text="Cargar" onAction="#handleCargar"/>
+    </HBox>
+
+    <!-- Duración -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Duracion (seg):"/>
+        <TextField fx:id="duracionField" prefWidth="70"/>
+    </HBox>
+
+    <!-- Tiempo de gatera con ToggleGroup -->
+    <Label text="Empieza en:"/>
+
+    <fx:define>
+        <ToggleGroup fx:id="gateraGroup"/>
+    </fx:define>
+
+    <GridPane hgap="15" vgap="6">
+        <RadioButton text="2 Minutos"  toggleGroup="$gateraGroup" userData="2"
+                     GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <RadioButton text="5 Minutos"  toggleGroup="$gateraGroup" userData="5"
+                     GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <RadioButton text="10 Minutos" toggleGroup="$gateraGroup" userData="10"
+                     GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <RadioButton text="15 Minutos" toggleGroup="$gateraGroup" userData="15"
+                     GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <RadioButton text="20 Minutos" toggleGroup="$gateraGroup" userData="20"
+                     GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <RadioButton text="30 Minutos" toggleGroup="$gateraGroup" userData="30"
+                     GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+    </GridPane>
+
+    <!-- Lista de caballos cargados -->
+    <ListView fx:id="caballosListView" prefHeight="140"/>
+
+    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+
+    <Button text="Crear Carrera" onAction="#handleCrearCarrera" prefWidth="180"/>
+
+</VBox>

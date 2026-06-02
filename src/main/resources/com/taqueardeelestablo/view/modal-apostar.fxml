@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="460" prefHeight="420" spacing="12"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.ModalApostarController">
+
+    <padding><Insets top="20" right="25" bottom="20" left="25"/></padding>
+
+    <Label fx:id="porcentajeLabel" text=""/>
+
+    <!-- Tabla de caballos de la carrera -->
+    <TableView fx:id="caballosTabla" prefHeight="180"
+               tableMenuButtonVisible="false">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+
+    <!-- Selección de caballo -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Caballo:"/>
+        <ComboBox fx:id="caballoCombo" prefWidth="230"/>
+    </HBox>
+
+    <!-- Monto -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Apuesta:"/>
+        <TextField fx:id="apuestaField" promptText="Monto a apostar" prefWidth="160"/>
+    </HBox>
+
+    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="confirmBtn" text="Confirmar" onAction="#handleConfirmar" prefWidth="120"/>
+        <Button fx:id="cancelBtn"  text="Cancelar"  onAction="#handleCancelar"  prefWidth="120"/>
+    </HBox>
+
+</VBox>

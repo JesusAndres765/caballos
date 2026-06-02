@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="520" prefHeight="580" spacing="0"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.DashboardUsuarioController"
+maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- Cabecera -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
+        <Label fx:id="usuarioLabel" text="Usuario:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+    </HBox>
+
+    <!-- Pestañas principales -->
+    <TabPane VBox.vgrow="ALWAYS">
+
+        <Tab text="Carreras" closable="false">
+            <content>
+                <ScrollPane fitToWidth="true">
+                    <content>
+                        <VBox fx:id="carrerasContainer" spacing="12">
+                            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </content>
+        </Tab>
+
+        <Tab text="Transacciones" closable="false">
+            <content>
+                <VBox alignment="CENTER" spacing="15">
+                    <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+                    <Button text="Depositar"             onAction="#handleDepositar"   prefWidth="190"/>
+                    <Button text="Retirar"               onAction="#handleRetirar"     prefWidth="190"/>
+                    <Button text="Historial de Apuestas" onAction="#handleHistorial"   prefWidth="190"/>
+                    <Region VBox.vgrow="ALWAYS"/>
+                    <Button text="Cerrar Sesion"         onAction="#handleCerrarSesion" prefWidth="190"/>
+                </VBox>
+            </content>
+        </Tab>
+
+    </TabPane>
+
+    <!-- Fuera de las pestañas, siempre visible -->
+    <HBox alignment="CENTER">
+        <padding><Insets top="8" bottom="8"/></padding>
+        <Button text="Ver Apuestas Activas" onAction="#handleVerApuestasActivas"/>
+    </HBox>
+
+</VBox>

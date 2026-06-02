@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="480" prefHeight="540" spacing="0"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.HistorialController"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- Cabecera -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
+        <Label fx:id="usuarioLabel" text="Usuario:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+    </HBox>
+
+    <Label text="Historial">
+        <padding><Insets left="15" bottom="6"/></padding>
+    </Label>
+
+    <!-- Tarjetas de apuestas pasadas -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <content>
+            <VBox fx:id="historialContainer" spacing="10">
+                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            </VBox>
+        </content>
+    </ScrollPane>
+
+    <HBox alignment="CENTER">
+        <padding><Insets top="10" bottom="10"/></padding>
+        <Button text="Volver" onAction="#handleVolver" prefWidth="120"/>
+    </HBox>
+
+</VBox>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="420" prefHeight="320" spacing="14"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.RegistrarAdminController"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <padding><Insets top="15" right="40" bottom="15" left="40"/></padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="adminLabel" text="Administrador:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Volver" onAction="#handleVolver"/>
+    </HBox>
+
+    <Label text="Registrar Administrador:"/>
+
+    <GridPane hgap="15" vgap="12">
+        <Label text="Usuario:"     GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="usernameField" promptText="Nombre de usuario" prefWidth="200"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Contraseña:"  GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <PasswordField fx:id="passwordField" promptText="Contraseña" prefWidth="200"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    </GridPane>
+
+    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+
+    <Button text="Registrar Administrador" onAction="#handleRegistrar" prefWidth="200"/>
+
+</VBox>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="400" prefHeight="300" spacing="14"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.RetirarController"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- Cabecera -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
+        <Label fx:id="usuarioLabel" text="Usuario:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+    </HBox>
+
+    <Label text="Retiro">
+        <padding><Insets left="15"/></padding>
+    </Label>
+
+    <GridPane hgap="12" vgap="14">
+        <padding><Insets left="40" right="40"/></padding>
+
+        <Label text="Cantidad a Retirar:"  GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="cantidadField" promptText="0.00" prefWidth="190"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Numero de Cuenta:"    GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="cuentaField" promptText="Número de cuenta" prefWidth="190"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    </GridPane>
+
+    <Label fx:id="mensajeLabel" text="" wrapText="true">
+        <padding><Insets left="40"/></padding>
+    </Label>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Confirmar" onAction="#handleConfirmar" prefWidth="120"/>
+        <Button text="Volver"    onAction="#handleVolver"    prefWidth="100"/>
+    </HBox>
+
+</VBox>

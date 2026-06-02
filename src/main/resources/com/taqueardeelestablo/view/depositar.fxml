@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="420" prefHeight="380" spacing="14"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.DepositarController"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- Cabecera -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
+        <Label fx:id="usuarioLabel" text="Usuario:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+    </HBox>
+
+    <Label text="Depositar">
+        <padding><Insets left="15"/></padding>
+    </Label>
+
+    <GridPane hgap="12" vgap="12">
+        <padding><Insets left="30" right="30"/></padding>
+
+        <Label text="Cantidad a Depositar:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="cantidadField" promptText="0.00" prefWidth="200"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Numero de Tarjeta:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="tarjetaField" promptText="0000 0000 0000 0000" prefWidth="200"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Nombre del Titular:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="titularField" promptText="Nombre completo" prefWidth="200"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <!-- Vigencia y CVC en la misma fila -->
+        <Label text="Vig.:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <HBox spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="vigField" promptText="MM/AA" prefWidth="90"/>
+            <Label text="CVC:"/>
+            <TextField fx:id="cvcField" promptText="000" prefWidth="70"/>
+        </HBox>
+
+    </GridPane>
+
+    <Label fx:id="mensajeLabel" text="" wrapText="true">
+        <padding><Insets left="30"/></padding>
+    </Label>
+
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Confirmar" onAction="#handleConfirmar" prefWidth="120"/>
+        <Button text="Volver"    onAction="#handleVolver"    prefWidth="100"/>
+    </HBox>
+
+</VBox>

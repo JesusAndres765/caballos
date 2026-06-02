@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="540" prefHeight="560" spacing="0"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.VerCarreraController"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- Cabecera -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
+        <Label fx:id="usuarioLabel" text="Usuario:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+    </HBox>
+
+    <!-- Título y cronómetro -->
+    <VBox alignment="CENTER" spacing="4">
+        <padding><Insets top="10" bottom="10"/></padding>
+        <Label fx:id="tituloLabel" text="Carrera"/>
+        <Label fx:id="timerLabel"  text="--:--"/>
+    </VBox>
+
+    <!-- Filas de caballos (generadas dinámicamente en el controlador) -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <content>
+            <VBox fx:id="caballosContainer" spacing="8">
+                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            </VBox>
+        </content>
+    </ScrollPane>
+
+    <!-- Botones inferiores -->
+    <HBox spacing="20" alignment="CENTER">
+        <padding><Insets top="12" bottom="12"/></padding>
+        <Button fx:id="verResultadosBtn" text="Ver Resultados"
+                onAction="#handleVerResultados" disable="true"/>
+        <Button text="Volver" onAction="#handleVolver"/>
+    </HBox>
+
+</VBox>
