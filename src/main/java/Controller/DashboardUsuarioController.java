@@ -191,7 +191,35 @@ public class DashboardUsuarioController {
         }
     }
 
-    private void abrirVerCarrera(Carrera carrera) {
+    /*private void abrirVerCarrera(Carrera carrera) {
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/taqueardeelestablo/view/ver-carrera.fxml")
+            );
+            Parent root = loader.load();
+
+            Stage modal = new Stage();
+            modal.setMaximized(true);
+            modal.setTitle("Carrera #" + carrera.getIdCarrera());
+            modal.initModality(Modality.APPLICATION_MODAL);
+            modal.initOwner(SceneManager.getPrimaryStage());
+            modal.setScene(new Scene(root));
+
+            VerCarreraController ctrl = loader.getController();
+            ctrl.setCarrera(carrera);
+
+            modal.showAndWait();
+
+            // Código que corre DESPUÉS de que la ventana se cierra:
+            cargarCarreras();    // elimina del listado las que ya están FINALIZADA
+            actualizarCabecera(); // refresca saldo por si el usuario cobró apuesta
+        } catch (IOException ex){
+            System.err.println("DashboardUsuario.abrirVerCarrera: " + ex.getMessage());
+        }
+
+
+
+
         FXMLLoader loader = SceneManager.abrirVentana(
                 "ver-carrera.fxml", "Carrera #" + carrera.getIdCarrera()
         );
@@ -199,32 +227,67 @@ public class DashboardUsuarioController {
             VerCarreraController ctrl = loader.getController();
             ctrl.setCarrera(carrera);
         }
+    }*/
+    private void abrirVerCarrera(Carrera carrera) {
+        timelinesActivos.forEach(Timeline::stop); // limpia antes de salir
+        FXMLLoader loader = SceneManager.cambiarEscena("ver-carrera.fxml");
+        if (loader != null) {
+            VerCarreraController ctrl = loader.getController();
+            ctrl.setCarrera(carrera);
+        }
     }
 
-    @FXML
+    /*@FXML
     private void handleVerApuestasActivas() {
-        SceneManager.abrirVentana("apuestas-activas.fxml", "Apuestas Activas");
+        SceneManager.abrirModal("apuestas-activas.fxml", "Apuestas Activas");
     }
 
     @FXML
     private void handleDepositar() {
-        SceneManager.abrirVentana("depositar.fxml", "Depositar");
+        SceneManager.abrirModal("depositar.fxml", "Depositar");
+        actualizarCabecera(); // refresca saldo en el dashboard al volver
     }
 
     @FXML
     private void handleRetirar() {
-        SceneManager.abrirVentana("retirar.fxml", "Retirar");
+        SceneManager.abrirModal("retirar.fxml", "Retirar");
+        actualizarCabecera(); // refresca saldo en el dashboard al volver
     }
 
     @FXML
     private void handleHistorial() {
-        SceneManager.abrirVentana("historial.fxml", "Historial de Apuestas");
+        SceneManager.abrirModal("historial.fxml", "Historial de Apuestas");
     }
+     */
 
     @FXML
     private void handleCerrarSesion() {
         timelinesActivos.forEach(Timeline::stop);
         SessionManager.getInstance().cerrarSesion();
         SceneManager.cambiarEscena("login.fxml");
+    }
+
+    @FXML
+    private void handleVerApuestasActivas() {
+        timelinesActivos.forEach(Timeline::stop);
+        SceneManager.cambiarEscena("apuestas-activas.fxml");
+    }
+
+    @FXML
+    private void handleDepositar() {
+        timelinesActivos.forEach(Timeline::stop);
+        SceneManager.cambiarEscena("depositar.fxml");
+    }
+
+    @FXML
+    private void handleRetirar() {
+        timelinesActivos.forEach(Timeline::stop);
+        SceneManager.cambiarEscena("retirar.fxml");
+    }
+
+    @FXML
+    private void handleHistorial() {
+        timelinesActivos.forEach(Timeline::stop);
+        SceneManager.cambiarEscena("historial.fxml");
     }
 }

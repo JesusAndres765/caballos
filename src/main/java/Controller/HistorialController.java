@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.util.SceneManager;
 import Controller.util.SessionManager;
 import Model.Apuesta;
 import Model.Caballo;
@@ -12,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 
 import java.util.List;
@@ -99,6 +99,6 @@ public class HistorialController {
 
     @FXML
     private void handleVolver() {
-        ((Stage) historialContainer.getScene().getWindow()).close();
+        SceneManager.cambiarEscena("dashboard-usuario.fxml");
     }
 }

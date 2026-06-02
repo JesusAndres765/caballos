@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="420" prefHeight="380" spacing="14"
+<VBox prefWidth="1200" prefHeight="900" spacing="14"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.DepositarController"
       maxWidth="Infinity" maxHeight="Infinity">

@@ -12,9 +12,8 @@ import Model.dao.CarreraCaballoDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import Controller.util.SceneManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +132,6 @@ public class ResultadosController {
 
     @FXML
     private void handleVolver() {
-        ((Stage) resultadosContainer.getScene().getWindow()).close();
+        SceneManager.cambiarEscena("dashboard-usuario.fxml");
     }
 }

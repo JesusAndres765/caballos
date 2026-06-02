@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.layout.Region;
 
 import java.io.IOException;
 
@@ -79,13 +80,23 @@ public class SceneManager {
                             "/com/taqueardeelestablo/view/" + fxmlFile)
             );
             Parent root = loader.load();
+
+            // Lee el prefWidth/prefHeight definido en el FXML para forzar el tamaño correcto.
+            // Sin esto, en Linux el gestor de ventanas puede ignorar esas dimensiones
+            // cuando el owner está maximizado.
+            double w = (root instanceof Region r && r.getPrefWidth()  > 0) ? r.getPrefWidth()  : 400;
+            double h = (root instanceof Region r && r.getPrefHeight() > 0) ? r.getPrefHeight() : 300;
+
             Stage modal = new Stage();
             modal.setTitle(titulo);
             modal.initModality(Modality.APPLICATION_MODAL);
             modal.initOwner(primaryStage);
-            modal.setScene(new Scene(root));
-            modal.showAndWait(); // bloquea hasta que se cierre
+            modal.setScene(new Scene(root, w, h));
+            modal.setResizable(false);   // tamaño fijo, igual al del diseño
+            modal.centerOnScreen();      // centrada en pantalla, no pegada a la esquina
+            modal.showAndWait();
             return loader;
+
         } catch (IOException e) {
             System.err.println("SceneManager.abrirModal [" + fxmlFile + "]: " + e.getMessage());
             return null;

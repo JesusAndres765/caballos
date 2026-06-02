@@ -1,6 +1,7 @@
 package Controller;
 
 import Controller.util.CaballoTask;
+import Controller.util.SceneManager;
 import Controller.util.SessionManager;
 import Model.*;
 import Model.dao.*;
@@ -10,11 +11,10 @@ import Model.enums.TipoTransaccion;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.time.LocalDateTime;
@@ -53,12 +53,6 @@ public class VerCarreraController {
         Usuario u = SessionManager.getInstance().getUsuarioActual();
         usuarioLabel.setText("Usuario: " + u.getUsername());
         saldoLabel.setText(String.format("Saldo: %.2f", u.getSaldo()));
-
-        // Registra handler de cierre una vez que la ventana exista
-        Platform.runLater(() -> {
-            Stage stage = (Stage) caballosContainer.getScene().getWindow();
-            if (stage != null) stage.setOnCloseRequest(e -> limpiar());
-        });
     }
 
     // Punto de entrada — llamado desde DashboardUsuarioController
@@ -265,13 +259,18 @@ public class VerCarreraController {
 
     @FXML
     private void handleVerResultados() {
-        // Se conecta con ResultadosController en el siguiente bloque
+        limpiar(); // detiene timelines y tasks antes de salir
+        FXMLLoader loader = SceneManager.cambiarEscena("resultados.fxml");
+        if (loader != null) {
+            ResultadosController ctrl = loader.getController();
+            ctrl.setCarrera(carrera);
+        }
     }
 
     @FXML
     private void handleVolver() {
         limpiar();
-        ((Stage) caballosContainer.getScene().getWindow()).close();
+        SceneManager.cambiarEscena("dashboard-usuario.fxml");
     }
 
     private void limpiar() {
@@ -279,7 +278,4 @@ public class VerCarreraController {
         if (carreraTimeline != null) carreraTimeline.stop();
         tareas.forEach(t -> t.cancel(false));
     }
-
-    // Usado por el Stage's close handler configurado en initialize()
-    public VBox getCaballosContainer() { return caballosContainer; }
 }

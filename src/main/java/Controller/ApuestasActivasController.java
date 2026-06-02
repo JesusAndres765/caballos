@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.util.SceneManager;
 import Controller.util.SessionManager;
 import Model.Apuesta;
 import Model.Caballo;
@@ -11,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,6 +83,6 @@ public class ApuestasActivasController {
 
     @FXML
     private void handleVolver() {
-        ((Stage) apuestasContainer.getScene().getWindow()).close();
+        SceneManager.cambiarEscena("dashboard-usuario.fxml");
     }
 }

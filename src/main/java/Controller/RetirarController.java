@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.util.SceneManager;
 import Controller.util.SessionManager;
 import Model.Transaccion;
 import Model.Usuario;
@@ -10,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class RetirarController {
 
@@ -78,6 +78,7 @@ public class RetirarController {
         transaccionDAO.insert(t);
 
         SessionManager.getInstance().refrescarSaldo(nuevoSaldo);
+        saldoLabel.setText(String.format("Saldo: %.2f", nuevoSaldo));
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Retiro exitoso");
@@ -95,6 +96,6 @@ public class RetirarController {
     }
 
     private void cerrarVentana() {
-        ((Stage) cantidadField.getScene().getWindow()).close();
+        SceneManager.cambiarEscena("dashboard-usuario.fxml");
     }
 }

@@ -3,7 +3,6 @@ package Model;
 import Model.enums.Rol;
 
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
 
 public class Usuario {
 

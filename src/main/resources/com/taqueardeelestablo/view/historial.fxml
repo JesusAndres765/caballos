@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="480" prefHeight="540" spacing="0"
+<VBox prefWidth="1200" prefHeight="900" spacing="0"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.HistorialController"
       maxWidth="Infinity" maxHeight="Infinity">
