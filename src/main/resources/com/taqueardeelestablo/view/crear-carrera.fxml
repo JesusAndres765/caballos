@@ -56,7 +56,11 @@
     </GridPane>
 
     <!-- Lista de caballos cargados -->
-    <ListView fx:id="caballosListView" prefHeight="140"/>
+    <TableView fx:id="caballosTable" prefHeight="200">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
 
     <Label fx:id="mensajeLabel" text="" wrapText="true"/>
 

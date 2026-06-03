@@ -16,12 +16,6 @@ public class MenuAdminController {
         adminLabel.setText("Administrador: " + username);
     }
 
-    // Los sub-controladores llaman este método después de cambiarEscena()
-    // para mostrar el resultado de la operación anterior:
-    //
-    //   FXMLLoader loader = SceneManager.cambiarEscena("menu-admin.fxml");
-    //   MenuAdminController ctrl = loader.getController();
-    //   ctrl.setMensaje("Caballo registrado correctamente.");
     public void setMensaje(String mensaje) {
         mensajeLabel.setText(mensaje);
     }
@@ -42,6 +36,12 @@ public class MenuAdminController {
     private void handleRegistrarAdmin() {
         mensajeLabel.setText("");
         SceneManager.cambiarEscena("registrar-admin.fxml");
+    }
+
+    @FXML
+    private void handleVerCaballos(){
+        mensajeLabel.setText("");
+        SceneManager.cambiarEscena("caballos-registrados.fxml");
     }
 
     @FXML

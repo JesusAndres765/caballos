@@ -10,7 +10,6 @@ public class CarreraCaballoDAO {
 
     private final Connection conn = ConexionDB.getConnection();
 
-    // Inscribe un caballo a una carrera (sin resultados aún)
     public boolean insert(CarreraCaballo cc) {
         String sql = "INSERT INTO carrera_caballos (id_carrera, id_caballo) VALUES (?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -27,7 +26,6 @@ public class CarreraCaballoDAO {
         return false;
     }
 
-    // Trae todos los caballos de una carrera — para mostrar en dashboard y simulación
     public List<CarreraCaballo> findByCarrera(int idCarrera) {
         List<CarreraCaballo> lista = new ArrayList<>();
         String sql = "SELECT * FROM carrera_caballos WHERE id_carrera = ?";
@@ -41,7 +39,6 @@ public class CarreraCaballoDAO {
         return lista;
     }
 
-    // Persiste el resultado de la simulación para un caballo
     public boolean updateResultado(int id, int posicion, double progreso, boolean termino) {
         String sql = "UPDATE carrera_caballos " +
                 "SET posicion_final = ?, progreso_final = ?, termino_carrera = ? " +
@@ -63,8 +60,6 @@ public class CarreraCaballoDAO {
         cc.setId(rs.getInt("id"));
         cc.setIdCarrera(rs.getInt("id_carrera"));
         cc.setIdCaballo(rs.getInt("id_caballo"));
-        // posicion_final, progreso_final y termino_carrera son NULL hasta que corra la carrera
-        // getInt/getDouble/getBoolean devuelven 0/0.0/false para NULL, lo cual es correcto aquí
         cc.setPosicionFinal(rs.getInt("posicion_final"));
         cc.setProgresoFinal(rs.getDouble("progreso_final"));
         cc.setTerminoCarrera(rs.getBoolean("termino_carrera"));

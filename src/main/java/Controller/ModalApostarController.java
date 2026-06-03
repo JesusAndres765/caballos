@@ -11,19 +11,26 @@ import Model.dao.TransaccionDAO;
 import Model.dao.UsuarioDAO;
 import Model.enums.ResultadoApuesta;
 import Model.enums.TipoTransaccion;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class ModalApostarController {
 
+    @FXML private Label              multiplicadorLabel;
     @FXML private Label              porcentajeLabel;
+    @FXML private Label              cierreLabel;
     @FXML private TableView<Caballo> caballosTabla;
     @FXML private ComboBox<Caballo>  caballoCombo;
     @FXML private TextField          apuestaField;
@@ -35,22 +42,26 @@ public class ModalApostarController {
     private final UsuarioDAO     usuarioDAO     = new UsuarioDAO();
     private final TransaccionDAO transaccionDAO = new TransaccionDAO();
 
-    private Carrera        carrera;
-    private List<Caballo>  caballos;
+    private Carrera       carrera;
+    private List<Caballo> caballos;
+    private Timeline      cierreTimeline;
+
+    // Cuántos segundos antes del inicio se cierran las apuestas
+    private static final int SEGUNDOS_ANTES_CIERRE = 30;
 
     @FXML
     private void initialize() {
-        // Columnas de la tabla definidas aquí para no duplicarlas en FXML
+        // Columnas de la tabla — definidas aquí para no repetirlas en FXML
         TableColumn<Caballo, String> nombreCol = new TableColumn<>("Nombre");
         nombreCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getNombre()));
 
         TableColumn<Caballo, Number> numeroCol = new TableColumn<>("Numero");
         numeroCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getNumero()));
 
-        TableColumn<Caballo, Number> corridasCol = new TableColumn<>("Corridas");
+        TableColumn<Caballo, Number> corridasCol = new TableColumn<>("Carreras Corridas");
         corridasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasCorridas()));
 
-        TableColumn<Caballo, Number> ganadasCol = new TableColumn<>("Ganadas");
+        TableColumn<Caballo, Number> ganadasCol = new TableColumn<>("Carreras Ganadas");
         ganadasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasGanadas()));
 
         caballosTabla.getColumns().addAll(nombreCol, numeroCol, corridasCol, ganadasCol);
@@ -62,14 +73,78 @@ public class ModalApostarController {
         this.carrera  = carrera;
         this.caballos = caballos;
 
-        porcentajeLabel.setText(
-                String.format("Multiplicador: x%d   %%: %.2f",
-                        carrera.getNumCaballos(), 100.0 / carrera.getNumCaballos())
-        );
+        // Cabecera: multiplicador y porcentaje
+        multiplicadorLabel.setText("Multiplicador: x" + carrera.getNumCaballos());
+        porcentajeLabel.setText(String.format("%%: %.2f", 100.0 / carrera.getNumCaballos()));
 
+        // Tabla y ComboBox
         caballosTabla.setItems(FXCollections.observableArrayList(caballos));
+        configurarComboBox();
 
-        // ComboBox muestra "Nombre - No. N"
+        // Calcula cuánto tiempo falta para el cierre de apuestas
+        // Calcula cuánto tiempo falta para el cierre de apuestas
+        LocalDateTime fechaCreacion = carrera.getFechaCreacion();
+
+        if (fechaCreacion == null) {
+            // Fallback defensivo: nunca bloquear si no hay fecha
+            cierreLabel.setText("Las Apuestas Cierran en: calculando...");
+        } else {
+            LocalDateTime inicioCarrera  = fechaCreacion.plusMinutes(carrera.getTiempoGatera());
+            LocalDateTime cierreApuestas = inicioCarrera.minusSeconds(SEGUNDOS_ANTES_CIERRE);
+            long segundosRestantes = ChronoUnit.SECONDS.between(LocalDateTime.now(), cierreApuestas);
+
+            // Líneas de diagnóstico — puedes borrarlas cuando confirmes que funciona
+            System.out.println("=== DIAGNÓSTICO APUESTAS ===");
+            System.out.println("fechaCreacion  : " + fechaCreacion);
+            System.out.println("now            : " + LocalDateTime.now());
+            System.out.println("inicioCarrera  : " + inicioCarrera);
+            System.out.println("cierreApuestas : " + cierreApuestas);
+            System.out.println("segundos rest. : " + segundosRestantes);
+            System.out.println("============================");
+
+            if (segundosRestantes <= 0) {
+                bloquearApuestas("Las apuestas para esta carrera ya están cerradas.");
+            } else {
+                iniciarCuentaRegresiva(segundosRestantes);
+            }
+        }
+    }
+
+    // ── Cuenta regresiva ──────────────────────────────────────────────────────
+
+    private void iniciarCuentaRegresiva(long segundosIniciales) {
+        final long[] segundos = { segundosIniciales };
+        cierreLabel.setText("Las Apuestas Cierran en: " + formatear(segundos[0]));
+
+        cierreTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            segundos[0]--;
+            if (segundos[0] <= 0) {
+                cierreTimeline.stop();
+                bloquearApuestas("El tiempo de apuestas ha cerrado.");
+            } else {
+                cierreLabel.setText("Las Apuestas Cierran en: " + formatear(segundos[0]));
+            }
+        }));
+        cierreTimeline.setCycleCount(Timeline.INDEFINITE);
+        cierreTimeline.play();
+    }
+
+    // Deshabilita toda la UI de apuesta cuando se acaba el tiempo
+    private void bloquearApuestas(String motivo) {
+        cierreLabel.setText("Apuestas cerradas");
+        caballoCombo.setDisable(true);
+        apuestaField.setDisable(true);
+        confirmBtn.setDisable(true);
+        mensajeLabel.setText(motivo);
+    }
+
+    private String formatear(long seg) {
+        return String.format("%d:%02d", seg / 60, seg % 60);
+    }
+
+    // ── ComboBox ──────────────────────────────────────────────────────────────
+
+    private void configurarComboBox() {
         caballoCombo.setItems(FXCollections.observableArrayList(caballos));
         caballoCombo.setConverter(new StringConverter<Caballo>() {
             @Override public String toString(Caballo c) {
@@ -80,8 +155,13 @@ public class ModalApostarController {
         if (!caballos.isEmpty()) caballoCombo.setValue(caballos.get(0));
     }
 
+    // ── Acciones ──────────────────────────────────────────────────────────────
+
     @FXML
     private void handleConfirmar() {
+        // Guardia extra: por si el timer y el botón tuvieran un race condition
+        if (confirmBtn.isDisabled()) return;
+
         Caballo seleccionado = caballoCombo.getValue();
         String  montoTexto   = apuestaField.getText().trim();
 
@@ -113,7 +193,7 @@ public class ModalApostarController {
             return;
         }
 
-        // Crear apuesta
+        // Persiste la apuesta
         Apuesta apuesta = new Apuesta();
         apuesta.setIdUsuario(usuario.getIdUsuario());
         apuesta.setIdCarrera(carrera.getIdCarrera());
@@ -128,12 +208,11 @@ public class ModalApostarController {
             return;
         }
 
-        // Descontar saldo
+        // Descuenta saldo y registra transacción
         double nuevoSaldo = usuario.getSaldo() - monto;
         usuarioDAO.updateSaldo(usuario.getIdUsuario(), nuevoSaldo);
         SessionManager.getInstance().refrescarSaldo(nuevoSaldo);
 
-        // Log de transacción
         Transaccion t = new Transaccion();
         t.setIdUsuario(usuario.getIdUsuario());
         t.setTipo(TipoTransaccion.APUESTA);
@@ -142,12 +221,18 @@ public class ModalApostarController {
                 " — Caballo: " + seleccionado.getNombre());
         transaccionDAO.insert(t);
 
+        detenerTimeline();
         cerrarVentana();
     }
 
     @FXML
     private void handleCancelar() {
+        detenerTimeline();
         cerrarVentana();
+    }
+
+    private void detenerTimeline() {
+        if (cierreTimeline != null) cierreTimeline.stop();
     }
 
     private void cerrarVentana() {

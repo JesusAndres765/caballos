@@ -5,48 +5,41 @@ import java.util.Random;
 
 public class CaballoTask extends Task<Double> {
 
-    private final int duracionSeg;
-    private volatile double progresoActual = 0.0;
+    private final int    duracionSeg;
+    private final double progresoInicial; // 0-100, para retomar a mitad de carrera
+    private volatile double progresoActual;
     private final Random random = new Random();
 
-    // duracionSeg: duración total de la carrera en segundos (máx 25)
-    // Se usa para calibrar la velocidad de avance por tick
+    // Constructor normal — empieza desde 0
     public CaballoTask(int duracionSeg) {
-        this.duracionSeg = duracionSeg;
+        this(duracionSeg, 0.0);
+    }
+
+    // Constructor para retomar una carrera ya iniciada.
+    // progresoInicial: valor entre 0 y 100 que indica cuánto lleva el caballo.
+    public CaballoTask(int duracionSeg, double progresoInicial) {
+        this.duracionSeg    = duracionSeg;
+        this.progresoInicial = Math.min(progresoInicial, 99.0);
+        this.progresoActual  = this.progresoInicial;
     }
 
     @Override
     protected Double call() throws InterruptedException {
-
-        // Fórmula de calibración:
-        // - Un tick ocurre cada 100ms → duracionSeg * 10 ticks en total
-        // - El avance por tick es aleatorio entre [0, maxAvancePorTick]
-        // - Con maxAvancePorTick = 170 / (duracionSeg * 10), el promedio
-        //   al final es ~85%, con variabilidad natural:
-        //   algunos caballos terminan (llegan al 100%), otros no
         double maxAvancePorTick = 170.0 / (duracionSeg * 10.0);
+
+        // Publica el progreso inicial de inmediato para que la barra aparezca
+        // en la posición correcta desde el primer frame
+        updateProgress(progresoActual, 100.0);
 
         while (progresoActual < 100.0 && !isCancelled()) {
             Thread.sleep(100);
             double avance = random.nextDouble() * maxAvancePorTick;
             progresoActual = Math.min(100.0, progresoActual + avance);
-
-            // updateProgress actualiza progressProperty() de 0.0 a 1.0
-            // El ProgressBar en la vista se enlaza a task.progressProperty()
             updateProgress(progresoActual, 100.0);
         }
-
-        return progresoActual; // valor 0–100 que se guarda en BD como progreso_final
-    }
-
-    // El SimulacionService llama este método DESPUÉS de que el task termina
-    // (ya sea por cancel() o por llegar al 100%)
-    public double getProgresoActual() {
         return progresoActual;
     }
 
-    // true si llegó al 100% — distingue "terminó" de "se quedó a medias"
-    public boolean terminoCarrera() {
-        return progresoActual >= 100.0;
-    }
+    public double getProgresoActual() { return progresoActual; }
+    public boolean terminoCarrera()   { return progresoActual >= 100.0; }
 }

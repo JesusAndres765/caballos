@@ -12,16 +12,17 @@ public class CarreraDAO {
 
     private final Connection conn = ConexionDB.getConnection();
 
-    // Crea la carrera y recupera el ID generado
     public boolean insert(Carrera carrera) {
-        String sql = "INSERT INTO carreras (id_admin, num_caballos, duracion_seg, tiempo_gatera, estado) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carreras " +
+                "(id_admin, num_caballos, duracion_seg, tiempo_gatera, estado, fecha_inicio) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, carrera.getIdAdmin());
             ps.setInt(2, carrera.getNumCaballos());
             ps.setInt(3, carrera.getDuracionSeg());
             ps.setInt(4, carrera.getTiempoGatera());
             ps.setString(5, carrera.getEstado().name());
+            ps.setTimestamp(6, Timestamp.valueOf(carrera.getFechaInicio()));
             if (ps.executeUpdate() > 0) {
                 ResultSet keys = ps.getGeneratedKeys();
                 if (keys.next()) carrera.setIdCarrera(keys.getInt(1));
@@ -45,6 +46,7 @@ public class CarreraDAO {
         }
         return null;
     }
+
 
     // Carreras en estado EN_GATERA o EN_CURSO — para el dashboard de usuario
     public List<Carrera> findActivas() {
@@ -85,6 +87,7 @@ public class CarreraDAO {
         }
         return false;
     }
+
 
     private Carrera mapResultSet(ResultSet rs) throws SQLException {
         Carrera c = new Carrera();

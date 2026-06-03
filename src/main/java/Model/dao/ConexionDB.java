@@ -6,9 +6,14 @@ import java.sql.SQLException;
 
 public class ConexionDB {
 
+    /*private static final String URL =
+            "jdbc:mysql://localhost:3306/TaQueArdeElEstablo" +
+                    "?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";*/
     private static final String URL =
             "jdbc:mysql://localhost:3306/TaQueArdeElEstablo" +
-                    "?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+                    "?useSSL=false" +
+                    "&serverTimezone=" + java.util.TimeZone.getDefault().getID() +
+                    "&allowPublicKeyRetrieval=true";
     private static final String USER     = "JesusAnd";
     private static final String PASSWORD = "JAAT";
 

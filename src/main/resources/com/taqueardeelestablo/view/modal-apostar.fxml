@@ -10,7 +10,12 @@
 
     <padding><Insets top="20" right="25" bottom="20" left="25"/></padding>
 
-    <Label fx:id="porcentajeLabel" text=""/>
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label fx:id="multiplicadorLabel" text="Multiplicador:"/>
+        <Label fx:id="porcentajeLabel" text=":%"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="cierreLabel" text="Las Apuestas Cierran en: --:--"/>
+    </HBox>
 
     <!-- Tabla de caballos de la carrera -->
     <TableView fx:id="caballosTabla" prefHeight="180"

@@ -17,6 +17,7 @@
     <Button text="Crear Carrera"          onAction="#handleCrearCarrera"     prefWidth="220"/>
     <Button text="Registrar Caballo"       onAction="#handleRegistrarCaballo" prefWidth="220"/>
     <Button text="Registrar Administrador" onAction="#handleRegistrarAdmin"   prefWidth="220"/>
+    <Button text="Ver Caballos Registrados" onAction="#handleVerCaballos" prefWidth="220"/>
 
     <!-- Empuja el mensaje y el logout hacia abajo -->
     <Region VBox.vgrow="ALWAYS"/>

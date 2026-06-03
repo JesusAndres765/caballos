@@ -139,6 +139,15 @@ public class DashboardUsuarioController {
     }
 
     private void configurarCuentaRegresiva(Carrera carrera, Label label) {
+        LocalDateTime inicio = carrera.getFechaInicio();
+        if(inicio == null){
+            label.setText("Iniciando Pronto....");
+            return;
+        }
+        label.setText(String.format("Inicia: %d:%02d", inicio.getHour(), inicio.getMinute()));
+
+
+        /*
         LocalDateTime inicio  = carrera.getFechaCreacion().plusMinutes(carrera.getTiempoGatera());
         final long[] segundos = { ChronoUnit.SECONDS.between(LocalDateTime.now(), inicio) };
 
@@ -159,11 +168,11 @@ public class DashboardUsuarioController {
         }));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
-        timelinesActivos.add(tl);
+        timelinesActivos.add(tl);*/
     }
 
     private String formatearTiempo(long seg) {
-        return String.format("Inicia en: %d:%02d", seg / 60, seg % 60);
+        return String.format("En: %d:%02d", seg / 60, seg % 60);
     }
 
     // Modal de apuesta: load → pasar datos → showAndWait (orden obligatorio)

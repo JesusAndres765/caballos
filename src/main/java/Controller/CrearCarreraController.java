@@ -9,11 +9,16 @@ import Model.dao.CaballoDAO;
 import Model.dao.CarreraCaballoDAO;
 import Model.dao.CarreraDAO;
 import Model.enums.EstadoCarrera;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +29,7 @@ public class CrearCarreraController {
     @FXML private ComboBox<Integer> numCaballosCombo;
     @FXML private TextField      duracionField;
     @FXML private ToggleGroup    gateraGroup;
-    @FXML private ListView<String> caballosListView;
+    @FXML private TableView<Caballo> caballosTable;
     @FXML private Label          mensajeLabel;
 
     private final CaballoDAO       caballoDAO       = new CaballoDAO();
@@ -44,6 +49,29 @@ public class CrearCarreraController {
         for (int i = 2; i <= 10; i++) opciones.add(i);
         numCaballosCombo.setItems(FXCollections.observableArrayList(opciones));
         numCaballosCombo.setValue(2);
+
+        configurarTabla();
+    }
+
+    // Método nuevo a agregar en la clase
+    private void configurarTabla() {
+        TableColumn<Caballo, Number> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getIdCaballo()));
+
+        TableColumn<Caballo, String> nombreCol = new TableColumn<>("Nombre");
+        nombreCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getNombre()));
+
+        TableColumn<Caballo, Number> numeroCol = new TableColumn<>("Numero");
+        numeroCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getNumero()));
+
+        TableColumn<Caballo, Number> corridasCol = new TableColumn<>("Carreras Corridas");
+        corridasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasCorridas()));
+
+        TableColumn<Caballo, Number> ganadasCol = new TableColumn<>("Carreras Ganadas");
+        ganadasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasGanadas()));
+
+        caballosTable.getColumns().addAll(idCol, nombreCol, numeroCol, corridasCol, ganadasCol);
+        caballosTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     @FXML
@@ -54,21 +82,14 @@ public class CrearCarreraController {
         if (todos.size() < n) {
             mensajeLabel.setText("No hay suficientes caballos registrados. " +
                     "Se necesitan " + n + " y solo hay " + todos.size() + ".");
-            caballosListView.getItems().clear();
+            caballosTable.getItems().clear();
             caballosSeleccionados.clear();
             return;
         }
 
         Collections.shuffle(todos);
         caballosSeleccionados = new ArrayList<>(todos.subList(0, n));
-
-        // Muestra los caballos en la lista con formato "Nombre | No. número"
-        List<String> filas = new ArrayList<>();
-        for (int i = 0; i < caballosSeleccionados.size(); i++) {
-            Caballo c = caballosSeleccionados.get(i);
-            filas.add((i + 1) + ". " + c.getNombre() + " | No. " + c.getNumero());
-        }
-        caballosListView.setItems(FXCollections.observableArrayList(filas));
+        caballosTable.setItems(FXCollections.observableArrayList(caballosSeleccionados));
         mensajeLabel.setText("");
     }
 
@@ -109,6 +130,7 @@ public class CrearCarreraController {
         carrera.setDuracionSeg(duracion);
         carrera.setTiempoGatera(tiempoGatera);
         carrera.setEstado(EstadoCarrera.EN_GATERA);
+        carrera.setFechaInicio(LocalDateTime.now().plusMinutes(tiempoGatera));
 
         if (!carreraDAO.insert(carrera)) {
             mensajeLabel.setText("Error al guardar la carrera.");

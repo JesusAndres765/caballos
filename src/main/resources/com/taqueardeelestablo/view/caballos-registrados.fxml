@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="820" prefHeight="620" spacing="0"
+      maxWidth="Infinity" maxHeight="Infinity"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.CaballosRegistradosController">
+
+    <!-- Cabecera -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
+        <Label fx:id="adminLabel" text="Administrador:"/>
+    </HBox>
+
+    <!-- Barra de título y Volver -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="6" right="15" bottom="6" left="15"/></padding>
+        <Label text="Caballos Registrados:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Volver" onAction="#handleVolver"/>
+    </HBox>
+
+    <!-- Tabla — ocupa todo el espacio disponible -->
+    <TableView fx:id="caballosTable" VBox.vgrow="ALWAYS"
+               maxWidth="Infinity" maxHeight="Infinity">
+        <padding><Insets top="8" right="8" bottom="8" left="8"/></padding>
+    </TableView>
+
+    <!-- Buscador -->
+    <VBox spacing="8">
+        <padding><Insets top="10" right="20" bottom="10" left="20"/></padding>
+
+        <Label text="Buscar por Nombre o ID"/>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Label text="ID:" prefWidth="65"/>
+            <TextField fx:id="buscarIdField" prefWidth="160" promptText="Número de ID"/>
+        </HBox>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Label text="Nombre:" prefWidth="65"/>
+            <TextField fx:id="buscarNombreField" prefWidth="160" promptText="Nombre del caballo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Buscar"  onAction="#handleBuscar"  prefWidth="100"/>
+            <Button text="Limpiar" onAction="#handleLimpiar" prefWidth="100"/>
+        </HBox>
+    </VBox>
+
+</VBox>

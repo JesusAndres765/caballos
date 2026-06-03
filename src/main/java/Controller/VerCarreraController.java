@@ -6,15 +6,13 @@ import Controller.util.SessionManager;
 import Model.*;
 import Model.dao.*;
 import Model.enums.EstadoCarrera;
-import Model.enums.ResultadoApuesta;
-import Model.enums.TipoTransaccion;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 
 import java.time.LocalDateTime;
@@ -31,22 +29,21 @@ public class VerCarreraController {
     @FXML private VBox   caballosContainer;
     @FXML private Button verResultadosBtn;
 
-    private Carrera             carrera;
-    private List<CarreraCaballo> inscripciones = new ArrayList<>();
-    private List<Caballo>        caballosList  = new ArrayList<>();
-    private List<CaballoTask>    tareas        = new ArrayList<>();
+    private Carrera              carrera;
+    private List<CarreraCaballo> inscripciones   = new ArrayList<>();
+    private List<Caballo>        caballosList    = new ArrayList<>();
+    private List<CaballoTask>    tareas          = new ArrayList<>();
     private List<Label>          etiquetasEstado = new ArrayList<>();
     private List<ProgressBar>    progressBars    = new ArrayList<>();
 
-    private Timeline gateraTimeline;
-    private Timeline carreraTimeline;
+    private Timeline gateraTimeline;  // cuenta regresiva de espera
+    private Timeline animTimeline;    // countdown visual de la carrera (cosmético)
+    private Timeline pollingTimeline; // detecta cambios de estado en BD
 
-    private final CarreraDAO         carreraDAO        = new CarreraDAO();
-    private final CarreraCaballoDAO  carreraCaballoDAO = new CarreraCaballoDAO();
-    private final CaballoDAO         caballoDAO        = new CaballoDAO();
-    private final ApuestaDAO         apuestaDAO        = new ApuestaDAO();
-    private final UsuarioDAO         usuarioDAO        = new UsuarioDAO();
-    private final TransaccionDAO     transaccionDAO    = new TransaccionDAO();
+    private final CarreraDAO        carreraDAO        = new CarreraDAO();
+    private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
+    private final CaballoDAO        caballoDAO        = new CaballoDAO();
+    private final UsuarioDAO        usuarioDAO        = new UsuarioDAO();
 
     @FXML
     private void initialize() {
@@ -55,11 +52,15 @@ public class VerCarreraController {
         saldoLabel.setText(String.format("Saldo: %.2f", u.getSaldo()));
     }
 
-    // Punto de entrada — llamado desde DashboardUsuarioController
     public void setCarrera(Carrera carrera) {
-        this.carrera = carrera;
+        // Siempre lee el estado más reciente de BD por si el servicio
+        // ya transitó la carrera mientras el usuario estaba en otra pantalla
+        Carrera fresca = carreraDAO.findById(carrera.getIdCarrera());
+        this.carrera = (fresca != null) ? fresca : carrera;
         cargarDatos();
     }
+
+    // ── Carga y despacho según estado ────────────────────────────────────────
 
     private void cargarDatos() {
         inscripciones = carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
@@ -67,9 +68,7 @@ public class VerCarreraController {
             Caballo c = caballoDAO.findById(cc.getIdCaballo());
             if (c != null) caballosList.add(c);
         }
-        for (int i = 0; i < caballosList.size(); i++) {
-            crearFilaCaballo(caballosList.get(i));
-        }
+        for (Caballo c : caballosList) crearFilaCaballo(c);
 
         switch (carrera.getEstado()) {
             case EN_GATERA:
@@ -78,11 +77,12 @@ public class VerCarreraController {
                 break;
             case EN_CURSO:
                 tituloLabel.setText("Carrera en Curso");
-                iniciarCarrera();
+                retomarCarreraEnCurso();
                 break;
             case FINALIZADA:
                 tituloLabel.setText("Carrera Finalizada");
                 timerLabel.setText("0:00");
+                mostrarResultadosEnUI();
                 verResultadosBtn.setDisable(false);
                 break;
             default:
@@ -109,12 +109,21 @@ public class VerCarreraController {
         etiquetasEstado.add(estadoLabel);
     }
 
+    // ── Cuenta regresiva (EN_GATERA) ─────────────────────────────────────────
+
     private void iniciarCuentaRegresivaGatera() {
-        LocalDateTime inicio  = carrera.getFechaCreacion().plusMinutes(carrera.getTiempoGatera());
+        LocalDateTime inicio = carrera.getFechaInicio();
+        if (inicio == null) {
+            iniciarAnimacionVisual(0.0, carrera.getDuracionSeg());
+            iniciarPolling();
+            return;
+        }
+
         final long[] segundos = { ChronoUnit.SECONDS.between(LocalDateTime.now(), inicio) };
 
         if (segundos[0] <= 0) {
-            iniciarCarrera();
+            iniciarAnimacionVisual(0.0, carrera.getDuracionSeg());
+            iniciarPolling();
             return;
         }
 
@@ -122,144 +131,150 @@ public class VerCarreraController {
 
         gateraTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             segundos[0]--;
-            timerLabel.setText(formatearTiempo(segundos[0]));
-            if (segundos[0] <= 0) {
+            if (segundos[0] > 0) {
+                timerLabel.setText(formatearTiempo(segundos[0]));
+            } else {
                 gateraTimeline.stop();
-                iniciarCarrera();
+                tituloLabel.setText("Carrera en Curso");
+                iniciarAnimacionVisual(0.0, carrera.getDuracionSeg());
+                iniciarPolling();
             }
         }));
         gateraTimeline.setCycleCount(Timeline.INDEFINITE);
         gateraTimeline.play();
     }
 
-    private void iniciarCarrera() {
-        tituloLabel.setText("Carrera en Curso");
-        carreraDAO.updateEstado(carrera.getIdCarrera(), EstadoCarrera.EN_CURSO);
-        carreraDAO.updateFechaInicio(carrera.getIdCarrera(), LocalDateTime.now());
+    // ── Retomar carrera ya iniciada (EN_CURSO) ────────────────────────────────
+
+    private void retomarCarreraEnCurso() {
+        LocalDateTime fechaInicio = carrera.getFechaInicio();
+        if (fechaInicio == null) {
+            iniciarAnimacionVisual(0.0, carrera.getDuracionSeg());
+            iniciarPolling();
+            return;
+        }
+
+        long elapsedMs   = ChronoUnit.MILLIS.between(fechaInicio, LocalDateTime.now());
+        long totalMs     = carrera.getDuracionSeg() * 1000L;
+        long remainingMs = totalMs - elapsedMs;
+
+        if (remainingMs <= 0) {
+            timerLabel.setText("0:00");
+            iniciarPolling();
+            return;
+        }
+
+        double progresoEstimado = (double) elapsedMs / totalMs * 85.0;
+        iniciarAnimacionVisual(progresoEstimado, (int)(remainingMs / 1000));
+        iniciarPolling();
+    }
+
+    // ── Animación visual (puramente cosmética — CarreraService maneja la BD) ──
+
+    private void iniciarAnimacionVisual(double progresoInicial, int segsRestantes) {
+        // Solo reproduce la fanfarria cuando la carrera arranca desde el inicio
+        if (progresoInicial == 0) {
+            reproducirFanfarria();
+        }
 
         for (int i = 0; i < caballosList.size(); i++) {
-            CaballoTask tarea = new CaballoTask(carrera.getDuracionSeg());
+            CaballoTask tarea = new CaballoTask(carrera.getDuracionSeg(), progresoInicial);
             final int idx = i;
-
-            // Enlaza la barra de progreso al Task — actualización automática y thread-safe
             progressBars.get(idx).progressProperty().bind(tarea.progressProperty());
-
-            // Cuando un caballo alcanza 100%, actualiza su etiqueta en el hilo de JavaFX
             tarea.setOnSucceeded(ev -> etiquetasEstado.get(idx).setText("Terminó"));
-
             tareas.add(tarea);
-
             Thread hilo = new Thread(tarea);
             hilo.setDaemon(true);
             hilo.start();
         }
 
-        // Cronómetro de duración de la carrera
-        final int[] segsCarrera = { carrera.getDuracionSeg() };
-        timerLabel.setText(formatearTiempo(segsCarrera[0]));
+        final int[] secs = { segsRestantes };
+        timerLabel.setText(formatearTiempo(secs[0]));
 
-        carreraTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            segsCarrera[0]--;
-            timerLabel.setText(formatearTiempo(segsCarrera[0]));
-            if (segsCarrera[0] <= 0) {
-                carreraTimeline.stop();
-                finalizarCarrera();
+        // setCycleCount hace que el timeline se detenga solo — no llama a finalizarCarrera()
+        // porque el CarreraService es quien maneja eso en segundo plano
+        animTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            secs[0]--;
+            timerLabel.setText(secs[0] > 0 ? formatearTiempo(secs[0]) : "0:00");
+        }));
+        animTimeline.setCycleCount(segsRestantes);
+        animTimeline.play();
+    }
+
+    // ── Polling — detecta cuando CarreraService finaliza la carrera ───────────
+
+    private void iniciarPolling() {
+        pollingTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            Carrera actual = carreraDAO.findById(carrera.getIdCarrera());
+            if (actual == null) return;
+            if (actual.getEstado() == EstadoCarrera.FINALIZADA
+                    && carrera.getEstado() != EstadoCarrera.FINALIZADA) {
+                pollingTimeline.stop();
+                carrera = actual;
+                mostrarFinalizacion();
             }
         }));
-        carreraTimeline.setCycleCount(Timeline.INDEFINITE);
-        carreraTimeline.play();
+        pollingTimeline.setCycleCount(Timeline.INDEFINITE);
+        pollingTimeline.play();
     }
 
-    private void finalizarCarrera() {
-        for (CaballoTask t : tareas) t.cancel(false);
+    // ── Pantalla de finalización ──────────────────────────────────────────────
 
-        // PauseTransition no bloquea el hilo de JavaFX: espera 200ms y luego procesa
-        PauseTransition pausa = new PauseTransition(Duration.millis(200));
-        pausa.setOnFinished(e -> procesarResultados());
-        pausa.play();
-    }
+    private void mostrarFinalizacion() {
+        limpiar();
+        mostrarResultadosEnUI();
+        tituloLabel.setText("Carrera Finalizada");
+        timerLabel.setText("0:00");
+        verResultadosBtn.setDisable(false);
 
-    private void procesarResultados() {
-        // Lista {índice, progreso*100} para ordenar sin perder referencia al índice original
-        List<int[]> ordenados = new ArrayList<>();
-        for (int i = 0; i < tareas.size(); i++) {
-            ordenados.add(new int[]{ i, (int)(tareas.get(i).getProgresoActual() * 100) });
-        }
-        ordenados.sort((a, b) -> b[1] - a[1]); // mayor progreso primero
-
-        int idCaballoGanador = -1;
-
-        for (int pos = 0; pos < ordenados.size(); pos++) {
-            int          idx     = ordenados.get(pos)[0];
-            CaballoTask  tarea   = tareas.get(idx);
-            CarreraCaballo cc    = inscripciones.get(idx);
-            Caballo      caballo = caballosList.get(idx);
-
-            double  progreso = tarea.getProgresoActual();
-            boolean termino  = tarea.terminoCarrera();
-            int     posicion = pos + 1;
-
-            carreraCaballoDAO.updateResultado(cc.getId(), posicion, progreso, termino);
-            caballoDAO.actualizarContadores(caballo.getIdCaballo(), pos == 0);
-
-            String textoEstado = termino
-                    ? "Lugar #" + posicion
-                    : "Lugar #" + posicion + " (no terminó)";
-            etiquetasEstado.get(idx).setText(textoEstado);
-
-            if (pos == 0) idCaballoGanador = caballo.getIdCaballo();
-        }
-
-        carreraDAO.updateEstado(carrera.getIdCarrera(), EstadoCarrera.FINALIZADA);
-        liquidarApuestas(idCaballoGanador);
-
-        // Refresca saldo por si el usuario ganó alguna apuesta
+        // Refresca saldo por si CarreraService acreditó una apuesta ganada
         Usuario refreshed = usuarioDAO.findById(
-                SessionManager.getInstance().getUsuarioActual().getIdUsuario()
-        );
+                SessionManager.getInstance().getUsuarioActual().getIdUsuario());
         if (refreshed != null) {
             SessionManager.getInstance().refrescarSaldo(refreshed.getSaldo());
             saldoLabel.setText(String.format("Saldo: %.2f", refreshed.getSaldo()));
         }
-
-        verResultadosBtn.setDisable(false);
-        tituloLabel.setText("Carrera Finalizada");
-        timerLabel.setText("0:00");
     }
 
-    private void liquidarApuestas(int idCaballoGanador) {
-        List<Apuesta> apuestas = apuestaDAO.findByCarrera(carrera.getIdCarrera());
-
-        for (Apuesta a : apuestas) {
-            if (a.getIdCaballo() == idCaballoGanador) {
-                double cobro = a.getMonto() * a.getMultiplicador();
-                apuestaDAO.liquidar(a.getIdApuesta(), ResultadoApuesta.GANADA, cobro);
-
-                Usuario ganador = usuarioDAO.findById(a.getIdUsuario());
-                if (ganador != null) {
-                    double nuevoSaldo = ganador.getSaldo() + cobro;
-                    usuarioDAO.updateSaldo(ganador.getIdUsuario(), nuevoSaldo);
-
-                    Transaccion t = new Transaccion();
-                    t.setIdUsuario(ganador.getIdUsuario());
-                    t.setTipo(TipoTransaccion.COBRO);
-                    t.setMonto(cobro);
-                    t.setDescripcion("Cobro apuesta carrera #" + carrera.getIdCarrera());
-                    transaccionDAO.insert(t);
+    private void mostrarResultadosEnUI() {
+        List<CarreraCaballo> resultados =
+                carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
+        for (CarreraCaballo cc : resultados) {
+            if (cc.getPosicionFinal() == 0) continue;
+            for (int i = 0; i < inscripciones.size(); i++) {
+                if (inscripciones.get(i).getIdCaballo() == cc.getIdCaballo()) {
+                    String texto = cc.isTerminoCarrera()
+                            ? "Lugar #" + cc.getPosicionFinal()
+                            : "Lugar #" + cc.getPosicionFinal() + " (no terminó)";
+                    etiquetasEstado.get(i).setText(texto);
+                    break;
                 }
-            } else {
-                apuestaDAO.liquidar(a.getIdApuesta(), ResultadoApuesta.PERDIDA, 0.0);
             }
         }
     }
 
+    // ── Tu fanfarria original — se conserva igual ─────────────────────────────
+
+    private void reproducirFanfarria() {
+        try {
+            String rutaAudio = getClass().getResource("/sounds/fanfarria.wav").toExternalForm();
+            AudioClip clip = new AudioClip(rutaAudio);
+            clip.play();
+        } catch (Exception e) {
+            System.err.println("No se pudo reproducir el sonido: " + e.getMessage());
+        }
+    }
+
+    // ── Utilidades ────────────────────────────────────────────────────────────
+
     private String formatearTiempo(long seg) {
-        return String.format("%d:%02d", seg / 60, Math.abs(seg % 60));
+        long s = Math.max(0, seg);
+        return String.format("%d:%02d", s / 60, s % 60);
     }
 
     @FXML
     private void handleVerResultados() {
-        limpiar(); // detiene timelines y tasks antes de salir
+        limpiar();
         FXMLLoader loader = SceneManager.cambiarEscena("resultados.fxml");
         if (loader != null) {
             ResultadosController ctrl = loader.getController();
@@ -275,7 +290,8 @@ public class VerCarreraController {
 
     private void limpiar() {
         if (gateraTimeline  != null) gateraTimeline.stop();
-        if (carreraTimeline != null) carreraTimeline.stop();
+        if (animTimeline    != null) animTimeline.stop();
+        if (pollingTimeline != null) pollingTimeline.stop();
         tareas.forEach(t -> t.cancel(false));
     }
 }
