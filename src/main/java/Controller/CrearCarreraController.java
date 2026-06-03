@@ -35,6 +35,7 @@ public class CrearCarreraController {
     private final CaballoDAO       caballoDAO       = new CaballoDAO();
     private final CarreraDAO       carreraDAO       = new CarreraDAO();
     private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
+    private MenuAdminController menuController;
 
     // Guarda los caballos seleccionados al cargar para usarlos al crear la carrera
     private List<Caballo> caballosSeleccionados = new ArrayList<>();
@@ -72,6 +73,10 @@ public class CrearCarreraController {
 
         caballosTable.getColumns().addAll(idCol, nombreCol, numeroCol, corridasCol, ganadasCol);
         caballosTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
+    public void setMenuController(MenuAdminController ctrl) {
+        this.menuController = ctrl;
     }
 
     @FXML
@@ -145,16 +150,13 @@ public class CrearCarreraController {
             carreraCaballoDAO.insert(cc);
         }
 
-        // Regresa al menú con mensaje de éxito
-        FXMLLoader loader = SceneManager.cambiarEscena("menu-admin.fxml");
-        if (loader != null) {
-            MenuAdminController ctrl = loader.getController();
-            ctrl.setMensaje("Carrera #" + carrera.getIdCarrera() + " creada correctamente.");
-        }
+        menuController.mostrarMensajeEnInicio(
+                "Carrera #" + carrera.getIdCarrera() + " creada correctamente."
+        );
     }
 
     @FXML
     private void handleVolver() {
-        SceneManager.cambiarEscena("menu-admin.fxml");
+        if (menuController != null) menuController.irAInicio();
     }
 }

@@ -11,13 +11,6 @@
 
     <padding><Insets top="15" right="40" bottom="15" left="40"/></padding>
 
-    <!-- Barra superior -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label fx:id="adminLabel" text="Administrador:"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Volver" onAction="#handleVolver"/>
-    </HBox>
-
     <Label text="Registrar Caballo:"/>
 
     <GridPane hgap="15" vgap="12">

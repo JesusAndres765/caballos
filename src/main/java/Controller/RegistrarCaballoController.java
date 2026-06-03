@@ -17,11 +17,16 @@ public class RegistrarCaballoController {
     @FXML private Label     mensajeLabel;
 
     private final CaballoDAO caballoDAO = new CaballoDAO();
+    private MenuAdminController menuController;
 
     @FXML
     private void initialize() {
         String username = SessionManager.getInstance().getUsuarioActual().getUsername();
         adminLabel.setText("Administrador: " + username);
+    }
+
+    public void setMenuController(MenuAdminController ctrl) {
+        this.menuController = ctrl;
     }
 
     @FXML
@@ -58,19 +63,14 @@ public class RegistrarCaballoController {
         caballo.setNombre(nombre);
         caballo.setNumero(numero);
 
-        if (caballoDAO.insert(caballo)) {
-            FXMLLoader loader = SceneManager.cambiarEscena("menu-admin.fxml");
-            if (loader != null) {
-                MenuAdminController ctrl = loader.getController();
-                ctrl.setMensaje("Caballo \"" + nombre + "\" registrado correctamente.");
-            }
-        } else {
-            mensajeLabel.setText("Error al registrar el caballo. Intenta de nuevo.");
-        }
+        menuController.mostrarMensajeEnInicio(
+                "Caballo \"" + nombre + "\" registrado correctamente.");
+        nombreField.clear();
+        numeroField.clear();
     }
 
     @FXML
     private void handleVolver() {
-        SceneManager.cambiarEscena("menu-admin.fxml");
+        if (menuController != null) menuController.irAInicio();
     }
 }

@@ -15,13 +15,6 @@
         <Label fx:id="adminLabel" text="Administrador:"/>
     </HBox>
 
-    <!-- Barra de título y Volver -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <padding><Insets top="6" right="15" bottom="6" left="15"/></padding>
-        <Label text="Caballos Registrados:"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Volver" onAction="#handleVolver"/>
-    </HBox>
 
     <!-- Tabla — ocupa todo el espacio disponible -->
     <TableView fx:id="caballosTable" VBox.vgrow="ALWAYS"

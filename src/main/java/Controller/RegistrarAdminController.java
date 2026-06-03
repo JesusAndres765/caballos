@@ -20,11 +20,16 @@ public class RegistrarAdminController {
     @FXML private Label         mensajeLabel;
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private MenuAdminController menuController;
 
     @FXML
     private void initialize() {
         adminLabel.setText("Administrador: " +
                 SessionManager.getInstance().getUsuarioActual().getUsername());
+    }
+
+    public void setMenuController(MenuAdminController ctrl) {
+        this.menuController = ctrl;
     }
 
     @FXML
@@ -48,19 +53,15 @@ public class RegistrarAdminController {
         nuevoAdmin.setRol(Rol.ADMIN);
         nuevoAdmin.setSaldo(0.0);
 
-        if (usuarioDAO.insert(nuevoAdmin)) {
-            FXMLLoader loader = SceneManager.cambiarEscena("menu-admin.fxml");
-            if (loader != null) {
-                MenuAdminController ctrl = loader.getController();
-                ctrl.setMensaje("Administrador \"" + username + "\" registrado correctamente.");
-            }
-        } else {
-            mensajeLabel.setText("Error al registrar. Intenta de nuevo.");
-        }
+        menuController.mostrarMensajeEnInicio(
+                "Administrador \"" + username + "\" registrado correctamente."
+        );
+        usernameField.clear();
+        passwordField.clear();
     }
 
     @FXML
     private void handleVolver() {
-        SceneManager.cambiarEscena("menu-admin.fxml");
+        if (menuController != null) menuController.irAInicio();
     }
 }

@@ -28,6 +28,7 @@ public class CaballosRegistradosController {
     @FXML private TextField          buscarNombreField;
 
     private final CaballoDAO caballoDAO = new CaballoDAO();
+    private MenuAdminController menuController;
 
     @FXML
     private void initialize() {
@@ -36,6 +37,10 @@ public class CaballosRegistradosController {
 
         configurarTabla();
         cargarTodos();
+    }
+
+    public void setMenuController(MenuAdminController ctrl) {
+        this.menuController = ctrl;
     }
 
     // Crea todas las columnas de la tabla, incluyendo las de botones
@@ -188,13 +193,6 @@ public class CaballosRegistradosController {
         });
     }
 
-
-    @FXML
-    private void handleVolver() {
-        SceneManager.cambiarEscena("menu-admin.fxml");
-    }
-
-
     private void mostrarError(String titulo, String mensaje) {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setTitle(titulo);
@@ -211,5 +209,10 @@ public class CaballosRegistradosController {
         a.setContentText(mensaje);
         a.initOwner((Stage) caballosTable.getScene().getWindow());
         a.showAndWait();
+    }
+
+    @FXML
+    private void handleVolver() {
+        if (menuController != null) menuController.irAInicio();
     }
 }

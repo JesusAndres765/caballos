@@ -4,25 +4,47 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefWidth="400" prefHeight="380" spacing="14"
+<VBox spacing="0" maxWidth="Infinity" maxHeight="Infinity"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controller.MenuAdminController"
-      maxWidth="Infinity" maxHeight="Infinity">
+      fx:controller="Controller.MenuAdminController">
 
-    <padding><Insets top="20" right="50" bottom="20" left="50"/></padding>
+    <!-- Cabecera fija fuera del TabPane -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
+        <Label fx:id="adminLabel" text="Administrador:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Cerrar Sesion" onAction="#handleCerrarSesion"/>
+    </HBox>
 
-    <Label fx:id="adminLabel" text="Administrador:"/>
-    <Label text="Menu Administrador"/>
+    <!-- TabPane principal — ocupa todo el espacio restante -->
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS"
+             tabClosingPolicy="UNAVAILABLE">
 
-    <Button text="Crear Carrera"          onAction="#handleCrearCarrera"     prefWidth="220"/>
-    <Button text="Registrar Caballo"       onAction="#handleRegistrarCaballo" prefWidth="220"/>
-    <Button text="Registrar Administrador" onAction="#handleRegistrarAdmin"   prefWidth="220"/>
-    <Button text="Ver Caballos Registrados" onAction="#handleVerCaballos" prefWidth="220"/>
+        <!-- Tab 1: Inicio — contenido definido en FXML -->
+        <Tab text="Inicio" fx:id="inicioTab">
+            <content>
+                <VBox spacing="0" maxHeight="Infinity">
+                    <!-- Mensaje de resultado de la última operación -->
+                    <Label fx:id="inicioMensajeLabel" text="" wrapText="true">
+                        <padding><Insets top="6" right="15" bottom="6" left="15"/></padding>
+                    </Label>
+                    <!-- Lista de carreras activas -->
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                        <content>
+                            <VBox fx:id="carrerasAdminContainer" spacing="12">
+                                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </VBox>
+            </content>
+        </Tab>
 
-    <!-- Empuja el mensaje y el logout hacia abajo -->
-    <Region VBox.vgrow="ALWAYS"/>
+        <!-- Tabs 2-5: contenido cargado programáticamente en el controlador -->
+        <Tab text="Crear Carrera"     fx:id="tabCrearCarrera"/>
+        <Tab text="Registrar Caballo" fx:id="tabRegistrarCaballo"/>
+        <Tab text="Registrar Admin"   fx:id="tabRegistrarAdmin"/>
+        <Tab text="Caballos"          fx:id="tabCaballos"/>
 
-    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
-    <Button text="Terminar Sesion" onAction="#handleTerminarSesion" prefWidth="220"/>
-
+    </TabPane>
 </VBox>
