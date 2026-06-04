@@ -1,82 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.VerCarreraController"
-      style="-fx-background-color: #11141A;"
+      stylesheets="@styles.css" styleClass="root-layout"
       prefWidth="920" prefHeight="660">
 
-    <!-- ── HEADER ── -->
-    <HBox alignment="CENTER_LEFT"
-          style="-fx-background-color: #1E222B;
-                 -fx-padding: 12 20 12 20;
-                 -fx-border-color: #FF6B00;
-                 -fx-border-width: 0 0 2 0;">
+    <!-- HEADER -->
+    <HBox styleClass="header-bar, header-orange-border" alignment="CENTER_LEFT">
         <VBox spacing="2">
-            <Label text="🏇 Ta' QueArdeElEstablo"
-                   style="-fx-text-fill: #FF6B00; -fx-font-weight: bold; -fx-font-size: 14px;"/>
-            <Label fx:id="usuarioLabel" text="Usuario: —"
-                   style="-fx-text-fill: #7F8C8D; -fx-font-size: 12px;"/>
+            <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
+            <Label fx:id="usuarioLabel" text="Usuario: —" styleClass="header-subtitle"/>
         </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="saldoLabel" text="Saldo: 0.00"
-               style="-fx-background-color: #2ECC71;
-                      -fx-text-fill: white;
-                      -fx-font-weight: bold;
-                      -fx-font-size: 13px;
-                      -fx-background-radius: 20;
-                      -fx-padding: 5 14 5 14;"/>
+        <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <!-- ── TITULO + TIMER ── -->
     <VBox alignment="CENTER" spacing="6"
           style="-fx-padding: 18 0 14 0; -fx-background-color: #11141A;">
-        <Label fx:id="tituloLabel" text="Carrera"
-               style="-fx-text-fill: #ECEFF1; -fx-font-weight: bold; -fx-font-size: 15px;"/>
-        <Label fx:id="timerLabel" text="—"
-               style="-fx-text-fill: #FF6B00; -fx-font-size: 26px; -fx-font-weight: bold;"/>
+        <Label fx:id="tituloLabel" text="Carrera" styleClass="titulo-carrera"/>
+        <Label fx:id="timerLabel"  text="—"       styleClass="timer-carrera"/>
     </VBox>
 
-    <Separator style="-fx-background-color: #2C313D;"/>
+    <Separator styleClass="dark-separator"/>
 
-    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS"
-                style="-fx-background: #11141A; -fx-background-color: #11141A; -fx-border-color: transparent;">
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-dark">
         <StackPane style="-fx-background-color: #11141A;">
-            <VBox fx:id="caballosContainer" spacing="8"
-                  StackPane.alignment="CENTER"
-                  style="-fx-padding: 14 24 14 24; -fx-background-color: #11141A;"/>
+            <VBox fx:id="caballosContainer" spacing="8" StackPane.alignment="CENTER" style="-fx-padding: 14 24 14 24; -fx-background-color: #11141A;"/>
         </StackPane>
     </ScrollPane>
 
-    <!-- ── FOOTER ── -->
-    <HBox alignment="CENTER_RIGHT" spacing="10"
-          style="-fx-background-color: #1E222B;
-                 -fx-padding: 12 20 12 20;
-                 -fx-border-color: #2C313D;
-                 -fx-border-width: 1 0 0 0;">
-        <Button fx:id="verResultadosBtn"
-                text="VER RESULTADOS"
-                onAction="#handleVerResultados"
-                disable="true"
-                style="-fx-background-color: #FF6B00;
-                       -fx-text-fill: white;
-                       -fx-font-weight: bold;
-                       -fx-font-size: 12px;
-                       -fx-background-radius: 6;
-                       -fx-cursor: hand;
-                       -fx-padding: 9 20 9 20;"/>
-        <Button text="← VOLVER"
-                onAction="#handleVolver"
-                style="-fx-background-color: #2C313D;
-                       -fx-text-fill: #BDC3C7;
-                       -fx-font-weight: bold;
-                       -fx-font-size: 12px;
-                       -fx-background-radius: 6;
-                       -fx-cursor: hand;
-                       -fx-padding: 9 20 9 20;"/>
+    <!-- FOOTER -->
+    <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="footer-bar">
+        <Button fx:id="verResultadosBtn" text="VER RESULTADOS" onAction="#handleVerResultados" disable="true" styleClass="button-primary" style="-fx-padding: 9 20 9 20;"/>
+        <Button text="← VOLVER" onAction="#handleVolver" styleClass="btn-back"/>
     </HBox>
 
 </VBox>

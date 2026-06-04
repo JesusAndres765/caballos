@@ -1,70 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.HistorialController"
-      style="-fx-background-color: #11141A;"
+      stylesheets="@styles.css"
+      styleClass="root-layout"
       prefWidth="920" prefHeight="660">
 
-    <!-- ── HEADER ── -->
-    <HBox alignment="CENTER_LEFT"
-          style="-fx-background-color: #1E222B;
-                 -fx-padding: 12 20 12 20;
-                 -fx-border-color: #FF6B00;
-                 -fx-border-width: 0 0 2 0;">
+    <!-- HEADER -->
+    <HBox styleClass="header-bar, header-orange-border" alignment="CENTER_LEFT">
         <VBox spacing="2">
-            <Label text="🏇 Ta' QueArdeElEstablo"
-                   style="-fx-text-fill: #FF6B00; -fx-font-weight: bold; -fx-font-size: 14px;"/>
-            <Label fx:id="usuarioLabel" text="Usuario: —"
-                   style="-fx-text-fill: #7F8C8D; -fx-font-size: 12px;"/>
+            <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
+            <Label fx:id="usuarioLabel" text="Usuario: —" styleClass="header-subtitle"/>
         </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="saldoLabel" text="Saldo: 0.00"
-               style="-fx-background-color: #2ECC71;
-                      -fx-text-fill: white;
-                      -fx-font-weight: bold;
-                      -fx-font-size: 13px;
-                      -fx-background-radius: 20;
-                      -fx-padding: 5 14 5 14;"/>
+        <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <!-- ── TÍTULO ── -->
-    <VBox alignment="CENTER_LEFT"
-          style="-fx-padding: 18 24 10 24; -fx-background-color: #11141A;">
-        <Label text="HISTORIAL DE APUESTAS"
-               style="-fx-text-fill: #FF6B00; -fx-font-weight: bold; -fx-font-size: 12px;"/>
-        <Separator style="-fx-background-color: #2C313D;"/>
+    <VBox styleClass="title-section">
+        <Label text="HISTORIAL DE APUESTAS" styleClass="section-orange-title"/>
+        <Separator styleClass="dark-separator"/>
     </VBox>
 
-    <!-- ── LISTA ── -->
+    <!-- LISTA DE APUESTAS -->
     <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS"
-                style="-fx-background: #11141A;
-                       -fx-background-color: #11141A;
-                       -fx-border-color: transparent;">
+                styleClass="scroll-pane-dark">
         <StackPane style="-fx-background-color: #11141A;">
             <VBox fx:id="historialContainer" spacing="10"
                   StackPane.alignment="TOP_CENTER"
-                  style="-fx-padding: 4 24 16 24; -fx-background-color: #11141A;"/>
+                  styleClass="container-padding-alt"/>
         </StackPane>
     </ScrollPane>
 
-    <!-- ── FOOTER ── -->
-    <HBox alignment="CENTER_RIGHT"
-          style="-fx-background-color: #1E222B;
-                 -fx-padding: 12 20 12 20;
-                 -fx-border-color: #2C313D;
-                 -fx-border-width: 1 0 0 0;">
-        <Button text="← VOLVER AL INICIO" onAction="#handleVolver"
-                style="-fx-background-color: #2C313D;
-                       -fx-text-fill: #BDC3C7;
-                       -fx-font-weight: bold;
-                       -fx-font-size: 12px;
-                       -fx-background-radius: 6;
-                       -fx-cursor: hand;
-                       -fx-padding: 9 20 9 20;"/>
+    <HBox alignment="CENTER_RIGHT" styleClass="footer-bar">
+        <Button text="<- VOLVER AL INICIO" onAction="#handleVolver" styleClass="btn-back"/>
     </HBox>
 
 </VBox>

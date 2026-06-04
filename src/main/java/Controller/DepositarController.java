@@ -28,7 +28,7 @@ public class DepositarController {
 
     @FXML
     private void initialize() {
-        Usuario u = SessionManager.getInstance().getUsuarioActual();
+        Usuario u = SessionManager.getInstancia().getUsuarioActual();
         usuarioLabel.setText("Usuario: " + u.getUsername());
         saldoLabel.setText(String.format("Saldo: %.2f", u.getSaldo()));
     }
@@ -58,7 +58,7 @@ public class DepositarController {
             return;
         }
 
-        Usuario usuario = SessionManager.getInstance().getUsuarioActual();
+        Usuario usuario = SessionManager.getInstancia().getUsuarioActual();
         double nuevoSaldo = usuario.getSaldo() + cantidad;
 
         // Actualiza saldo en BD
@@ -77,7 +77,7 @@ public class DepositarController {
         transaccionDAO.insert(t);
 
         // Actualiza sesión en memoria
-        SessionManager.getInstance().refrescarSaldo(nuevoSaldo);
+        SessionManager.getInstancia().refrescarSaldo(nuevoSaldo);
         saldoLabel.setText(String.format("Saldo: %.2f", nuevoSaldo));
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

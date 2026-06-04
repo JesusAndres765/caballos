@@ -1,6 +1,5 @@
 package Controller;
 
-import Controller.util.SceneManager;
 import Controller.util.SessionManager;
 import Model.Caballo;
 import Model.dao.CaballoDAO;
@@ -12,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,7 +31,7 @@ public class CaballosRegistradosController {
     @FXML
     private void initialize() {
         adminLabel.setText("Administrador: " +
-                SessionManager.getInstance().getUsuarioActual().getUsername());
+                SessionManager.getInstancia().getUsuarioActual().getUsername());
 
         configurarTabla();
         cargarTodos();

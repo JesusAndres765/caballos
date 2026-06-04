@@ -9,7 +9,6 @@ public class UsuarioDAO {
 
     private final Connection conn = ConexionDB.getConnection();
 
-    // Busca por username — usado en login
     public Usuario findByUsername(String username) {
         String sql = "SELECT * FROM usuarios WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -54,7 +53,6 @@ public class UsuarioDAO {
         return false;
     }
 
-    // Actualiza saldo — usado en depósito, retiro y liquidación de apuestas
     public boolean updateSaldo(int idUsuario, double nuevoSaldo) {
         String sql = "UPDATE usuarios SET saldo = ? WHERE id_usuario = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -67,7 +65,6 @@ public class UsuarioDAO {
         return false;
     }
 
-    // Verifica si un username ya está registrado
     public boolean existeUsername(String username) {
         String sql = "SELECT COUNT(*) FROM usuarios WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

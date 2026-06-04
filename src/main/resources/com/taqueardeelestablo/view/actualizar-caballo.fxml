@@ -4,31 +4,43 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="380" prefHeight="240" spacing="16" alignment="CENTER"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controller.ActualizarCaballoController">
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="Controller.ActualizarCaballoController"
+           stylesheets="@stylesA.css" styleClass="root-layout"
+           prefWidth="400" prefHeight="290">
 
-    <padding><Insets top="20" right="35" bottom="20" left="35"/></padding>
+    <VBox spacing="18" maxWidth="340" alignment="CENTER"
+          styleClass="card">
+        <padding>
+            <Insets top="26" right="36" bottom="26" left="36"/>
+        </padding>
 
-    <Label text="Actualizar Caballo"/>
+        <!-- Titulo -->
+        <VBox spacing="4">
+            <Label text="ACTUALIZAR CABALLO" styleClass="page-title"/>
+        </VBox>
 
-    <GridPane hgap="15" vgap="12" alignment="CENTER">
-        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="nombreField" prefWidth="200"
-                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Separator styleClass="dark-separator"/>
 
-        <Label text="Numero:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="numeroField" prefWidth="200"
-                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    </GridPane>
+        <!-- Campos -->
+        <VBox spacing="12">
+            <VBox spacing="6">
+                <Label text="NOMBRE" styleClass="form-label"/>
+                <TextField fx:id="nombreField" prefHeight="40" styleClass="text-field"/>
+            </VBox>
+            <VBox spacing="6">
+                <Label text="NÚMERO IDENTIFICADOR" styleClass="form-label"/>
+                <TextField fx:id="numeroField" prefHeight="40" styleClass="text-field"/>
+            </VBox>
+        </VBox>
 
-    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+        <Label fx:id="mensajeLabel" text="" wrapText="true"
+               styleClass="error-label"/>
 
-    <HBox spacing="20" alignment="CENTER">
-        <Button fx:id="actualizarBtn" text="Actualizar"
-                onAction="#handleActualizar" prefWidth="120"/>
-        <Button text="Cancelar"
-                onAction="#handleCancelar" prefWidth="100"/>
-    </HBox>
+        <HBox spacing="12" alignment="CENTER">
+            <Button fx:id="actualizarBtn" text="✔  Actualizar" onAction="#handleActualizar" prefHeight="40" prefWidth="140" styleClass="button-primary"/>
+            <Button text="Cancelar" onAction="#handleCancelar" prefHeight="40" prefWidth="100" styleClass="btn-secondary"/>
+        </HBox>
 
-</VBox>
+    </VBox>
+</StackPane>

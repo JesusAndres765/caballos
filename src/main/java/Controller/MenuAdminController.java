@@ -42,7 +42,7 @@ public class MenuAdminController {
     @FXML
     private void initialize() {
         adminLabel.setText("Administrador: " +
-                SessionManager.getInstance().getUsuarioActual().getUsername());
+                SessionManager.getInstancia().getUsuarioActual().getUsername());
 
         // Carga el FXML de cada tab y pasa la referencia de este controlador
         cargarEnTab(tabCrearCarrera,     "crear-carrera.fxml",      loader ->
@@ -188,7 +188,7 @@ public class MenuAdminController {
 
     @FXML
     private void handleCerrarSesion() {
-        SessionManager.getInstance().cerrarSesion();
+        SessionManager.getInstancia().cerrarSesion();
         SceneManager.cambiarEscena("login.fxml");
     }
 }

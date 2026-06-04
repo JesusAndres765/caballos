@@ -4,27 +4,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="420" prefHeight="320" spacing="14"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controller.RegistrarAdminController"
-      maxWidth="Infinity" maxHeight="Infinity">
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.RegistrarAdminController" style="-fx-background-color: #11141A;">
 
-    <padding><Insets top="15" right="40" bottom="15" left="40"/></padding>
+    <VBox spacing="20" maxWidth="420" alignment="CENTER" styleClass="card">
+        <padding>
+            <Insets top="30" right="40" bottom="30" left="40"/>
+        </padding>
 
-    <Label text="Registrar Administrador:"/>
+        <VBox spacing="4">
+            <Label text="REGISTRAR ADMINISTRADOR" styleClass="page-title"/>
+            <Label text="El nuevo admin tendrá acceso completo al panel" styleClass="form-label"/>
+        </VBox>
 
-    <GridPane hgap="15" vgap="12">
-        <Label text="Usuario:"     GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="usernameField" promptText="Nombre de usuario" prefWidth="200"
-                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Separator styleClass="dark-separator"/>
 
-        <Label text="Contraseña:"  GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <PasswordField fx:id="passwordField" promptText="Contraseña" prefWidth="200"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    </GridPane>
+        <!-- Campos -->
+        <VBox spacing="14">
+            <VBox spacing="6">
+                <Label text="NOMBRE DE USUARIO" styleClass="form-label"/>
+                <TextField fx:id="usernameField" promptText="Nombre de usuario" prefHeight="42" styleClass="text-field"/>
+            </VBox>
+            <VBox spacing="6">
+                <Label text="CONTRASEÑA" styleClass="form-label"/>
+                <PasswordField fx:id="passwordField" promptText="Contraseña" prefHeight="42" styleClass="password-field"/>
+            </VBox>
+        </VBox>
 
-    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+        <Label fx:id="mensajeLabel" text="" wrapText="true" styleClass="error-label"/>
 
-    <Button text="Registrar Administrador" onAction="#handleRegistrar" prefWidth="200"/>
-
-</VBox>
+        <Button text="EGISTRAR ADMINISTRADOR" onAction="#handleRegistrar" maxWidth="Infinity" prefHeight="44" styleClass="button-primary"/>
+    </VBox>
+</StackPane>

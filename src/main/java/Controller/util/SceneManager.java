@@ -15,7 +15,7 @@ public class SceneManager {
 
     private SceneManager() {}
 
-    // Se llama una sola vez desde MainApp al arrancar la aplicación
+    // Se llama una sola vez desde MainApp al arrancar la aplicacion
     public static void setPrimaryStage(Stage stage) {
         primaryStage = stage;
     }
@@ -24,16 +24,6 @@ public class SceneManager {
         return primaryStage;
     }
 
-    // Reemplaza la escena en la ventana principal.
-    // Devuelve el FXMLLoader para que el llamador pueda obtener el controlador
-    // y pasarle datos si lo necesita:
-    //
-    //   FXMLLoader loader = SceneManager.cambiarEscena("ver-carrera.fxml");
-    //   VerCarreraController ctrl = loader.getController();
-    //   ctrl.setCarrera(carrera);
-    //
-    // Si no necesitas datos, simplemente ignora el valor de retorno:
-    //   SceneManager.cambiarEscena("login.fxml");
     public static FXMLLoader cambiarEscena(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -50,14 +40,11 @@ public class SceneManager {
         }
     }
 
-    // Abre el FXML en una nueva ventana independiente.
-    // Útil para: VerCarrera, Resultados, Historial, Depositar, Retirar.
+    // Abre el FXML en una nueva ventana independiente
     public static FXMLLoader abrirVentana(String fxmlFile, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    SceneManager.class.getResource(
-                            "/com/taqueardeelestablo/view/" + fxmlFile)
-            );
+                    SceneManager.class.getResource("/com/taqueardeelestablo/view/" + fxmlFile));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle(titulo);
@@ -70,20 +57,12 @@ public class SceneManager {
         }
     }
 
-    // Abre el FXML como ventana modal: bloquea la ventana principal
-    // hasta que el usuario la cierre.
-    // Útil para: ModalApostar, ApuestasActivas.
     public static FXMLLoader abrirModal(String fxmlFile, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    SceneManager.class.getResource(
-                            "/com/taqueardeelestablo/view/" + fxmlFile)
-            );
+                    SceneManager.class.getResource("/com/taqueardeelestablo/view/" + fxmlFile));
             Parent root = loader.load();
 
-            // Lee el prefWidth/prefHeight definido en el FXML para forzar el tamaño correcto.
-            // Sin esto, en Linux el gestor de ventanas puede ignorar esas dimensiones
-            // cuando el owner está maximizado.
             double w = (root instanceof Region r && r.getPrefWidth()  > 0) ? r.getPrefWidth()  : 400;
             double h = (root instanceof Region r && r.getPrefHeight() > 0) ? r.getPrefHeight() : 300;
 
@@ -92,8 +71,8 @@ public class SceneManager {
             modal.initModality(Modality.APPLICATION_MODAL);
             modal.initOwner(primaryStage);
             modal.setScene(new Scene(root, w, h));
-            modal.setResizable(false);   // tamaño fijo, igual al del diseño
-            modal.centerOnScreen();      // centrada en pantalla, no pegada a la esquina
+            modal.setResizable(false);
+            modal.centerOnScreen();
             modal.showAndWait();
             return loader;
 

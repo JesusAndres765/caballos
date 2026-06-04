@@ -41,7 +41,7 @@ public class LoginController {
             return;
         }
 
-        SessionManager.getInstance().iniciarSesion(usuario);
+        SessionManager.getInstancia().iniciarSesion(usuario);
 
         if (usuario.getRol() == Rol.ADMIN) {
             SceneManager.cambiarEscena("menu-admin.fxml");
@@ -72,7 +72,7 @@ public class LoginController {
         nuevo.setSaldo(0.0);
 
         if (usuarioDAO.insert(nuevo)) {
-            SessionManager.getInstance().iniciarSesion(nuevo);
+            SessionManager.getInstancia().iniciarSesion(nuevo);
             SceneManager.cambiarEscena("dashboard-usuario.fxml");
         } else {
             mensajeLabel.setText("Error al registrar. Intenta de nuevo.");

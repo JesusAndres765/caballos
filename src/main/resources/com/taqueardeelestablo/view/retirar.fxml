@@ -7,70 +7,51 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.RetirarController"
       stylesheets="@styles.css"
-      styleClass="root"
-      prefWidth="920" prefHeight="660">
+      styleClass="root-layout"
+      prefWidth="920" prefHeight="900">
 
-    <!-- ── HEADER ── -->
+    <!-- HEADER -->
     <HBox styleClass="header-bar" alignment="CENTER_LEFT">
         <VBox spacing="2">
-            <Label text="🏇 Ta' QueArdeElEstablo"
-                   style="-fx-text-fill: #FF6B00; -fx-font-weight: bold; -fx-font-size: 14px;"/>
-            <Label fx:id="usuarioLabel" text="Usuario: —"
-                   style="-fx-text-fill: #7F8C8D; -fx-font-size: 12px;"/>
+            <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
+            <Label fx:id="usuarioLabel" text="Usuario: —" styleClass="header-subtitle"/>
         </VBox>
         <Region HBox.hgrow="ALWAYS"/>
         <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <!-- ── CONTENIDO CENTRADO ── -->
     <StackPane VBox.vgrow="ALWAYS">
-        <VBox spacing="18" maxWidth="400" alignment="CENTER"
-              style="-fx-background-color: #1E222B;
-                     -fx-background-radius: 12;
-                     -fx-border-color: #2C313D;
-                     -fx-border-radius: 12;
-                     -fx-border-width: 1;
-                     -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.55),12,0,0,6);">
-            <padding><Insets top="28" right="35" bottom="28" left="35"/></padding>
+        <VBox spacing="18" maxWidth="400" alignment="CENTER" styleClass="card">
+            <padding>
+                <Insets top="28" right="35" bottom="28" left="35"/>
+            </padding>
 
             <!-- Título -->
             <VBox spacing="3">
-                <Label text="💸  RETIRAR FONDOS"
-                       style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 17px;"/>
-                <Label text="Los retiros se procesan de inmediato"
-                       style="-fx-text-fill: #7F8C8D; -fx-font-size: 11px;"/>
+                <Label text="RETIRAR FONDOS" styleClass="page-title"/>
+                <Label text="Los retiros se procesan de inmediato" styleClass="section-subtitle"/>
             </VBox>
 
-            <Separator style="-fx-background-color: #2C313D;"/>
+            <Separator styleClass="dark-separator"/>
 
             <!-- Campos -->
             <VBox spacing="12">
                 <VBox spacing="6">
-                    <Label text="CANTIDAD A RETIRAR ($)"
-                           style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
-                    <TextField fx:id="cantidadField" promptText="0.00"
-                               prefHeight="48" maxWidth="Infinity" styleClass="text-field"
-                               style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                    <Label text="CANTIDAD A RETIRAR ($)" styleClass="form-label"/>
+                    <TextField fx:id="cantidadField" promptText="0.00" prefHeight="48" maxWidth="Infinity" styleClass="text-field" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
                 </VBox>
 
                 <VBox spacing="6">
-                    <Label text="NÚMERO DE CUENTA DESTINO"
-                           style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
-                    <TextField fx:id="cuentaField" promptText="Número de cuenta"
-                               prefHeight="42" maxWidth="Infinity" styleClass="text-field"/>
+                    <Label text="NÚMERO DE CUENTA DESTINO" styleClass="form-label"/>
+                    <TextField fx:id="cuentaField" promptText="Número de cuenta" prefHeight="42" maxWidth="Infinity" styleClass="text-field"/>
                 </VBox>
             </VBox>
 
-            <!-- Mensaje error -->
-            <Label fx:id="mensajeLabel" text="" wrapText="true"
-                   style="-fx-text-fill: #E74C3C; -fx-font-size: 12px;"/>
+            <Label fx:id="mensajeLabel" text="" wrapText="true" styleClass="error-label"/>
 
-            <!-- Botones -->
             <HBox spacing="12" alignment="CENTER">
-                <Button text="✔  CONFIRMAR RETIRO" onAction="#handleConfirmar"
-                        prefHeight="45" styleClass="button-primary"/>
-                <Button text="Volver" onAction="#handleVolver"
-                        prefHeight="45" prefWidth="100" styleClass="btn-secondary"/>
+                <Button text="CONFIRMAR RETIRO" onAction="#handleConfirmar" prefHeight="45" styleClass="button-primary"/>
+                <Button text="Volver" onAction="#handleVolver" prefHeight="45" prefWidth="100" styleClass="btn-secondary"/>
             </HBox>
 
         </VBox>

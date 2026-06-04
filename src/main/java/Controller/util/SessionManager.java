@@ -10,24 +10,21 @@ public class SessionManager {
 
     private SessionManager() {}
 
-    public static SessionManager getInstance() {
+    public static SessionManager getInstancia() {
         if (instance == null) {
             instance = new SessionManager();
         }
         return instance;
     }
 
-    // Guarda el usuario al hacer login
     public void iniciarSesion(Usuario usuario) {
         this.usuarioActual = usuario;
     }
 
-    // Limpia la sesión al hacer logout
     public void cerrarSesion() {
         this.usuarioActual = null;
     }
 
-    // Devuelve el usuario logueado — usado en todos los controladores
     public Usuario getUsuarioActual() {
         return usuarioActual;
     }
@@ -40,8 +37,6 @@ public class SessionManager {
         return usuarioActual != null && usuarioActual.getRol() == Rol.ADMIN;
     }
 
-    // Actualiza el saldo en memoria tras depósito, retiro o cobro de apuesta
-    // Evita hacer un SELECT a BD solo para refrescar un número
     public void refrescarSaldo(double nuevoSaldo) {
         if (usuarioActual != null) {
             usuarioActual.setSaldo(nuevoSaldo);

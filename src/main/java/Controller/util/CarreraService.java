@@ -13,39 +13,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Servicio singleton que corre cada segundo en el hilo de JavaFX.
- * Es el único responsable de:
- *  - Transicionar carreras de EN_GATERA → EN_CURSO cuando llega la hora
- *  - Transicionar de EN_CURSO → FINALIZADA cuando se acaba el tiempo
- *  - Calcular resultados y liquidar apuestas
- *
- * VerCarreraController es solo un visor que hace polling a este servicio.
- */
 public class CarreraService {
-
     private static CarreraService instancia;
     private Timeline timeline;
 
-    // Cada instancia de DAO usa la conexión compartida — al correr en el hilo
-    // de JavaFX no hay concurrencia, así que no hay riesgo de colisión
-    private final CarreraDAO        carreraDAO        = new CarreraDAO();
+    private final CarreraDAO carreraDAO = new CarreraDAO();
     private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
-    private final CaballoDAO        caballoDAO        = new CaballoDAO();
-    private final ApuestaDAO        apuestaDAO        = new ApuestaDAO();
-    private final UsuarioDAO        usuarioDAO        = new UsuarioDAO();
-    private final TransaccionDAO    transaccionDAO    = new TransaccionDAO();
+    private final CaballoDAO caballoDAO = new CaballoDAO();
+    private final ApuestaDAO apuestaDAO = new ApuestaDAO();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final TransaccionDAO transaccionDAO = new TransaccionDAO();
 
     private CarreraService() {}
 
-    public static CarreraService getInstance() {
+    public static CarreraService getInstancia() {
         if (instancia == null) instancia = new CarreraService();
         return instancia;
     }
 
-    /** Llamar desde MainApp.start() — después de que JavaFX esté listo */
+    // iniciar en mainApp
     public void iniciar() {
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> tick()));
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> revisarCarrera()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
@@ -54,26 +42,23 @@ public class CarreraService {
         if (timeline != null) timeline.stop();
     }
 
-    // ── Núcleo del servicio ───────────────────────────────────────────────────
-
-    private void tick() {
+    private void revisarCarrera() {
         try {
             LocalDateTime ahora = LocalDateTime.now();
             for (Carrera c : carreraDAO.findActivas()) {
-                procesarCarrera(c, ahora);
+                revisarCarrera(c, ahora);
             }
         } catch (Exception ex) {
-            System.err.println("CarreraService.tick: " + ex.getMessage());
+            System.err.println("CarreraService.revisarCarrera: " + ex.getMessage());
         }
     }
 
-    private void procesarCarrera(Carrera c, LocalDateTime ahora) {
+    private void revisarCarrera(Carrera c, LocalDateTime ahora) {
         switch (c.getEstado()) {
 
             case EN_GATERA:
                 LocalDateTime inicio = c.getFechaInicio();
                 if (inicio != null && !ahora.isBefore(inicio)) {
-                    // Llegó la hora — arranca la carrera
                     carreraDAO.updateEstado(c.getIdCarrera(), EstadoCarrera.EN_CURSO);
                     carreraDAO.updateFechaInicio(c.getIdCarrera(), ahora);
                 }
@@ -94,8 +79,6 @@ public class CarreraService {
         }
     }
 
-    // ── Finalización ─────────────────────────────────────────────────────────
-
     private void finalizarCarrera(Carrera carrera) {
         List<CarreraCaballo> inscripciones =
                 carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
@@ -105,11 +88,10 @@ public class CarreraService {
             return;
         }
 
-        Random rng       = new Random();
-        double maxAvance = 240.0 / (carrera.getDuracionSeg() * 10.0); // era 170
-        int totalTicks   = carrera.getDuracionSeg() * 10;
+        Random rng = new Random();
+        double maxAvance = 240.0 / (carrera.getDuracionSeg() * 10.0);
+        int totalTicks = carrera.getDuracionSeg() * 10;
 
-        // {índice, progreso 0-100, tick en que llegó a 100 (MAX_VALUE = no terminó)}
         List<double[]> resultados = new ArrayList<>();
 
         for (int i = 0; i < inscripciones.size(); i++) {
@@ -119,26 +101,24 @@ public class CarreraService {
             for (int t = 0; t < totalTicks; t++) {
                 progreso = Math.min(100.0, progreso + rng.nextDouble() * maxAvance);
                 if (progreso >= 100.0 && tickFinish == Integer.MAX_VALUE) {
-                    tickFinish = t; // registra cuándo llegó a la meta
+                    tickFinish = t;
                 }
             }
             resultados.add(new double[]{ i, progreso, tickFinish });
         }
 
-        // Ordena: los que terminaron primero van delante;
-        // entre los que no terminaron, gana quien llegó más lejos
         resultados.sort((a, b) -> {
             boolean aTermino = a[2] < Integer.MAX_VALUE;
             boolean bTermino = b[2] < Integer.MAX_VALUE;
-            if (aTermino && bTermino)  return Double.compare(a[2], b[2]); // menor tick = más rápido
-            if (aTermino)              return -1; // a terminó, b no → a gana
-            if (bTermino)              return  1; // b terminó, a no → b gana
-            return Double.compare(b[1], a[1]);    // ninguno terminó → mayor progreso
+            if (aTermino && bTermino) return Double.compare(a[2], b[2]);
+            if (aTermino) return -1;
+            if (bTermino) return 1;
+            return Double.compare(b[1], a[1]);
         });
 
         int idCaballoGanador = -1;
         for (int pos = 0; pos < resultados.size(); pos++) {
-            int    idx      = (int) resultados.get(pos)[0];
+            int idx = (int) resultados.get(pos)[0];
             double progreso = resultados.get(pos)[1];
             boolean termino = resultados.get(pos)[2] < Integer.MAX_VALUE;
             CarreraCaballo cc = inscripciones.get(idx);

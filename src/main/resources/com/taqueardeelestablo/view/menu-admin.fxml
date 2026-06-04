@@ -1,50 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="0" maxWidth="Infinity" maxHeight="Infinity"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controller.MenuAdminController">
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.MenuAdminController"
+      stylesheets="@stylesA.css" styleClass="root-layout"
+      prefWidth="1100" prefHeight="700">
 
-    <!-- Cabecera fija fuera del TabPane -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
-        <Label fx:id="adminLabel" text="Administrador:"/>
+    <!-- HEADER -->
+    <HBox styleClass="header-bar" alignment="CENTER_LEFT">
+        <VBox spacing="2">
+            <Label text="🏇 Ta' QueArdeElEstablo — Panel Administrador" styleClass="header-title"/>
+            <Label fx:id="adminLabel" text="Administrador: —" styleClass="header-subtitle"/>
+        </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Cerrar Sesion" onAction="#handleCerrarSesion"/>
+        <Button text="Cerrar Sesión" onAction="#handleCerrarSesion" styleClass="btn-logout"/>
     </HBox>
 
-    <!-- TabPane principal — ocupa todo el espacio restante -->
-    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS"
-             tabClosingPolicy="UNAVAILABLE">
-
-        <!-- Tab 1: Inicio — contenido definido en FXML -->
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS" styleClass="main-tab-pane" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Inicio" fx:id="inicioTab">
             <content>
-                <VBox spacing="0" maxHeight="Infinity">
-                    <!-- Mensaje de resultado de la última operación -->
-                    <Label fx:id="inicioMensajeLabel" text="" wrapText="true">
-                        <padding><Insets top="6" right="15" bottom="6" left="15"/></padding>
-                    </Label>
-                    <!-- Lista de carreras activas -->
-                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
-                        <content>
-                            <VBox fx:id="carrerasAdminContainer" spacing="12">
-                                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-                            </VBox>
-                        </content>
+                <VBox maxHeight="Infinity">
+                    <Label fx:id="inicioMensajeLabel" text="" wrapText="true" styleClass="success-label"/>
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-dark">
+                        <VBox fx:id="carrerasAdminContainer" styleClass="container-padding" spacing="16"/>
                     </ScrollPane>
                 </VBox>
             </content>
         </Tab>
 
-        <!-- Tabs 2-5: contenido cargado programáticamente en el controlador -->
-        <Tab text="Crear Carrera"     fx:id="tabCrearCarrera"/>
+        <Tab text="Crear Carrera" fx:id="tabCrearCarrera"/>
         <Tab text="Registrar Caballo" fx:id="tabRegistrarCaballo"/>
-        <Tab text="Registrar Admin"   fx:id="tabRegistrarAdmin"/>
-        <Tab text="Caballos"          fx:id="tabCaballos"/>
-
+        <Tab text="Registrar Admin" fx:id="tabRegistrarAdmin"/>
+        <Tab text="Caballos" fx:id="tabCaballos"/>
     </TabPane>
 </VBox>

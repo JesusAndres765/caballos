@@ -14,12 +14,12 @@ public class MainApp extends Application {
 
         // Arranca el servicio de carreras; corre cada segundo
         // en el hilo de JavaFX, sin problemas de concurrencia
-        CarreraService.getInstance().iniciar();
+        CarreraService.getInstancia().iniciar();
     }
 
     @Override
     public void stop() {
-        CarreraService.getInstance().detener();
+        CarreraService.getInstancia().detener();
     }
 
     public static void main(String[] args) {

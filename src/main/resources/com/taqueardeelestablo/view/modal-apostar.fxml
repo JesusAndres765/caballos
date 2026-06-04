@@ -7,10 +7,9 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.ModalApostarController"
       stylesheets="@styles.css"
-      style="-fx-background-color: #11141A;"
+      styleClass="root-layout"
       prefWidth="520" prefHeight="500" spacing="0">
 
-    <!-- ── CABECERA DE LA CARRERA ── -->
     <VBox style="-fx-background-color: #1E222B;
                  -fx-padding: 18 24 14 24;
                  -fx-border-color: transparent transparent #2C313D transparent;
@@ -18,8 +17,7 @@
 
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Label text="🏇" style="-fx-font-size: 20px;"/>
-            <Label text="REALIZAR APUESTA"
-                   style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 17px;"/>
+            <Label text="REALIZAR APUESTA" styleClass="page-title"/>
             <Region HBox.hgrow="ALWAYS"/>
             <Label fx:id="cierreLabel" text="⏱ --:--"
                    style="-fx-text-fill: #E74C3C; -fx-font-weight: bold; -fx-font-size: 12px;
@@ -30,58 +28,43 @@
 
         <HBox spacing="24" style="-fx-padding: 12 0 0 0;" alignment="CENTER_LEFT">
             <VBox spacing="2">
-                <Label text="MULTIPLICADOR"
-                       style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
-                <Label fx:id="multiplicadorLabel" text="x0"
-                       style="-fx-text-fill: #F1C40F; -fx-font-weight: bold; -fx-font-size: 22px;"/>
+                <Label text="MULTIPLICADOR" styleClass="form-label"/>
+                <Label fx:id="multiplicadorLabel" text="x0" style="-fx-text-fill: #F1C40F; -fx-font-weight: bold; -fx-font-size: 22px;"/>
             </VBox>
-            <Separator orientation="VERTICAL"
-                       style="-fx-background-color: #2C313D;"/>
+            <Separator orientation="VERTICAL" styleClass="dark-separator"/>
             <VBox spacing="2">
-                <Label text="PROB. VICTORIA"
-                       style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
-                <Label fx:id="porcentajeLabel" text="0%"
-                       style="-fx-text-fill: #2ECC71; -fx-font-weight: bold; -fx-font-size: 22px;"/>
+                <Label text="PROB. VICTORIA" styleClass="form-label"/>
+                <Label fx:id="porcentajeLabel" text="0%" style="-fx-text-fill: #2ECC71; -fx-font-weight: bold; -fx-font-size: 22px;"/>
             </VBox>
         </HBox>
     </VBox>
 
-    <!-- ── TABLA DE PARTICIPANTES ── -->
     <VBox style="-fx-padding: 14 24 0 24;">
-        <Label text="PARTICIPANTES"
-               style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;
-                      -fx-padding: 0 0 6 0;"/>
+        <Label text="PARTICIPANTES" styleClass="form-label" style="-fx-padding: 0 0 6 0;"/>
         <TableView fx:id="caballosTabla" prefHeight="130" styleClass="table-view"/>
     </VBox>
 
-    <!-- ── FORMULARIO ── -->
     <VBox spacing="6" style="-fx-padding: 14 24 0 24;">
-        <Label text="TU SELECCIÓN"
-               style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
-        <ComboBox fx:id="caballoCombo" maxWidth="Infinity" prefHeight="40"/>
+        <Label text="TU SELECCION" styleClass="form-label"/>
+        <ComboBox fx:id="caballoCombo" maxWidth="Infinity" prefHeight="40" styleClass="combo-box"/>
 
-        <Label text="MONTO A APOSTAR ($)"
-               style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;
-                      -fx-padding: 6 0 0 0;"/>
-        <TextField fx:id="apuestaField" promptText="0.00" prefHeight="40"
-                   styleClass="text-field"/>
+        <Label text="MONTO A APOSTAR ($)" styleClass="form-label" style="-fx-padding: 6 0 0 0;"/>
+        <TextField fx:id="apuestaField" promptText="0.00" prefHeight="40" styleClass="text-field"/>
     </VBox>
 
-    <!-- ── MENSAJE DE ERROR ── -->
     <Label fx:id="mensajeLabel" text="" wrapText="true"
-           style="-fx-text-fill: #E74C3C; -fx-font-size: 12px; -fx-padding: 6 24 0 24;"/>
+           styleClass="error-label" style="-fx-padding: 6 24 0 24;"/>
 
     <Region VBox.vgrow="ALWAYS"/>
 
-    <!-- ── BOTONES ── -->
     <HBox spacing="12" alignment="CENTER"
           style="-fx-padding: 14 24 20 24;
                  -fx-background-color: #1E222B;
                  -fx-border-color: #2C313D transparent transparent transparent;
                  -fx-border-width: 1 0 0 0;">
-        <Button fx:id="confirmBtn" text="🎯  CONFIRMAR APUESTA" onAction="#handleConfirmar"
+        <Button fx:id="confirmBtn" text="CONFIRMAR APUESTA" onAction="#handleConfirmar"
                 prefWidth="230" prefHeight="46" styleClass="button-primary"/>
-        <Button fx:id="cancelBtn"  text="CANCELAR"             onAction="#handleCancelar"
+        <Button fx:id="cancelBtn"  text="CANCELAR" onAction="#handleCancelar"
                 prefWidth="110" prefHeight="46" styleClass="btn-secondary"/>
     </HBox>
 

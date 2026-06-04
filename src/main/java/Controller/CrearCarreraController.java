@@ -1,6 +1,5 @@
 package Controller;
 
-import Controller.util.SceneManager;
 import Controller.util.SessionManager;
 import Model.Caballo;
 import Model.Carrera;
@@ -13,7 +12,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -41,7 +39,7 @@ public class CrearCarreraController {
 
     @FXML
     private void initialize() {
-        String username = SessionManager.getInstance().getUsuarioActual().getUsername();
+        String username = SessionManager.getInstancia().getUsuarioActual().getUsername();
 
         // Rellena el ComboBox con opciones 2 a 10
         List<Integer> opciones = new ArrayList<>();
@@ -128,7 +126,7 @@ public class CrearCarreraController {
 
         // Construye y persiste la carrera
         Carrera carrera = new Carrera();
-        carrera.setIdAdmin(SessionManager.getInstance().getUsuarioActual().getIdUsuario());
+        carrera.setIdAdmin(SessionManager.getInstancia().getUsuarioActual().getIdUsuario());
         carrera.setNumCaballos(caballosSeleccionados.size());
         carrera.setDuracionSeg(duracion);
         carrera.setTiempoGatera(tiempoGatera);

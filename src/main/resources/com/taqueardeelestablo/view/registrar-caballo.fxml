@@ -4,29 +4,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="420" prefHeight="320" spacing="14"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controller.RegistrarCaballoController"
-      maxWidth="Infinity" maxHeight="Infinity">
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.RegistrarCaballoController" style="-fx-background-color: #11141A;">
 
-    <padding><Insets top="15" right="40" bottom="15" left="40"/></padding>
+    <VBox spacing="20" maxWidth="420" alignment="CENTER" styleClass="card">
+        <padding>
+            <Insets top="30" right="40" bottom="30" left="40"/>
+        </padding>
 
-    <Label text="Registrar Caballo:"/>
+        <!-- Título -->
+        <VBox spacing="4">
+            <Label text="🐎  REGISTRAR CABALLO" styleClass="page-title"/>
+            <Label text="El número de caballo debe ser único" styleClass="form-label"/>
+        </VBox>
 
-    <GridPane hgap="15" vgap="12">
-        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="nombreField" promptText="Nombre del caballo"
-                   prefWidth="200"
-                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Separator styleClass="dark-separator"/>
 
-        <Label text="Numero:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="numeroField" promptText="Número identificador"
-                   prefWidth="200"
-                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    </GridPane>
+        <!-- Campos -->
+        <VBox spacing="14">
+            <VBox spacing="6">
+                <Label text="NOMBRE" styleClass="form-label"/>
+                <TextField fx:id="nombreField" promptText="Nombre del caballo" prefHeight="42" styleClass="text-field"/>
+            </VBox>
+            <VBox spacing="6">
+                <Label text="NÚMERO IDENTIFICADOR" styleClass="form-label"/>
+                <TextField fx:id="numeroField" promptText="Número único" prefHeight="42" styleClass="text-field"/>
+            </VBox>
+        </VBox>
 
-    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+        <Label fx:id="mensajeLabel" text="" wrapText="true" styleClass="error-label"/>
 
-    <Button text="Registrar Caballo" onAction="#handleRegistrar" prefWidth="180"/>
-
-</VBox>
+        <Button text="REGISTRAR CABALLO" onAction="#handleRegistrar" maxWidth="Infinity" prefHeight="44" styleClass="button-primary"/>
+    </VBox>
+</StackPane>

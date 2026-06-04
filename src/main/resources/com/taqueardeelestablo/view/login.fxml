@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
 <StackPane alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
            fx:controller="Controller.LoginController"
-           style="-fx-background-color: #11141A;" prefWidth="900" prefHeight="680">
+           stylesheets="@styles.css" styleClass="root-layout"
+           prefWidth="900" prefHeight="680">
 
-    <VBox alignment="CENTER" spacing="22" maxWidth="440" maxHeight="700"
-          style="-fx-background-color: #1E222B; -fx-background-radius: 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 25, 0, 0, 15);">
-
+    <VBox alignment="CENTER" spacing="22" maxWidth="440" maxHeight="700" styleClass="card">
         <padding>
             <Insets top="35" right="40" bottom="35" left="40"/>
         </padding>
 
-        <ImageView fx:id="logoImageView" fitWidth="220" fitHeight="220" preserveRatio="true">
+        <ImageView fitWidth="220" fitHeight="220" preserveRatio="true">
             <image>
                 <Image url="@/images/logo.png"/>
             </image>
@@ -28,37 +25,24 @@
 
         <VBox alignment="CENTER" spacing="5">
             <Label text="Ta' QueArdeElEstablo" style="-fx-text-fill: #FF6B00; -fx-font-weight: bold;">
-                <font>
-                    <Font size="25.0" />
-                </font>
+                <font><Font size="25.0"/></font>
             </Label>
-            <Label text="Simulador de Apuestas Hípicas" style="-fx-text-fill: #7F8C8D;">
-                <font>
-                    <Font size="13.0" />
-                </font>
+            <Label text="Simulador de Apuestas Hípicas" styleClass="section-subtitle">
+                <font><Font size="13.0"/></font>
             </Label>
         </VBox>
 
         <VBox spacing="15" maxWidth="Infinity">
-            <TextField fx:id="usernameField" promptText="Nombre de usuario"
-                       prefHeight="45"
-                       style="-fx-background-color: #2C313D; -fx-text-fill: white; -fx-background-radius: 6; -fx-prompt-text-fill: #7F8C8D; -fx-padding: 0 15 0 15; -fx-border-color: #3D4454; -fx-border-radius: 6;"/>
-
-            <PasswordField fx:id="passwordField" promptText="Contraseña"
-                           prefHeight="45"
-                           style="-fx-background-color: #2C313D; -fx-text-fill: white; -fx-background-radius: 6; -fx-prompt-text-fill: #7F8C8D; -fx-padding: 0 15 0 15; -fx-border-color: #3D4454; -fx-border-radius: 6;"/>
+            <TextField fx:id="usernameField" promptText="Nombre de usuario" prefHeight="45" styleClass="text-field"/>
+            <PasswordField fx:id="passwordField" promptText="Contraseña" prefHeight="45" styleClass="password-field"/>
         </VBox>
 
-        <Label fx:id="mensajeLabel" text="" wrapText="true" alignment="CENTER"
-               style="-fx-text-fill: #E74C3C; -fx-font-weight: bold;" />
+        <Label fx:id="mensajeLabel" text="" wrapText="true" alignment="CENTER" styleClass="error-label" style="-fx-font-weight: bold;"/>
 
         <VBox spacing="12" alignment="CENTER" maxWidth="Infinity">
-            <Button text="INGRESAR AL APUESTÓDROMO" onAction="#handleIniciarSesion"
-                    maxWidth="Infinity" prefHeight="45"
-                    style="-fx-background-color: #FF6B00; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 13px;"/>
-
-            <Button text="¿Eres nuevo? Crea una cuenta aquí" onAction="#handleRegistrarse"
-                    style="-fx-background-color: transparent; -fx-text-fill: #F39C12; -fx-cursor: hand; -fx-underline: true; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+            <Button text="INGRESAR AL APUESTÓDROMO" onAction="#handleIniciarSesion" maxWidth="Infinity" prefHeight="45" styleClass="button-primary"/>
+            <Button text="¿Eres nuevo? Crea una cuenta aqui" onAction="#handleRegistrarse"
+                    style="-fx-background-color: transparent; -fx-text-fill: #F39C12;  -fx-cursor: hand; -fx-underline: true; -fx-font-weight: bold; -fx-font-size: 12px;"/>
         </VBox>
 
     </VBox>

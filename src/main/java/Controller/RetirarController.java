@@ -25,7 +25,7 @@ public class RetirarController {
 
     @FXML
     private void initialize() {
-        Usuario u = SessionManager.getInstance().getUsuarioActual();
+        Usuario u = SessionManager.getInstancia().getUsuarioActual();
         usuarioLabel.setText("Usuario: " + u.getUsername());
         saldoLabel.setText(String.format("Saldo: %.2f", u.getSaldo()));
     }
@@ -55,7 +55,7 @@ public class RetirarController {
         }
 
         // Regla de negocio: no se puede retirar más del saldo disponible
-        Usuario usuario = SessionManager.getInstance().getUsuarioActual();
+        Usuario usuario = SessionManager.getInstancia().getUsuarioActual();
         if (cantidad > usuario.getSaldo()) {
             mensajeLabel.setText(String.format(
                     "Saldo insuficiente. Disponible: %.2f", usuario.getSaldo()));
@@ -77,7 +77,7 @@ public class RetirarController {
         t.setDescripcion("Retiro a cuenta: " + cuentaTexto);
         transaccionDAO.insert(t);
 
-        SessionManager.getInstance().refrescarSaldo(nuevoSaldo);
+        SessionManager.getInstancia().refrescarSaldo(nuevoSaldo);
         saldoLabel.setText(String.format("Saldo: %.2f", nuevoSaldo));
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

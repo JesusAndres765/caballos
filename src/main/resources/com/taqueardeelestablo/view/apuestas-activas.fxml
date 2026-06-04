@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -10,29 +9,32 @@
       styleClass="root-layout"
       prefWidth="920" prefHeight="660">
 
-    <HBox alignment="CENTER_LEFT" styleClass="header-bar, header-orange-border">
+    <!-- HEADER -->
+    <HBox styleClass="header-bar, header-orange-border" alignment="CENTER_LEFT">
         <VBox spacing="2">
             <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
             <Label fx:id="usuarioLabel" text="Usuario: ?" styleClass="header-subtitle"/>
         </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="saldoLabel" text="Saldo: 0.00" styleClass="saldo-badge-alt"/>
+        <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <VBox alignment="CENTER_LEFT" styleClass="title-section">
+    <!-- TITULO DE SECCION -->
+    <VBox styleClass="title-section">
         <Label text="MIS APUESTAS ACTIVAS" styleClass="section-orange-title"/>
         <Separator styleClass="dark-separator"/>
     </VBox>
 
+    <!-- LISTA DE APUESTAS -->
     <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-dark">
-        <StackPane styleClass="root-layout">
-            <VBox fx:id="apuestasContainer" spacing="10"
-                  StackPane.alignment="TOP_CENTER" styleClass="container-padding-alt"/>
+        <StackPane style="-fx-background-color: #11141A;">
+            <VBox fx:id="apuestasContainer" spacing="10" StackPane.alignment="TOP_CENTER" styleClass="container-padding-alt"/>
         </StackPane>
     </ScrollPane>
 
+    <!-- FOOTER -->
     <HBox alignment="CENTER_RIGHT" styleClass="footer-bar">
-        <Button text="↩️ VOLVER AL INICIO" onAction="#handleVolver" styleClass="btn-back"/>
+        <Button text="<- VOLVER AL INICIO" onAction="#handleVolver" styleClass="btn-back"/>
     </HBox>
 
 </VBox>

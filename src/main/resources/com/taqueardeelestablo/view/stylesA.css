@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   TA' QUEARDEEL ESTABLO — STYLESHEET
-   Tema: dark horse-racing betting terminal
+   TA' QUEARDEEL ESTABLO — ADMIN STYLESHEET (stylesA.css)
+   Mismo tema dark que el usuario + clases específicas del admin
    Paleta: #11141A · #1E222B · #FF6B00 · #F1C40F · #2ECC71
 ═══════════════════════════════════════════════════════════════ */
 
@@ -20,16 +20,10 @@
 .header-bar {
     -fx-background-color: #1A1E27;
     -fx-padding: 10 20 10 20;
-    -fx-border-color: transparent transparent #2C313D transparent;
-    -fx-border-width: 0 0 1 0;
-    -fx-alignment: CENTER_LEFT;
-    -fx-spacing: 10;
-}
-
-/* Variante con borde inferior naranja — para pantallas de carrera */
-.header-orange-border {
     -fx-border-color: transparent transparent #FF6B00 transparent;
     -fx-border-width: 0 0 2 0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 10;
 }
 
 .header-title {
@@ -41,18 +35,6 @@
 .header-subtitle {
     -fx-text-fill: #7F8C8D;
     -fx-font-size: 12px;
-}
-
-.saldo-badge {
-    -fx-background-color: #1A3A2A;
-    -fx-text-fill: #2ECC71;
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
-    -fx-border-color: #27AE60;
-    -fx-border-width: 1;
-    -fx-padding: 5 14 5 14;
 }
 
 /* ── FOOTER BAR ───────────────────────────────────────────── */
@@ -77,14 +59,14 @@
 }
 .main-tab-pane > .tab-header-area > .headers-region > .tab {
     -fx-background-color: transparent;
-    -fx-padding: 0 20 0 20;
+    -fx-padding: 0 18 0 18;
     -fx-background-radius: 0;
     -fx-border-color: transparent;
 }
 .main-tab-pane > .tab-header-area > .headers-region > .tab .tab-label {
     -fx-text-fill: #7F8C8D;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 }
 .main-tab-pane > .tab-header-area > .headers-region > .tab:selected {
     -fx-background-color: transparent;
@@ -132,15 +114,19 @@
     -fx-background-color: #11141A;
 }
 
-.container-padding-alt {
-    -fx-padding: 4 24 16 24;
-    -fx-background-color: #11141A;
-}
-
-/* Contenedor del título de sección (con padding lateral) */
 .title-section {
     -fx-padding: 18 24 10 24;
     -fx-background-color: #11141A;
+}
+
+/* Sección de formulario dentro de una tab */
+.admin-section {
+    -fx-background-color: #1E222B;
+    -fx-background-radius: 8;
+    -fx-border-color: #2C313D;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 16 20 16 20;
 }
 
 /* ── CARDS ────────────────────────────────────────────────── */
@@ -164,7 +150,7 @@
     -fx-cursor: hand;
     -fx-effect: dropshadow(three-pass-box, rgba(255,107,0,0.35), 8, 0, 0, 3);
 }
-.button-primary:hover  { -fx-background-color: #E66000; }
+.button-primary:hover   { -fx-background-color: #E66000; }
 .button-primary:pressed { -fx-background-color: #CC5500; }
 
 /* ── BOTONES — SECONDARY ──────────────────────────────────── */
@@ -183,7 +169,7 @@
     -fx-text-fill: #D5D8DC;
 }
 
-/* ── BOTONES — VOLVER ─────────────────────────────────────── */
+/* ── BOTÓN VOLVER ─────────────────────────────────────────── */
 .btn-back {
     -fx-background-color: #2C313D;
     -fx-text-fill: #BDC3C7;
@@ -195,51 +181,22 @@
 }
 .btn-back:hover { -fx-background-color: #3D4454; }
 
-/* ── BOTONES — VER CARRERA / HISTORIAL ───────────────────── */
-.btn-history {
-    -fx-background-color: transparent;
-    -fx-text-fill: #95A5A6;
-    -fx-border-color: #3D4454;
+/* Botón cargar (accent secundario) */
+.btn-load {
+    -fx-background-color: #2C313D;
+    -fx-text-fill: #F1C40F;
+    -fx-border-color: #F1C40F;
+    -fx-border-width: 1;
     -fx-border-radius: 6;
-    -fx-border-width: 1;
-    -fx-cursor: hand;
-    -fx-font-size: 12px;
     -fx-background-radius: 6;
-}
-.btn-history:hover {
-    -fx-border-color: #7F8C8D;
-    -fx-text-fill: white;
-}
-
-/* ── BOTONES — MONEDERO ───────────────────────────────────── */
-.btn-deposit {
-    -fx-background-color: #1A3A2A;
-    -fx-text-fill: #2ECC71;
-    -fx-border-color: #27AE60;
-    -fx-border-width: 1;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
     -fx-font-weight: bold;
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
     -fx-cursor: hand;
-    -fx-pref-height: 55;
+    -fx-padding: 7 18 7 18;
 }
-.btn-deposit:hover { -fx-background-color: #224A36; }
+.btn-load:hover { -fx-background-color: #3A3010; }
 
-.btn-withdraw {
-    -fx-background-color: #3A1A1A;
-    -fx-text-fill: #E74C3C;
-    -fx-border-color: #C0392B;
-    -fx-border-width: 1;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-    -fx-cursor: hand;
-    -fx-pref-height: 55;
-}
-.btn-withdraw:hover { -fx-background-color: #4A2222; }
-
+/* ── CERRAR SESIÓN ────────────────────────────────────────── */
 .btn-logout {
     -fx-background-color: transparent;
     -fx-text-fill: #7F8C8D;
@@ -249,8 +206,7 @@
     -fx-cursor: hand;
     -fx-font-size: 12px;
     -fx-background-radius: 6;
-    -fx-pref-height: 38;
-    -fx-pref-width: 200;
+    -fx-padding: 6 16 6 16;
 }
 .btn-logout:hover {
     -fx-text-fill: #E74C3C;
@@ -264,50 +220,46 @@
     -fx-font-weight: bold;
 }
 
-.section-subtitle {
-    -fx-text-fill: #7F8C8D;
-    -fx-font-size: 11px;
-}
-
-/* Título naranja de sección (HISTORIAL DE APUESTAS, CLASIFICACIÓN FINAL, etc.) */
 .section-orange-title {
     -fx-text-fill: #FF6B00;
     -fx-font-weight: bold;
     -fx-font-size: 12px;
 }
 
-/* Título grande de pantalla (Resultados, Depositar, etc.) */
 .page-title {
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 17px;
 }
 
-/* Título de estado de la carrera */
-.titulo-carrera {
-    -fx-text-fill: #ECEFF1;
-    -fx-font-weight: bold;
-    -fx-font-size: 15px;
-}
-
-/* Timer / cronómetro de la carrera */
-.timer-carrera {
-    -fx-text-fill: #FF6B00;
-    -fx-font-size: 26px;
-    -fx-font-weight: bold;
-}
-
-/* Labels de formulario (CANTIDAD A DEPOSITAR, NÚMERO DE CUENTA, etc.) */
+/* Label de campo de formulario ("Nombre:", "Duración:", etc.) */
 .form-label {
     -fx-text-fill: #7F8C8D;
     -fx-font-size: 10px;
     -fx-font-weight: bold;
 }
 
-/* Label de mensaje de error */
+/* Label con nombre al lado del campo (más grande que form-label) */
+.field-label {
+    -fx-text-fill: #BDC3C7;
+    -fx-font-size: 13px;
+}
+
+/* Mensaje de error */
 .error-label {
     -fx-text-fill: #E74C3C;
     -fx-font-size: 12px;
+}
+
+/* Mensaje de éxito (para la tab de inicio del admin) */
+.success-label {
+    -fx-text-fill: #2ECC71;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20 8 20;
+    -fx-background-color: #1A3A2A;
+    -fx-border-color: #27AE60;
+    -fx-border-width: 0 0 0 3;
 }
 
 /* ── SEPARADOR OSCURO ─────────────────────────────────────── */
@@ -340,7 +292,7 @@
 .table-view .table-row-cell {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-cell-size: 32;
+    -fx-cell-size: 34;
 }
 .table-view .table-row-cell:odd  { -fx-background-color: #13171F; }
 .table-view .table-row-cell:even { -fx-background-color: transparent; }
@@ -418,37 +370,46 @@
 .combo-box-popup > .list-view .list-cell:hover    { -fx-background-color: rgba(255,107,0,0.2); }
 .combo-box-popup > .list-view .list-cell:selected { -fx-background-color: rgba(255,107,0,0.35); }
 
-/* ── BADGES DE RESULTADO (Historial) ─────────────────────── */
-.badge-ganada {
-    -fx-background-color: #1A3A2A;
-    -fx-text-fill: #2ECC71;
-    -fx-border-color: #27AE60;
-    -fx-border-width: 1;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-font-weight: bold;
-    -fx-font-size: 11px;
-    -fx-padding: 3 10 3 10;
+/* ── RADIO BUTTONS ────────────────────────────────────────── */
+.radio-button {
+    -fx-text-fill: #BDC3C7;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
 }
-.badge-perdida {
-    -fx-background-color: #3A1A1A;
-    -fx-text-fill: #E74C3C;
-    -fx-border-color: #C0392B;
-    -fx-border-width: 1;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
+.radio-button:selected {
+    -fx-text-fill: #FF6B00;
     -fx-font-weight: bold;
-    -fx-font-size: 11px;
-    -fx-padding: 3 10 3 10;
 }
-.badge-pendiente {
-    -fx-background-color: #3A3010;
-    -fx-text-fill: #F1C40F;
-    -fx-border-color: #D4AC0D;
-    -fx-border-width: 1;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-font-weight: bold;
-    -fx-font-size: 11px;
-    -fx-padding: 3 10 3 10;
+.radio-button > .radio {
+    -fx-background-color: #2C313D;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+}
+.radio-button:hover > .radio {
+    -fx-border-color: #7F8C8D;
+}
+.radio-button:selected > .radio {
+    -fx-border-color: #FF6B00;
+    -fx-background-color: #2C313D;
+}
+.radio-button:selected > .radio > .dot {
+    -fx-background-color: #FF6B00;
+    -fx-background-radius: 100;
+}
+
+/* ── CHECKBOX ─────────────────────────────────────────────── */
+.check-box {
+    -fx-text-fill: #BDC3C7;
+    -fx-font-size: 13px;
+}
+.check-box > .box {
+    -fx-background-color: #2C313D;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+.check-box:selected > .box {
+    -fx-background-color: #FF6B00;
+    -fx-border-color: #FF6B00;
 }

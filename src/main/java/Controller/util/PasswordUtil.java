@@ -7,8 +7,7 @@ public class PasswordUtil {
 
     private PasswordUtil() {}
 
-    // Genera el hash SHA-256 de un texto plano
-    // Coincide con el algoritmo del admin inicial en el script SQL
+    // Genera el hash SHA-256 de un texto
     public static String hash(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
