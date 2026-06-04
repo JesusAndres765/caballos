@@ -1,17 +1,15 @@
 package Controller;
 
-import Controller.util.SceneManager;
-import Controller.util.SessionManager;
 import Model.Caballo;
 import Model.dao.CaballoDAO;
+import Controller.util.SessionManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class RegistrarCaballoController {
 
-    @FXML private Label     adminLabel;
+    // adminLabel eliminado — el menú padre ya muestra el nombre del admin
     @FXML private TextField nombreField;
     @FXML private TextField numeroField;
     @FXML private Label     mensajeLabel;
@@ -21,8 +19,7 @@ public class RegistrarCaballoController {
 
     @FXML
     private void initialize() {
-        String username = SessionManager.getInstance().getUsuarioActual().getUsername();
-        adminLabel.setText("Administrador: " + username);
+        // Sin adminLabel: nada que inicializar aquí por ahora
     }
 
     public void setMenuController(MenuAdminController ctrl) {
@@ -31,16 +28,14 @@ public class RegistrarCaballoController {
 
     @FXML
     private void handleRegistrar() {
-        String nombre = nombreField.getText().trim();
+        String nombre      = nombreField.getText().trim();
         String numeroTexto = numeroField.getText().trim();
 
-        // Validación: campos vacíos
         if (nombre.isEmpty() || numeroTexto.isEmpty()) {
             mensajeLabel.setText("Completa todos los campos.");
             return;
         }
 
-        // Validación: número es entero positivo
         int numero;
         try {
             numero = Integer.parseInt(numeroTexto);
@@ -52,8 +47,6 @@ public class RegistrarCaballoController {
             mensajeLabel.setText("El número debe ser mayor a cero.");
             return;
         }
-
-        // Validación: número único
         if (caballoDAO.existeNumero(numero)) {
             mensajeLabel.setText("Ya existe un caballo con el número " + numero + ".");
             return;
@@ -63,10 +56,17 @@ public class RegistrarCaballoController {
         caballo.setNombre(nombre);
         caballo.setNumero(numero);
 
-        menuController.mostrarMensajeEnInicio(
-                "Caballo \"" + nombre + "\" registrado correctamente.");
+        // ← Bug 2 corregido: ahora SÍ se guarda en BD
+        if (!caballoDAO.insert(caballo)) {
+            mensajeLabel.setText("Error al guardar el caballo en la base de datos.");
+            return;
+        }
+
         nombreField.clear();
         numeroField.clear();
+        mensajeLabel.setText("");
+        menuController.mostrarMensajeEnInicio(
+                "Caballo \"" + nombre + "\" registrado correctamente.");
     }
 
     @FXML

@@ -25,7 +25,6 @@ import java.util.List;
 
 public class CrearCarreraController {
 
-    @FXML private Label          adminLabel;
     @FXML private ComboBox<Integer> numCaballosCombo;
     @FXML private TextField      duracionField;
     @FXML private ToggleGroup    gateraGroup;
@@ -43,7 +42,6 @@ public class CrearCarreraController {
     @FXML
     private void initialize() {
         String username = SessionManager.getInstance().getUsuarioActual().getUsername();
-        adminLabel.setText("Administrador: " + username);
 
         // Rellena el ComboBox con opciones 2 a 10
         List<Integer> opciones = new ArrayList<>();

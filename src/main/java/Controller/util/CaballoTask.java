@@ -25,7 +25,7 @@ public class CaballoTask extends Task<Double> {
 
     @Override
     protected Double call() throws InterruptedException {
-        double maxAvancePorTick = 170.0 / (duracionSeg * 10.0);
+        double maxAvancePorTick = 240.0 / (duracionSeg * 10.0);
 
         // Publica el progreso inicial de inmediato para que la barra aparezca
         // en la posición correcta desde el primer frame

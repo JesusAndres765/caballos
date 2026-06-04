@@ -59,7 +59,10 @@ public class ResultadosController {
                     + c.getNombre() + " | No. " + c.getNumero();
             if (!cc.isTerminoCarrera()) texto += " (No Terminó la Carrera)";
 
-            resultadosContainer.getChildren().add(new Label(texto));
+            Label lbl = new Label(texto);
+            lbl.setStyle("-fx-text-fill: #ECEFF1; -fx-font-size: 13px;");
+            resultadosContainer.getChildren().add(lbl);
+
         }
     }
 
@@ -82,15 +85,26 @@ public class ResultadosController {
                     : "Caballo #" + a.getIdCaballo();
 
             VBox card = new VBox(4);
-            card.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-padding: 8;");
+            card.setStyle("-fx-background-color: #1E222B; " +
+                    "-fx-border-color: #3D4454; " +
+                    "-fx-border-width: 1; " +
+                    "-fx-border-radius: 6; " +
+                    "-fx-background-radius: 6; " +
+                    "-fx-padding: 10;");
             card.getChildren().addAll(
-                    new Label("Resultado: " + a.getResultado().name()),
-                    new Label("Caballo: " + nombreCaballo),
-                    new Label("Apuesta Inicial: " + String.format("%.2f", a.getMonto())),
-                    new Label("Cobras: "          + String.format("%.2f", a.getCobro()))
+                    crearLabel("Resultado: " + a.getResultado().name()),
+                    crearLabel("Caballo: " + nombreCaballo),
+                    crearLabel("Apuesta Inicial: " + String.format("%.2f", a.getMonto())),
+                    crearLabel("Cobras: " + String.format("%.2f", a.getCobro()))
             );
             apuestasResultContainer.getChildren().add(card);
         }
+    }
+
+    private Label crearLabel(String texto) {
+        Label lbl = new Label(texto);
+        lbl.setStyle("-fx-text-fill: #ECEFF1; -fx-font-size: 12px;");
+        return lbl;
     }
 
     @FXML

@@ -4,44 +4,85 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="460" prefHeight="420" spacing="12"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controller.ModalApostarController">
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.ModalApostarController"
+      stylesheets="@styles.css"
+      style="-fx-background-color: #11141A;"
+      prefWidth="520" prefHeight="500" spacing="0">
 
-    <padding><Insets top="20" right="25" bottom="20" left="25"/></padding>
+    <!-- ── CABECERA DE LA CARRERA ── -->
+    <VBox style="-fx-background-color: #1E222B;
+                 -fx-padding: 18 24 14 24;
+                 -fx-border-color: transparent transparent #2C313D transparent;
+                 -fx-border-width: 0 0 1 0;">
 
-    <HBox spacing="20" alignment="CENTER_LEFT">
-        <Label fx:id="multiplicadorLabel" text="Multiplicador:"/>
-        <Label fx:id="porcentajeLabel" text=":%"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="cierreLabel" text="Las Apuestas Cierran en: --:--"/>
-    </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="🏇" style="-fx-font-size: 20px;"/>
+            <Label text="REALIZAR APUESTA"
+                   style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 17px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="cierreLabel" text="⏱ --:--"
+                   style="-fx-text-fill: #E74C3C; -fx-font-weight: bold; -fx-font-size: 12px;
+                          -fx-background-color: #3A1A1A; -fx-background-radius: 20;
+                          -fx-border-color: #C0392B; -fx-border-radius: 20; -fx-border-width: 1;
+                          -fx-padding: 4 10 4 10;"/>
+        </HBox>
 
-    <!-- Tabla de caballos de la carrera -->
-    <TableView fx:id="caballosTabla" prefHeight="180"
-               tableMenuButtonVisible="false">
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-        </columnResizePolicy>
-    </TableView>
+        <HBox spacing="24" style="-fx-padding: 12 0 0 0;" alignment="CENTER_LEFT">
+            <VBox spacing="2">
+                <Label text="MULTIPLICADOR"
+                       style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+                <Label fx:id="multiplicadorLabel" text="x0"
+                       style="-fx-text-fill: #F1C40F; -fx-font-weight: bold; -fx-font-size: 22px;"/>
+            </VBox>
+            <Separator orientation="VERTICAL"
+                       style="-fx-background-color: #2C313D;"/>
+            <VBox spacing="2">
+                <Label text="PROB. VICTORIA"
+                       style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+                <Label fx:id="porcentajeLabel" text="0%"
+                       style="-fx-text-fill: #2ECC71; -fx-font-weight: bold; -fx-font-size: 22px;"/>
+            </VBox>
+        </HBox>
+    </VBox>
 
-    <!-- Selección de caballo -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Caballo:"/>
-        <ComboBox fx:id="caballoCombo" prefWidth="230"/>
-    </HBox>
+    <!-- ── TABLA DE PARTICIPANTES ── -->
+    <VBox style="-fx-padding: 14 24 0 24;">
+        <Label text="PARTICIPANTES"
+               style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;
+                      -fx-padding: 0 0 6 0;"/>
+        <TableView fx:id="caballosTabla" prefHeight="130" styleClass="table-view"/>
+    </VBox>
 
-    <!-- Monto -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Apuesta:"/>
-        <TextField fx:id="apuestaField" promptText="Monto a apostar" prefWidth="160"/>
-    </HBox>
+    <!-- ── FORMULARIO ── -->
+    <VBox spacing="6" style="-fx-padding: 14 24 0 24;">
+        <Label text="TU SELECCIÓN"
+               style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+        <ComboBox fx:id="caballoCombo" maxWidth="Infinity" prefHeight="40"/>
 
-    <Label fx:id="mensajeLabel" text="" wrapText="true"/>
+        <Label text="MONTO A APOSTAR ($)"
+               style="-fx-text-fill: #7F8C8D; -fx-font-size: 10px; -fx-font-weight: bold;
+                      -fx-padding: 6 0 0 0;"/>
+        <TextField fx:id="apuestaField" promptText="0.00" prefHeight="40"
+                   styleClass="text-field"/>
+    </VBox>
 
-    <HBox spacing="15" alignment="CENTER">
-        <Button fx:id="confirmBtn" text="Confirmar" onAction="#handleConfirmar" prefWidth="120"/>
-        <Button fx:id="cancelBtn"  text="Cancelar"  onAction="#handleCancelar"  prefWidth="120"/>
+    <!-- ── MENSAJE DE ERROR ── -->
+    <Label fx:id="mensajeLabel" text="" wrapText="true"
+           style="-fx-text-fill: #E74C3C; -fx-font-size: 12px; -fx-padding: 6 24 0 24;"/>
+
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- ── BOTONES ── -->
+    <HBox spacing="12" alignment="CENTER"
+          style="-fx-padding: 14 24 20 24;
+                 -fx-background-color: #1E222B;
+                 -fx-border-color: #2C313D transparent transparent transparent;
+                 -fx-border-width: 1 0 0 0;">
+        <Button fx:id="confirmBtn" text="🎯  CONFIRMAR APUESTA" onAction="#handleConfirmar"
+                prefWidth="230" prefHeight="46" styleClass="button-primary"/>
+        <Button fx:id="cancelBtn"  text="CANCELAR"             onAction="#handleCancelar"
+                prefWidth="110" prefHeight="46" styleClass="btn-secondary"/>
     </HBox>
 
 </VBox>

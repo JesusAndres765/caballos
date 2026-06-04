@@ -4,35 +4,67 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="1200" prefHeight="900" spacing="0"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.HistorialController"
-      maxWidth="Infinity" maxHeight="Infinity">
+      style="-fx-background-color: #11141A;"
+      prefWidth="920" prefHeight="660">
 
-    <!-- Cabecera -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
-        <Label fx:id="usuarioLabel" text="Usuario:"/>
+    <!-- ── HEADER ── -->
+    <HBox alignment="CENTER_LEFT"
+          style="-fx-background-color: #1E222B;
+                 -fx-padding: 12 20 12 20;
+                 -fx-border-color: #FF6B00;
+                 -fx-border-width: 0 0 2 0;">
+        <VBox spacing="2">
+            <Label text="🏇 Ta' QueArdeElEstablo"
+                   style="-fx-text-fill: #FF6B00; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label fx:id="usuarioLabel" text="Usuario: —"
+                   style="-fx-text-fill: #7F8C8D; -fx-font-size: 12px;"/>
+        </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00"
+               style="-fx-background-color: #2ECC71;
+                      -fx-text-fill: white;
+                      -fx-font-weight: bold;
+                      -fx-font-size: 13px;
+                      -fx-background-radius: 20;
+                      -fx-padding: 5 14 5 14;"/>
     </HBox>
 
-    <Label text="Historial">
-        <padding><Insets left="15" bottom="6"/></padding>
-    </Label>
+    <!-- ── TÍTULO ── -->
+    <VBox alignment="CENTER_LEFT"
+          style="-fx-padding: 18 24 10 24; -fx-background-color: #11141A;">
+        <Label text="HISTORIAL DE APUESTAS"
+               style="-fx-text-fill: #FF6B00; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+        <Separator style="-fx-background-color: #2C313D;"/>
+    </VBox>
 
-    <!-- Tarjetas de apuestas pasadas -->
-    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
-        <content>
-            <VBox fx:id="historialContainer" spacing="10">
-                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-            </VBox>
-        </content>
+    <!-- ── LISTA ── -->
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS"
+                style="-fx-background: #11141A;
+                       -fx-background-color: #11141A;
+                       -fx-border-color: transparent;">
+        <StackPane style="-fx-background-color: #11141A;">
+            <VBox fx:id="historialContainer" spacing="10"
+                  StackPane.alignment="TOP_CENTER"
+                  style="-fx-padding: 4 24 16 24; -fx-background-color: #11141A;"/>
+        </StackPane>
     </ScrollPane>
 
-    <HBox alignment="CENTER">
-        <padding><Insets top="10" bottom="10"/></padding>
-        <Button text="Volver" onAction="#handleVolver" prefWidth="120"/>
+    <!-- ── FOOTER ── -->
+    <HBox alignment="CENTER_RIGHT"
+          style="-fx-background-color: #1E222B;
+                 -fx-padding: 12 20 12 20;
+                 -fx-border-color: #2C313D;
+                 -fx-border-width: 1 0 0 0;">
+        <Button text="← VOLVER AL INICIO" onAction="#handleVolver"
+                style="-fx-background-color: #2C313D;
+                       -fx-text-fill: #BDC3C7;
+                       -fx-font-weight: bold;
+                       -fx-font-size: 12px;
+                       -fx-background-radius: 6;
+                       -fx-cursor: hand;
+                       -fx-padding: 9 20 9 20;"/>
     </HBox>
 
 </VBox>

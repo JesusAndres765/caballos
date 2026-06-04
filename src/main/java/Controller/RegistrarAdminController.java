@@ -1,20 +1,18 @@
 package Controller;
 
 import Controller.util.PasswordUtil;
-import Controller.util.SceneManager;
 import Controller.util.SessionManager;
 import Model.Usuario;
 import Model.dao.UsuarioDAO;
 import Model.enums.Rol;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class RegistrarAdminController {
 
-    @FXML private Label         adminLabel;
+    // adminLabel eliminado — el menú padre ya muestra el nombre del admin
     @FXML private TextField     usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label         mensajeLabel;
@@ -24,8 +22,7 @@ public class RegistrarAdminController {
 
     @FXML
     private void initialize() {
-        adminLabel.setText("Administrador: " +
-                SessionManager.getInstance().getUsuarioActual().getUsername());
+        // Sin adminLabel: nada que inicializar aquí por ahora
     }
 
     public void setMenuController(MenuAdminController ctrl) {
@@ -41,7 +38,6 @@ public class RegistrarAdminController {
             mensajeLabel.setText("Completa todos los campos.");
             return;
         }
-
         if (usuarioDAO.existeUsername(username)) {
             mensajeLabel.setText("El nombre de usuario ya está en uso.");
             return;
@@ -53,11 +49,17 @@ public class RegistrarAdminController {
         nuevoAdmin.setRol(Rol.ADMIN);
         nuevoAdmin.setSaldo(0.0);
 
-        menuController.mostrarMensajeEnInicio(
-                "Administrador \"" + username + "\" registrado correctamente."
-        );
+        // ← Bug 3 corregido: ahora SÍ se guarda en BD
+        if (!usuarioDAO.insert(nuevoAdmin)) {
+            mensajeLabel.setText("Error al registrar el administrador.");
+            return;
+        }
+
         usernameField.clear();
         passwordField.clear();
+        mensajeLabel.setText("");
+        menuController.mostrarMensajeEnInicio(
+                "Administrador \"" + username + "\" registrado correctamente.");
     }
 
     @FXML

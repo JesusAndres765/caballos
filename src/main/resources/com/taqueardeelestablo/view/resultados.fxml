@@ -4,48 +4,101 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="500" prefHeight="560" spacing="0"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.ResultadosController"
-      maxWidth="Infinity" maxHeight="Infinity">
+      style="-fx-background-color: #11141A;"
+      prefWidth="920" prefHeight="660">
 
-    <!-- Cabecera -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
-        <Label fx:id="usuarioLabel" text="Usuario:"/>
+    <!-- ── HEADER ── -->
+    <HBox alignment="CENTER_LEFT"
+          style="-fx-background-color: #1E222B;
+                 -fx-padding: 12 20 12 20;
+                 -fx-border-color: #FF6B00;
+                 -fx-border-width: 0 0 2 0;">
+        <VBox spacing="2">
+            <Label text="🏇 Ta' QueArdeElEstablo"
+                   style="-fx-text-fill: #FF6B00; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label fx:id="usuarioLabel" text="Usuario: —"
+                   style="-fx-text-fill: #7F8C8D; -fx-font-size: 12px;"/>
+        </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00"
+               style="-fx-background-color: #2ECC71;
+                      -fx-text-fill: white;
+                      -fx-font-weight: bold;
+                      -fx-font-size: 13px;
+                      -fx-background-radius: 20;
+                      -fx-padding: 5 14 5 14;"/>
     </HBox>
 
-    <Label text="Resultados">
-        <padding><Insets left="15" bottom="6"/></padding>
-    </Label>
+    <!-- ── TITULO ── -->
+    <VBox alignment="CENTER" spacing="4"
+          style="-fx-padding: 20 0 16 0; -fx-background-color: #11141A;">
+        <Label text="🏁 Resultados de la Carrera"
+               style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 17px;"/>
+    </VBox>
 
-    <!-- Posiciones finales -->
-    <ScrollPane fitToWidth="true" prefHeight="170">
-        <content>
-            <VBox fx:id="resultadosContainer" spacing="5">
-                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <!-- ── CONTENIDO ── -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background: #11141A;
+                       -fx-background-color: #11141A;
+                       -fx-border-color: transparent;">
+        <HBox spacing="0"
+              style="-fx-padding: 0 20 20 20; -fx-background-color: #11141A;">
+
+            <!-- Clasificación final -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-padding: 0 20 0 0;">
+                <Label text="CLASIFICACIÓN FINAL"
+                       style="-fx-text-fill: #FF6B00;
+                              -fx-font-weight: bold;
+                              -fx-font-size: 12px;
+                              -fx-padding: 0 0 2 0;"/>
+                <Separator style="-fx-background-color: #2C313D;"/>
+                <VBox fx:id="resultadosContainer" spacing="6"/>
             </VBox>
-        </content>
+
+            <!-- Divider vertical -->
+            <Separator orientation="VERTICAL"
+                       style="-fx-background-color: #2C313D; -fx-pref-width: 1;"/>
+
+            <!-- Mis apuestas -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-padding: 0 0 0 20;">
+                <Label text="MIS APUESTAS"
+                       style="-fx-text-fill: #FF6B00;
+                              -fx-font-weight: bold;
+                              -fx-font-size: 12px;
+                              -fx-padding: 0 0 2 0;"/>
+                <Separator style="-fx-background-color: #2C313D;"/>
+                <VBox fx:id="apuestasResultContainer" spacing="8"/>
+            </VBox>
+
+        </HBox>
     </ScrollPane>
 
-    <Separator/>
-
-    <!-- Resultado de las apuestas del usuario -->
-    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
-        <content>
-            <VBox fx:id="apuestasResultContainer" spacing="8">
-                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-            </VBox>
-        </content>
-    </ScrollPane>
-
-    <!-- Botones -->
-    <HBox spacing="20" alignment="CENTER">
-        <padding><Insets top="12" bottom="12"/></padding>
-        <Button text="Imprimir Tiket" onAction="#handleImprimirTiket" prefWidth="140"/>
-        <Button text="Volver"         onAction="#handleVolver"         prefWidth="100"/>
+    <!-- ── FOOTER ── -->
+    <HBox alignment="CENTER_RIGHT" spacing="10"
+          style="-fx-background-color: #1E222B;
+                 -fx-padding: 12 20 12 20;
+                 -fx-border-color: #2C313D;
+                 -fx-border-width: 1 0 0 0;">
+        <Button text="🖨 IMPRIMIR TICKET"
+                onAction="#handleImprimirTiket"
+                style="-fx-background-color: #2C313D;
+                       -fx-text-fill: #BDC3C7;
+                       -fx-font-weight: bold;
+                       -fx-font-size: 12px;
+                       -fx-background-radius: 6;
+                       -fx-cursor: hand;
+                       -fx-padding: 9 20 9 20;"/>
+        <Button text="← VOLVER AL INICIO"
+                onAction="#handleVolver"
+                style="-fx-background-color: #FF6B00;
+                       -fx-text-fill: white;
+                       -fx-font-weight: bold;
+                       -fx-font-size: 12px;
+                       -fx-background-radius: 6;
+                       -fx-cursor: hand;
+                       -fx-padding: 9 20 9 20;"/>
     </HBox>
 
 </VBox>

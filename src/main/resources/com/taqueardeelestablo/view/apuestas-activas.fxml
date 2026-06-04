@@ -4,32 +4,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="460" prefHeight="500" spacing="0"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.ApuestasActivasController"
-      maxWidth="Infinity" maxHeight="Infinity">
+      stylesheets="@styles.css"
+      styleClass="root-layout"
+      prefWidth="920" prefHeight="660">
 
-    <!-- Cabecera -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
-        <Label fx:id="usuarioLabel" text="Usuario:"/>
+    <HBox alignment="CENTER_LEFT" styleClass="header-bar, header-orange-border">
+        <VBox spacing="2">
+            <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
+            <Label fx:id="usuarioLabel" text="Usuario: ?" styleClass="header-subtitle"/>
+        </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+        <Label fx:id="saldoLabel" text="Saldo: 0.00" styleClass="saldo-badge-alt"/>
     </HBox>
 
-    <Label text="Apuestas Activadas" style="-fx-font-size: 14;"/>
+    <VBox alignment="CENTER_LEFT" styleClass="title-section">
+        <Label text="MIS APUESTAS ACTIVAS" styleClass="section-orange-title"/>
+        <Separator styleClass="dark-separator"/>
+    </VBox>
 
-    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
-        <content>
-            <VBox fx:id="apuestasContainer" spacing="10">
-                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-            </VBox>
-        </content>
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-dark">
+        <StackPane styleClass="root-layout">
+            <VBox fx:id="apuestasContainer" spacing="10"
+                  StackPane.alignment="TOP_CENTER" styleClass="container-padding-alt"/>
+        </StackPane>
     </ScrollPane>
 
-    <HBox alignment="CENTER">
-        <padding><Insets top="10" bottom="10"/></padding>
-        <Button text="Volver" onAction="#handleVolver" prefWidth="120"/>
+    <HBox alignment="CENTER_RIGHT" styleClass="footer-bar">
+        <Button text="↩️ VOLVER AL INICIO" onAction="#handleVolver" styleClass="btn-back"/>
     </HBox>
 
 </VBox>

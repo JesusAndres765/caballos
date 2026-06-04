@@ -93,15 +93,6 @@ public class ModalApostarController {
             LocalDateTime cierreApuestas = inicioCarrera.minusSeconds(SEGUNDOS_ANTES_CIERRE);
             long segundosRestantes = ChronoUnit.SECONDS.between(LocalDateTime.now(), cierreApuestas);
 
-            // Líneas de diagnóstico — puedes borrarlas cuando confirmes que funciona
-            System.out.println("=== DIAGNÓSTICO APUESTAS ===");
-            System.out.println("fechaCreacion  : " + fechaCreacion);
-            System.out.println("now            : " + LocalDateTime.now());
-            System.out.println("inicioCarrera  : " + inicioCarrera);
-            System.out.println("cierreApuestas : " + cierreApuestas);
-            System.out.println("segundos rest. : " + segundosRestantes);
-            System.out.println("============================");
-
             if (segundosRestantes <= 0) {
                 bloquearApuestas("Las apuestas para esta carrera ya están cerradas.");
             } else {

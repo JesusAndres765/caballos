@@ -1,0 +1,359 @@
+/* ═══════════════════════════════════════════════════════════════
+   TA' QUEARDEEL ESTABLO — STYLESHEET
+   Tema: dark horse-racing betting terminal
+   Paleta: #11141A · #1E222B · #FF6B00 · #F1C40F · #2ECC71
+═══════════════════════════════════════════════════════════════ */
+
+/* ── ROOT ─────────────────────────────────────────────────── */
+.root {
+    -fx-background-color: #11141A;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-base: #1E222B;
+    -fx-accent: #FF6B00;
+}
+
+/* ── HEADER BAR ───────────────────────────────────────────── */
+.header-bar {
+    -fx-background-color: #1A1E27;
+    -fx-padding: 10 20 10 20;
+    -fx-border-color: transparent transparent #2C313D transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 10;
+}
+
+.saldo-badge {
+    -fx-background-color: #1A3A2A;
+    -fx-text-fill: #2ECC71;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: #27AE60;
+    -fx-border-width: 1;
+    -fx-padding: 5 14 5 14;
+}
+
+/* ── FOOTER BAR ───────────────────────────────────────────── */
+.footer-bar {
+    -fx-background-color: #1A1E27;
+    -fx-padding: 10 16 10 16;
+    -fx-border-color: #2C313D transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* ── TAB PANE ─────────────────────────────────────────────── */
+.main-tab-pane {
+    -fx-background-color: transparent;
+    -fx-tab-min-height: 40;
+    -fx-tab-max-height: 40;
+}
+.main-tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: #1A1E27;
+    -fx-border-color: transparent transparent #2C313D transparent;
+    -fx-border-width: 0 0 1 0;
+}
+.main-tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: transparent;
+    -fx-padding: 0 20 0 20;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+}
+.main-tab-pane > .tab-header-area > .headers-region > .tab .tab-label {
+    -fx-text-fill: #7F8C8D;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+.main-tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #FF6B00 transparent;
+    -fx-border-width: 0 0 3 0;
+}
+.main-tab-pane > .tab-header-area > .headers-region > .tab:selected .tab-label {
+    -fx-text-fill: #FF6B00;
+}
+.main-tab-pane > .tab-content-area {
+    -fx-background-color: #11141A;
+    -fx-padding: 0;
+}
+
+/* ── SCROLL PANE ──────────────────────────────────────────── */
+.scroll-pane-dark {
+    -fx-background-color: #11141A;
+    -fx-background: #11141A;
+    -fx-border-color: transparent;
+}
+.scroll-pane-dark > .viewport {
+    -fx-background-color: transparent;
+}
+.scroll-pane-dark .scroll-bar:vertical {
+    -fx-background-color: #1A1E27;
+    -fx-pref-width: 8;
+}
+.scroll-pane-dark .scroll-bar:vertical .thumb {
+    -fx-background-color: #3D4454;
+    -fx-background-radius: 4;
+}
+.scroll-pane-dark .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+.scroll-pane-dark .scroll-bar:vertical .increment-button,
+.scroll-pane-dark .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0;
+}
+
+/* ── CONTAINERS ───────────────────────────────────────────── */
+.container-padding {
+    -fx-padding: 20;
+    -fx-spacing: 16;
+    -fx-background-color: #11141A;
+}
+
+/* ── CARDS ────────────────────────────────────────────────── */
+.card {
+    -fx-background-color: #1E222B;
+    -fx-background-radius: 10;
+    -fx-border-color: #2C313D;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.55), 12, 0, 0, 6);
+    -fx-padding: 18;
+}
+
+/* ── BOTONES — PRIMARY ────────────────────────────────────── */
+.button-primary {
+    -fx-background-color: #FF6B00;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,107,0,0.35), 8, 0, 0, 3);
+}
+.button-primary:hover  { -fx-background-color: #E66000; }
+.button-primary:pressed { -fx-background-color: #CC5500; }
+
+/* ── BOTONES — SECONDARY ──────────────────────────────────── */
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #95A5A6;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6;
+}
+.btn-secondary:hover {
+    -fx-border-color: #95A5A6;
+    -fx-text-fill: #D5D8DC;
+}
+
+/* "VER CARRERA" — outline neutro */
+.btn-history {
+    -fx-background-color: transparent;
+    -fx-text-fill: #95A5A6;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    -fx-background-radius: 6;
+}
+.btn-history:hover {
+    -fx-border-color: #7F8C8D;
+    -fx-text-fill: white;
+}
+
+/* ── BOTONES — MONEDERO ───────────────────────────────────── */
+.btn-deposit {
+    -fx-background-color: #1A3A2A;
+    -fx-text-fill: #2ECC71;
+    -fx-border-color: #27AE60;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-pref-height: 55;
+}
+.btn-deposit:hover { -fx-background-color: #224A36; }
+
+.btn-withdraw {
+    -fx-background-color: #3A1A1A;
+    -fx-text-fill: #E74C3C;
+    -fx-border-color: #C0392B;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-pref-height: 55;
+}
+.btn-withdraw:hover { -fx-background-color: #4A2222; }
+
+.btn-logout {
+    -fx-background-color: transparent;
+    -fx-text-fill: #7F8C8D;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    -fx-background-radius: 6;
+    -fx-pref-height: 38;
+    -fx-pref-width: 200;
+}
+.btn-logout:hover {
+    -fx-text-fill: #E74C3C;
+    -fx-border-color: #E74C3C;
+}
+
+/* ── SECTION TITLE ────────────────────────────────────────── */
+.section-title {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+/* ── TABLAS ───────────────────────────────────────────────── */
+.table-view {
+    -fx-background-color: #11141A;
+    -fx-border-color: #2C313D;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1;
+}
+.table-view .column-header-background {
+    -fx-background-color: #1E222B;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #2C313D transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-size: 32;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #FF6B00;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+.table-view .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cell-size: 32;
+}
+.table-view .table-row-cell:odd  { -fx-background-color: #13171F; }
+.table-view .table-row-cell:even { -fx-background-color: transparent; }
+.table-view .table-row-cell:selected {
+    -fx-background-color: rgba(255, 107, 0, 0.15);
+}
+.table-view .table-cell {
+    -fx-text-fill: #D5D8DC;
+    -fx-font-size: 12px;
+    -fx-border-color: transparent;
+    -fx-padding: 0 8 0 8;
+}
+.table-view .placeholder .label { -fx-text-fill: #7F8C8D; }
+.table-view .scroll-bar         { -fx-opacity: 0; }
+.table-view .corner             { -fx-background-color: #1E222B; }
+
+/* ── INPUTS ───────────────────────────────────────────────── */
+.text-field {
+    -fx-background-color: #2C313D;
+    -fx-text-fill: white;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-prompt-text-fill: #7F8C8D;
+    -fx-padding: 0 15 0 15;
+    -fx-font-size: 13px;
+}
+.text-field:focused {
+    -fx-border-color: #FF6B00;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,107,0,0.25), 6, 0, 0, 0);
+}
+
+.password-field {
+    -fx-background-color: #2C313D;
+    -fx-text-fill: white;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-prompt-text-fill: #7F8C8D;
+    -fx-padding: 0 15 0 15;
+    -fx-font-size: 13px;
+}
+.password-field:focused {
+    -fx-border-color: #FF6B00;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,107,0,0.25), 6, 0, 0, 0);
+}
+
+.combo-box {
+    -fx-background-color: #2C313D;
+    -fx-border-color: #3D4454;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-size: 13px;
+}
+.combo-box .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+}
+.combo-box .arrow-button { -fx-background-color: transparent; }
+.combo-box .arrow        { -fx-background-color: #FF6B00; }
+.combo-box:focused       { -fx-border-color: #FF6B00; }
+
+.combo-box-popup > .list-view {
+    -fx-background-color: #2C313D;
+    -fx-border-color: #FF6B00;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 5);
+}
+.combo-box-popup > .list-view .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-padding: 8 14 8 14;
+    -fx-font-size: 13px;
+}
+.combo-box-popup > .list-view .list-cell:hover    { -fx-background-color: rgba(255,107,0,0.2); }
+.combo-box-popup > .list-view .list-cell:selected { -fx-background-color: rgba(255,107,0,0.35); }
+
+/* ── BADGES DE RESULTADO (Historial) ─────────────────────── */
+.badge-ganada {
+    -fx-background-color: #1A3A2A;
+    -fx-text-fill: #2ECC71;
+    -fx-border-color: #27AE60;
+    -fx-border-width: 1;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-padding: 3 10 3 10;
+}
+.badge-perdida {
+    -fx-background-color: #3A1A1A;
+    -fx-text-fill: #E74C3C;
+    -fx-border-color: #C0392B;
+    -fx-border-width: 1;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-padding: 3 10 3 10;
+}
+.badge-pendiente {
+    -fx-background-color: #3A3010;
+    -fx-text-fill: #F1C40F;
+    -fx-border-color: #D4AC0D;
+    -fx-border-width: 1;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-padding: 3 10 3 10;
+}

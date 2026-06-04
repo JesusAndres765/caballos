@@ -4,53 +4,58 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="520" prefHeight="580" spacing="0"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.DashboardUsuarioController"
-maxWidth="Infinity" maxHeight="Infinity">
+      stylesheets="@styles.css"
+      styleClass="root-layout"
+      prefWidth="920" prefHeight="660">
 
-    <!-- Cabecera -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <padding><Insets top="8" right="15" bottom="8" left="15"/></padding>
-        <Label fx:id="usuarioLabel" text="Usuario:"/>
+    <HBox styleClass="header-bar" alignment="CENTER_LEFT">
+        <VBox spacing="2">
+            <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
+            <Label fx:id="usuarioLabel" text="Usuario: ?" styleClass="header-subtitle"/>
+        </VBox>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="saldoLabel" text="Saldo: 0.00"/>
+        <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <!-- Pestañas principales -->
-    <TabPane VBox.vgrow="ALWAYS">
+    <TabPane VBox.vgrow="ALWAYS" styleClass="main-tab-pane">
 
-        <Tab text="Carreras" closable="false">
-            <content>
-                <ScrollPane fitToWidth="true">
-                    <content>
-                        <VBox fx:id="carrerasContainer" spacing="12">
-                            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-                        </VBox>
-                    </content>
-                </ScrollPane>
-            </content>
+        <Tab text="🏁  Carreras Disponibles" closable="false">
+            <ScrollPane fitToWidth="true" styleClass="scroll-pane-dark">
+                <VBox fx:id="carrerasContainer" styleClass="container-padding" spacing="16"/>
+            </ScrollPane>
         </Tab>
 
-        <Tab text="Transacciones" closable="false">
-            <content>
-                <VBox alignment="CENTER" spacing="15">
-                    <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
-                    <Button text="Depositar"             onAction="#handleDepositar"   prefWidth="190"/>
-                    <Button text="Retirar"               onAction="#handleRetirar"     prefWidth="190"/>
-                    <Button text="Historial de Apuestas" onAction="#handleHistorial"   prefWidth="190"/>
-                    <Region VBox.vgrow="ALWAYS"/>
-                    <Button text="Cerrar Sesion"         onAction="#handleCerrarSesion" prefWidth="190"/>
+        <Tab text="💰  Transacciones" closable="false">
+            <VBox alignment="CENTER" spacing="20" styleClass="container-padding">
+
+                <VBox spacing="4" alignment="CENTER">
+                    <Label text="MONEDERO" styleClass="section-title"/>
+                    <Label text="Administra tus fondos" styleClass="section-subtitle"/>
                 </VBox>
-            </content>
+
+                <VBox spacing="12" alignment="CENTER" maxWidth="300">
+                    <Button text="💵  Depositar Fondos" onAction="#handleDepositar"
+                            styleClass="btn-deposit" maxWidth="Infinity"/>
+                    <Button text="💸  Retirar Fondos" onAction="#handleRetirar"
+                            styleClass="btn-withdraw" maxWidth="Infinity"/>
+                    <Button text="📊  Historial de Apuestas" onAction="#handleHistorial"
+                            styleClass="btn-history" maxWidth="Infinity" prefHeight="45"/>
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Button text="🚪  Cerrar Sesión" onAction="#handleCerrarSesion"
+                        styleClass="btn-logout"/>
+            </VBox>
         </Tab>
 
     </TabPane>
 
-    <!-- Fuera de las pestañas, siempre visible -->
-    <HBox alignment="CENTER">
-        <padding><Insets top="8" bottom="8"/></padding>
-        <Button text="Ver Apuestas Activas" onAction="#handleVerApuestasActivas"/>
+    <HBox styleClass="footer-bar">
+        <Button text="VER MIS APUESTAS ACTIVAS" onAction="#handleVerApuestasActivas"
+                styleClass="primary-button" prefHeight="38"/>
     </HBox>
 
 </VBox>

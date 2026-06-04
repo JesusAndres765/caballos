@@ -23,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.geometry.Insets;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -85,30 +86,39 @@ public class DashboardUsuarioController {
         return lista;
     }
 
-    // Construye una tarjeta de carrera completa con tabla de caballos y countdown
     private VBox crearTarjetaCarrera(Carrera carrera, List<Caballo> caballos) {
-        VBox tarjeta = new VBox(8);
-        tarjeta.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-padding: 10;");
+        VBox tarjeta = new VBox(15);
+        tarjeta.getStyleClass().add("card"); // Aplicamos el estilo del login
+        tarjeta.setStyle("-fx-border-color: #FF6B00; -fx-border-width: 0 0 0 4;");
 
-        // Multiplicador y porcentaje
+        // Stats Row
         double porcentaje = carrera.getNumCaballos() > 0 ? 100.0 / carrera.getNumCaballos() : 0;
         Label multLabel = new Label("Multiplicador: x" + carrera.getNumCaballos());
-        Label pctLabel  = new Label(String.format("%%: %.2f", porcentaje));
-        HBox statsRow   = new HBox(20);
+        multLabel.setStyle("-fx-text-fill: #F1C40F; -fx-font-weight: bold;");
+
+        Label pctLabel = new Label(String.format("%%: %.2f", porcentaje));
+        pctLabel.setStyle("-fx-text-fill: #95A5A6;");
+
+        HBox statsRow = new HBox(20);
         statsRow.getChildren().addAll(multLabel, pctLabel);
 
-        // Tabla de caballos
+        // Tabla
         TableView<Caballo> tabla = crearTablaCaballos(caballos);
 
-        // Fila inferior: botones + countdown
-        Label countdownLabel = new Label();
-        configurarCuentaRegresiva(carrera, countdownLabel);
+        // Botones
+        Button apostarBtn = new Button("APOSTAR 💸");
+        apostarBtn.getStyleClass().add("button-primary");
+        apostarBtn.setPrefSize(140, 40);
 
-        Button apostarBtn    = new Button("Apostar");
-        Button verCarreraBtn = new Button("Ver Carrera");
-        HBox botonesRow = new HBox(10);
-        botonesRow.getChildren().addAll(apostarBtn, verCarreraBtn, countdownLabel);
+        Button verCarreraBtn = new Button("VER CARRERA 🎥");
+        verCarreraBtn.getStyleClass().add("btn-history"); // Reutilizamos clase de botones secundarios
+        verCarreraBtn.setPrefSize(140, 40);
 
+        HBox botonesRow = new HBox(12);
+        botonesRow.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        botonesRow.getChildren().addAll(apostarBtn, verCarreraBtn);
+
+        // Eventos
         apostarBtn.setOnAction(e -> abrirModalApostar(carrera, caballos));
         verCarreraBtn.setOnAction(e -> abrirVerCarrera(carrera));
 
@@ -120,6 +130,9 @@ public class DashboardUsuarioController {
         TableView<Caballo> tabla = new TableView<>();
         tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tabla.setPrefHeight(150);
+
+        // Aplicamos la clase del CSS, el estilo ya no está "hardcodeado" aquí
+        tabla.getStyleClass().add("table-view");
 
         TableColumn<Caballo, String> nombreCol = new TableColumn<>("Nombre");
         nombreCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getNombre()));
@@ -135,6 +148,7 @@ public class DashboardUsuarioController {
 
         tabla.getColumns().addAll(nombreCol, numeroCol, corridasCol, ganadasCol);
         tabla.setItems(FXCollections.observableArrayList(caballos));
+
         return tabla;
     }
 
@@ -147,96 +161,33 @@ public class DashboardUsuarioController {
         label.setText(String.format("Inicia: %d:%02d", inicio.getHour(), inicio.getMinute()));
 
 
-        /*
-        LocalDateTime inicio  = carrera.getFechaCreacion().plusMinutes(carrera.getTiempoGatera());
-        final long[] segundos = { ChronoUnit.SECONDS.between(LocalDateTime.now(), inicio) };
-
-        if (segundos[0] <= 0) {
-            label.setText("Iniciando pronto...");
-            return;
-        }
-
-        label.setText(formatearTiempo(segundos[0]));
-
-        Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            segundos[0]--;
-            if (segundos[0] <= 0) {
-                label.setText("¡Iniciando!");
-            } else {
-                label.setText(formatearTiempo(segundos[0]));
-            }
-        }));
-        tl.setCycleCount(Timeline.INDEFINITE);
-        tl.play();
-        timelinesActivos.add(tl);*/
     }
 
     private String formatearTiempo(long seg) {
         return String.format("En: %d:%02d", seg / 60, seg % 60);
     }
 
-    // Modal de apuesta: load → pasar datos → showAndWait (orden obligatorio)
     private void abrirModalApostar(Carrera carrera, List<Caballo> caballos) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/taqueardeelestablo/view/modal-apostar.fxml")
-            );
+                    getClass().getResource("/com/taqueardeelestablo/view/modal-apostar.fxml"));
             Parent root = loader.load();
 
-            ModalApostarController ctrl = loader.getController();
-            ctrl.setDatos(carrera, caballos);   // datos ANTES de show
+            ModalApostarController controller = loader.getController();
+            controller.setDatos(carrera, caballos); // ← ahora pasa los dos argumentos
 
-            Stage modal = new Stage();
-            modal.setTitle("Apostar — Carrera #" + carrera.getIdCarrera());
-            modal.initModality(Modality.APPLICATION_MODAL);
-            modal.initOwner(SceneManager.getPrimaryStage());
-            modal.setScene(new Scene(root));
-            modal.showAndWait();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Apostar");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
 
-            // Refresca saldo en cabecera tras apostar
-            actualizarCabecera();
-        } catch (IOException ex) {
-            System.err.println("DashboardUsuario.abrirModalApostar: " + ex.getMessage());
+            actualizarCabecera(); // refresca el saldo al cerrar el modal
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    /*private void abrirVerCarrera(Carrera carrera) {
-        try{
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/taqueardeelestablo/view/ver-carrera.fxml")
-            );
-            Parent root = loader.load();
-
-            Stage modal = new Stage();
-            modal.setMaximized(true);
-            modal.setTitle("Carrera #" + carrera.getIdCarrera());
-            modal.initModality(Modality.APPLICATION_MODAL);
-            modal.initOwner(SceneManager.getPrimaryStage());
-            modal.setScene(new Scene(root));
-
-            VerCarreraController ctrl = loader.getController();
-            ctrl.setCarrera(carrera);
-
-            modal.showAndWait();
-
-            // Código que corre DESPUÉS de que la ventana se cierra:
-            cargarCarreras();    // elimina del listado las que ya están FINALIZADA
-            actualizarCabecera(); // refresca saldo por si el usuario cobró apuesta
-        } catch (IOException ex){
-            System.err.println("DashboardUsuario.abrirVerCarrera: " + ex.getMessage());
-        }
-
-
-
-
-        FXMLLoader loader = SceneManager.abrirVentana(
-                "ver-carrera.fxml", "Carrera #" + carrera.getIdCarrera()
-        );
-        if (loader != null) {
-            VerCarreraController ctrl = loader.getController();
-            ctrl.setCarrera(carrera);
-        }
-    }*/
     private void abrirVerCarrera(Carrera carrera) {
         timelinesActivos.forEach(Timeline::stop); // limpia antes de salir
         FXMLLoader loader = SceneManager.cambiarEscena("ver-carrera.fxml");
@@ -245,29 +196,6 @@ public class DashboardUsuarioController {
             ctrl.setCarrera(carrera);
         }
     }
-
-    /*@FXML
-    private void handleVerApuestasActivas() {
-        SceneManager.abrirModal("apuestas-activas.fxml", "Apuestas Activas");
-    }
-
-    @FXML
-    private void handleDepositar() {
-        SceneManager.abrirModal("depositar.fxml", "Depositar");
-        actualizarCabecera(); // refresca saldo en el dashboard al volver
-    }
-
-    @FXML
-    private void handleRetirar() {
-        SceneManager.abrirModal("retirar.fxml", "Retirar");
-        actualizarCabecera(); // refresca saldo en el dashboard al volver
-    }
-
-    @FXML
-    private void handleHistorial() {
-        SceneManager.abrirModal("historial.fxml", "Historial de Apuestas");
-    }
-     */
 
     @FXML
     private void handleCerrarSesion() {

@@ -105,31 +105,46 @@ public class CarreraService {
             return;
         }
 
-        // Simula el progreso de cada caballo con el mismo algoritmo de CaballoTask
-        Random rng = new Random();
-        double maxAvance  = 170.0 / (carrera.getDuracionSeg() * 10.0);
-        int    totalTicks = carrera.getDuracionSeg() * 10;
+        Random rng       = new Random();
+        double maxAvance = 240.0 / (carrera.getDuracionSeg() * 10.0); // era 170
+        int totalTicks   = carrera.getDuracionSeg() * 10;
 
-        List<double[]> resultados = new ArrayList<>(); // {índice, progreso 0-100}
+        // {índice, progreso 0-100, tick en que llegó a 100 (MAX_VALUE = no terminó)}
+        List<double[]> resultados = new ArrayList<>();
+
         for (int i = 0; i < inscripciones.size(); i++) {
-            double prog = 0;
+            double progreso   = 0;
+            int    tickFinish = Integer.MAX_VALUE;
+
             for (int t = 0; t < totalTicks; t++) {
-                prog = Math.min(100.0, prog + rng.nextDouble() * maxAvance);
+                progreso = Math.min(100.0, progreso + rng.nextDouble() * maxAvance);
+                if (progreso >= 100.0 && tickFinish == Integer.MAX_VALUE) {
+                    tickFinish = t; // registra cuándo llegó a la meta
+                }
             }
-            resultados.add(new double[]{ i, prog });
+            resultados.add(new double[]{ i, progreso, tickFinish });
         }
-        resultados.sort((a, b) -> Double.compare(b[1], a[1])); // mayor primero = 1er lugar
+
+        // Ordena: los que terminaron primero van delante;
+        // entre los que no terminaron, gana quien llegó más lejos
+        resultados.sort((a, b) -> {
+            boolean aTermino = a[2] < Integer.MAX_VALUE;
+            boolean bTermino = b[2] < Integer.MAX_VALUE;
+            if (aTermino && bTermino)  return Double.compare(a[2], b[2]); // menor tick = más rápido
+            if (aTermino)              return -1; // a terminó, b no → a gana
+            if (bTermino)              return  1; // b terminó, a no → b gana
+            return Double.compare(b[1], a[1]);    // ninguno terminó → mayor progreso
+        });
 
         int idCaballoGanador = -1;
         for (int pos = 0; pos < resultados.size(); pos++) {
-            int    idx     = (int) resultados.get(pos)[0];
-            double prog    = resultados.get(pos)[1];
+            int    idx      = (int) resultados.get(pos)[0];
+            double progreso = resultados.get(pos)[1];
+            boolean termino = resultados.get(pos)[2] < Integer.MAX_VALUE;
             CarreraCaballo cc = inscripciones.get(idx);
-            boolean termino   = prog >= 100.0;
 
-            carreraCaballoDAO.updateResultado(cc.getId(), pos + 1, prog / 100.0, termino);
+            carreraCaballoDAO.updateResultado(cc.getId(), pos + 1, progreso / 100.0, termino);
             caballoDAO.actualizarContadores(cc.getIdCaballo(), pos == 0);
-
             if (pos == 0) idCaballoGanador = cc.getIdCaballo();
         }
 
