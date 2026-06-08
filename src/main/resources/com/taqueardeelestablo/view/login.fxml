@@ -27,7 +27,7 @@
             <Label text="Ta' QueArdeElEstablo" style="-fx-text-fill: #FF6B00; -fx-font-weight: bold;">
                 <font><Font size="25.0"/></font>
             </Label>
-            <Label text="Simulador de Apuestas Hípicas" styleClass="section-subtitle">
+            <Label text="Simulador de Carreras de Caballos" styleClass="section-subtitle">
                 <font><Font size="13.0"/></font>
             </Label>
         </VBox>

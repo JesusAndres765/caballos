@@ -13,17 +13,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class DepositarController {
-
-    @FXML private Label     usuarioLabel;
-    @FXML private Label     saldoLabel;
+    @FXML private Label usuarioLabel;
+    @FXML private Label  saldoLabel;
     @FXML private TextField cantidadField;
     @FXML private TextField tarjetaField;
     @FXML private TextField titularField;
     @FXML private TextField vigField;
     @FXML private TextField cvcField;
-    @FXML private Label     mensajeLabel;
+    @FXML private Label  mensajeLabel;
 
-    private final UsuarioDAO     usuarioDAO     = new UsuarioDAO();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
     private final TransaccionDAO transaccionDAO = new TransaccionDAO();
 
     @FXML
@@ -35,7 +34,6 @@ public class DepositarController {
 
     @FXML
     private void handleConfirmar() {
-        // Validación: campos vacíos
         if (cantidadField.getText().trim().isEmpty() ||
                 tarjetaField.getText().trim().isEmpty()  ||
                 titularField.getText().trim().isEmpty()  ||
@@ -45,7 +43,6 @@ public class DepositarController {
             return;
         }
 
-        // Validación: monto
         double cantidad;
         try {
             cantidad = Double.parseDouble(cantidadField.getText().trim());
@@ -67,24 +64,20 @@ public class DepositarController {
             return;
         }
 
-        // Log de transacción
         Transaccion t = new Transaccion();
         t.setIdUsuario(usuario.getIdUsuario());
         t.setTipo(TipoTransaccion.DEPOSITO);
         t.setMonto(cantidad);
-        t.setDescripcion("Depósito con tarjeta terminada en " +
-                ultimosCuatro(tarjetaField.getText().trim()));
+        t.setDescripcion("Depósito con tarjeta terminada en " + ultimosCuatro(tarjetaField.getText().trim()));
         transaccionDAO.insert(t);
 
-        // Actualiza sesión en memoria
         SessionManager.getInstancia().refrescarSaldo(nuevoSaldo);
         saldoLabel.setText(String.format("Saldo: %.2f", nuevoSaldo));
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Depósito exitoso");
         alert.setHeaderText(null);
-        alert.setContentText(String.format(
-                "Se depositaron %.2f correctamente.\nNuevo saldo: %.2f", cantidad, nuevoSaldo));
+        alert.setContentText(String.format("Se depositaron %.2f correctamente.\nNuevo saldo: %.2f", cantidad, nuevoSaldo));
         alert.showAndWait();
 
         cerrarVentana();
@@ -99,7 +92,6 @@ public class DepositarController {
         SceneManager.cambiarEscena("dashboard-usuario.fxml");
     }
 
-    // Devuelve los últimos 4 dígitos de un número de tarjeta para el log
     private String ultimosCuatro(String numero) {
         String limpio = numero.replaceAll("\\s+", "");
         return limpio.length() >= 4

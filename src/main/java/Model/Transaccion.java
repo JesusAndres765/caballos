@@ -4,7 +4,6 @@ import Model.enums.TipoTransaccion;
 import java.time.LocalDateTime;
 
 public class Transaccion {
-
     private int idTransaccion;
     private int idUsuario;
     private TipoTransaccion tipo;

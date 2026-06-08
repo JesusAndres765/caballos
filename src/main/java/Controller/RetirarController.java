@@ -13,14 +13,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class RetirarController {
-
-    @FXML private Label     usuarioLabel;
-    @FXML private Label     saldoLabel;
+    @FXML private Label usuarioLabel;
+    @FXML private Label saldoLabel;
     @FXML private TextField cantidadField;
     @FXML private TextField cuentaField;
-    @FXML private Label     mensajeLabel;
+    @FXML private Label mensajeLabel;
 
-    private final UsuarioDAO     usuarioDAO     = new UsuarioDAO();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
     private final TransaccionDAO transaccionDAO = new TransaccionDAO();
 
     @FXML
@@ -35,13 +34,11 @@ public class RetirarController {
         String cantTexto  = cantidadField.getText().trim();
         String cuentaTexto = cuentaField.getText().trim();
 
-        // Validación: campos vacíos
         if (cantTexto.isEmpty() || cuentaTexto.isEmpty()) {
             mensajeLabel.setText("Completa todos los campos.");
             return;
         }
 
-        // Validación: monto
         double cantidad;
         try {
             cantidad = Double.parseDouble(cantTexto);
@@ -54,11 +51,9 @@ public class RetirarController {
             return;
         }
 
-        // Regla de negocio: no se puede retirar más del saldo disponible
         Usuario usuario = SessionManager.getInstancia().getUsuarioActual();
         if (cantidad > usuario.getSaldo()) {
-            mensajeLabel.setText(String.format(
-                    "Saldo insuficiente. Disponible: %.2f", usuario.getSaldo()));
+            mensajeLabel.setText(String.format("Saldo insuficiente. Disponible: %.2f", usuario.getSaldo()));
             return;
         }
 
@@ -69,7 +64,6 @@ public class RetirarController {
             return;
         }
 
-        // Log de transacción
         Transaccion t = new Transaccion();
         t.setIdUsuario(usuario.getIdUsuario());
         t.setTipo(TipoTransaccion.RETIRO);
@@ -83,8 +77,7 @@ public class RetirarController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Retiro exitoso");
         alert.setHeaderText(null);
-        alert.setContentText(String.format(
-                "Se retiraron %.2f correctamente.\nNuevo saldo: %.2f", cantidad, nuevoSaldo));
+        alert.setContentText(String.format("Se retiraron %.2f correctamente.\nNuevo saldo: %.2f", cantidad, nuevoSaldo));
         alert.showAndWait();
 
         cerrarVentana();

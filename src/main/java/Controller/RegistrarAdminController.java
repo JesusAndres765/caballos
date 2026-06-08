@@ -11,18 +11,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class RegistrarAdminController {
-
-    // adminLabel eliminado — el menú padre ya muestra el nombre del admin
-    @FXML private TextField     usernameField;
+    @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
-    @FXML private Label         mensajeLabel;
+    @FXML private Label mensajeLabel;
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
     private MenuAdminController menuController;
 
     @FXML
     private void initialize() {
-        // Sin adminLabel: nada que inicializar aquí por ahora
     }
 
     public void setMenuController(MenuAdminController ctrl) {
@@ -49,7 +46,6 @@ public class RegistrarAdminController {
         nuevoAdmin.setRol(Rol.ADMIN);
         nuevoAdmin.setSaldo(0.0);
 
-        // ← Bug 3 corregido: ahora SÍ se guarda en BD
         if (!usuarioDAO.insert(nuevoAdmin)) {
             mensajeLabel.setText("Error al registrar el administrador.");
             return;
@@ -58,8 +54,7 @@ public class RegistrarAdminController {
         usernameField.clear();
         passwordField.clear();
         mensajeLabel.setText("");
-        menuController.mostrarMensajeEnInicio(
-                "Administrador \"" + username + "\" registrado correctamente.");
+        menuController.mostrarMensajeEnInicio("Administrador \"" + username + "\" registrado correctamente.");
     }
 
     @FXML

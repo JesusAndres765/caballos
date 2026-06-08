@@ -12,10 +12,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LoginController {
-
-    @FXML private TextField    usernameField;
+    @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
-    @FXML private Label        mensajeLabel;
+    @FXML private Label mensajeLabel;
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 

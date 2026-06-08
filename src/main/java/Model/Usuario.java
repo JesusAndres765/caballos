@@ -5,7 +5,6 @@ import Model.enums.Rol;
 import java.time.LocalDateTime;
 
 public class Usuario {
-
     private int idUsuario;
     private String username;
     private String contrasena;

@@ -12,13 +12,12 @@ public class ActualizarCaballoController {
 
     @FXML private TextField nombreField;
     @FXML private TextField numeroField;
-    @FXML private Label     mensajeLabel;
-    @FXML private Button    actualizarBtn;
+    @FXML private Label mensajeLabel;
+    @FXML private Button actualizarBtn;
 
-    private Caballo          caballoOriginal;
+    private Caballo caballoOriginal;
     private final CaballoDAO caballoDAO = new CaballoDAO();
 
-    // Llamado desde CaballosRegistradosController ANTES de showAndWait
     public void setCaballo(Caballo caballo) {
         this.caballoOriginal = caballo;
         nombreField.setText(caballo.getNombre());
@@ -30,13 +29,11 @@ public class ActualizarCaballoController {
         String nuevoNombre = nombreField.getText().trim();
         String numeroTexto = numeroField.getText().trim();
 
-        // Validación: campos vacíos
         if (nuevoNombre.isEmpty() || numeroTexto.isEmpty()) {
             mensajeLabel.setText("Completa todos los campos.");
             return;
         }
 
-        // Validación: número entero positivo
         int nuevoNumero;
         try {
             nuevoNumero = Integer.parseInt(numeroTexto);
@@ -49,7 +46,6 @@ public class ActualizarCaballoController {
             return;
         }
 
-        // Validación: unicidad de número solo si cambió
         if (nuevoNumero != caballoOriginal.getNumero()) {
             if (caballoDAO.existeNumero(nuevoNumero)) {
                 mensajeLabel.setText("Ya existe un caballo con el número " + nuevoNumero + ".");
@@ -57,7 +53,6 @@ public class ActualizarCaballoController {
             }
         }
 
-        // Aplica los cambios al objeto y persiste
         caballoOriginal.setNombre(nuevoNombre);
         caballoOriginal.setNumero(nuevoNumero);
 

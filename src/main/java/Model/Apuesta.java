@@ -4,7 +4,6 @@ import Model.enums.ResultadoApuesta;
 import java.time.LocalDateTime;
 
 public class Apuesta {
-
     private int idApuesta;
     private int idUsuario;
     private int idCarrera;

@@ -10,15 +10,16 @@
       prefWidth="920" prefHeight="660">
 
     <!-- HEADER -->
-    <HBox styleClass="header-bar, header-orange-border" alignment="CENTER_LEFT">
+    <HBox alignment="CENTER_LEFT" styleClass="header-bar header-orange-border">
         <VBox spacing="2">
-            <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
-            <Label fx:id="usuarioLabel" text="Usuario: —" styleClass="header-subtitle"/>
+            <Label text="Ta' QueArdeElEstablo" styleClass="header-title"/>
+            <Label fx:id="usuarioLabel" text="Usuario: -" styleClass="header-subtitle"/>
         </VBox>
         <Region HBox.hgrow="ALWAYS"/>
         <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
+    <!-- TITULO DE SECCION -->
     <VBox styleClass="title-section">
         <Label text="HISTORIAL DE APUESTAS" styleClass="section-orange-title"/>
         <Separator styleClass="dark-separator"/>
@@ -27,15 +28,14 @@
     <!-- LISTA DE APUESTAS -->
     <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS"
                 styleClass="scroll-pane-dark">
-        <StackPane style="-fx-background-color: #11141A;">
-            <VBox fx:id="historialContainer" spacing="10"
-                  StackPane.alignment="TOP_CENTER"
-                  styleClass="container-padding-alt"/>
-        </StackPane>
+        <VBox fx:id="historialContainer" spacing="10"
+              styleClass="container-padding-alt"/>
     </ScrollPane>
 
+    <!-- FOOTER -->
     <HBox alignment="CENTER_RIGHT" styleClass="footer-bar">
-        <Button text="<- VOLVER AL INICIO" onAction="#handleVolver" styleClass="btn-back"/>
+        <Button text="&lt;- VOLVER AL INICIO" onAction="#handleVolver"
+                styleClass="btn-back"/>
     </HBox>
 
 </VBox>

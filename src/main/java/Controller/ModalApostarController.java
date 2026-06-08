@@ -176,8 +176,7 @@ public class ModalApostarController {
 
         Usuario usuario = SessionManager.getInstancia().getUsuarioActual();
         if (monto > usuario.getSaldo()) {
-            mensajeLabel.setText("Saldo insuficiente. Tienes: " +
-                    String.format("%.2f", usuario.getSaldo()));
+            mensajeLabel.setText("Saldo insuficiente. Tienes: " + String.format("%.2f", usuario.getSaldo()));
             return;
         }
 

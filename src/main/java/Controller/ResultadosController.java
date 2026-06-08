@@ -21,8 +21,8 @@ import java.util.List;
 public class ResultadosController {
     @FXML private Label usuarioLabel;
     @FXML private Label saldoLabel;
-    @FXML private VBox  resultadosContainer;
-    @FXML private VBox  apuestasResultContainer;
+    @FXML private VBox resultadosContainer;
+    @FXML private VBox apuestasResultContainer;
 
     private Carrera carrera;
     private List<Apuesta> apuestasUsuario = new ArrayList<>();

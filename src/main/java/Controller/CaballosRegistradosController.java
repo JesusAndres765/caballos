@@ -16,23 +16,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Optional;
 
 public class CaballosRegistradosController {
-
-    @FXML private Label              adminLabel;
+    @FXML private Label adminLabel;
     @FXML private TableView<Caballo> caballosTable;
-    @FXML private TextField          buscarIdField;
-    @FXML private TextField          buscarNombreField;
+    @FXML private TextField buscarIdField;
+    @FXML private TextField buscarNombreField;
 
     private final CaballoDAO caballoDAO = new CaballoDAO();
     private MenuAdminController menuController;
 
     @FXML
     private void initialize() {
-        adminLabel.setText("Administrador: " +
-                SessionManager.getInstancia().getUsuarioActual().getUsername());
-
+        adminLabel.setText("Administrador: " + SessionManager.getInstancia().getUsuarioActual().getUsername());
         configurarTabla();
         cargarTodos();
     }
@@ -41,7 +38,7 @@ public class CaballosRegistradosController {
         this.menuController = ctrl;
     }
 
-    // Crea todas las columnas de la tabla, incluyendo las de botones
+    // Crea todas las columnas de la tabla, incluyendo los botones de acción
     private void configurarTabla() {
         TableColumn<Caballo, Number> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getIdCaballo()));
@@ -63,31 +60,16 @@ public class CaballosRegistradosController {
         ganadasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasGanadas()));
         ganadasCol.setPrefWidth(140);
 
-        // Columnas de acción con botones
-        TableColumn<Caballo, Void> actualizarCol = crearColumnaBoton(
-                "Actualizar", "Actualizar", this::abrirModalActualizar
-        );
-        TableColumn<Caballo, Void> eliminarCol = crearColumnaBoton(
-                "Eliminar", "Eliminar", this::confirmarEliminar
-        );
-
-        caballosTable.getColumns().addAll(
-                idCol, nombreCol, numeroCol, corridasCol, ganadasCol,
-                actualizarCol, eliminarCol
-        );
-    }
-
-    // Factory genérico para columnas con botón — evita duplicar código
-    private TableColumn<Caballo, Void> crearColumnaBoton(String titulo, String texto,
-                                                         Consumer<Caballo> accion) {
-        TableColumn<Caballo, Void> col = new TableColumn<>(titulo);
-        col.setPrefWidth(110);
-        col.setCellFactory(c -> new TableCell<>() {
-            private final Button btn = new Button(texto);
+        // Columna con botón Actualizar
+        TableColumn<Caballo, Void> actualizarCol = new TableColumn<>("Actualizar");
+        actualizarCol.setPrefWidth(110);
+        actualizarCol.setCellFactory(c -> new TableCell<Caballo, Void>() {
+            private final Button btn = new Button("Actualizar");
             {
-                btn.setOnAction(e -> accion.accept(
-                        getTableView().getItems().get(getIndex())
-                ));
+                btn.setOnAction(e -> {
+                    Caballo caballo = getTableView().getItems().get(getIndex());
+                    abrirModalActualizar(caballo);
+                });
             }
             @Override
             protected void updateItem(Void item, boolean empty) {
@@ -95,7 +77,29 @@ public class CaballosRegistradosController {
                 setGraphic(empty ? null : btn);
             }
         });
-        return col;
+
+        // Columna con botón Eliminar
+        TableColumn<Caballo, Void> eliminarCol = new TableColumn<>("Eliminar");
+        eliminarCol.setPrefWidth(110);
+        eliminarCol.setCellFactory(c -> new TableCell<Caballo, Void>() {
+            private final Button btn = new Button("Eliminar");
+            {
+                btn.setOnAction(e -> {
+                    Caballo caballo = getTableView().getItems().get(getIndex());
+                    confirmarEliminar(caballo);
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+
+        caballosTable.getColumns().addAll(
+                idCol, nombreCol, numeroCol, corridasCol, ganadasCol,
+                actualizarCol, eliminarCol
+        );
     }
 
     private void cargarTodos() {
@@ -106,11 +110,9 @@ public class CaballosRegistradosController {
         caballosTable.setItems(FXCollections.observableArrayList(lista));
     }
 
-    // ── Búsqueda ─────────────────────────────────────────────────────────────
-
     @FXML
     private void handleBuscar() {
-        String id     = buscarIdField.getText().trim();
+        String id = buscarIdField.getText().trim();
         String nombre = buscarNombreField.getText().trim();
 
         if (id.isEmpty() && nombre.isEmpty()) {
@@ -133,17 +135,13 @@ public class CaballosRegistradosController {
         cargarTodos();
     }
 
-    // ── Actualizar ───────────────────────────────────────────────────────────
-
     private void abrirModalActualizar(Caballo caballo) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/taqueardeelestablo/view/actualizar-caballo.fxml")
-            );
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/taqueardeelestablo/view/actualizar-caballo.fxml"));
             Parent root = loader.load();
 
             ActualizarCaballoController ctrl = loader.getController();
-            ctrl.setCaballo(caballo);   // datos ANTES de show
+            ctrl.setCaballo(caballo);
 
             Stage modal = new Stage();
             modal.setTitle("Actualizar Caballo");
@@ -152,27 +150,24 @@ public class CaballosRegistradosController {
             modal.setScene(new Scene(root));
             modal.showAndWait();
 
-            // Refresca la tabla al volver (haya o no habido cambios)
+            // Refresca la tabla al cerrar el modal
             cargarTodos();
         } catch (IOException e) {
             System.err.println("CaballosRegistrados.abrirModalActualizar: " + e.getMessage());
         }
     }
 
-
     private void confirmarEliminar(Caballo caballo) {
-        if (caballoDAO.estaEnCarreraActiva(caballo.getIdCaballo())){
-            mostrarError("No se puede eliminar", "\"" + caballo.getNombre() + "\" está en una carrera pendiente o en curso.\n" +
-                    "Espera a que finalice e intenta de nuevo.");
-        return;
+        // No se puede eliminar si el caballo está en una carrera activa
+        if (caballoDAO.estaEnCarreraActiva(caballo.getIdCaballo())) {
+            mostrarError("No se puede eliminar", "\"" + caballo.getNombre() + "\" está en una carrera pendiente o en curso.\n" + "Espera a que finalice e intenta de nuevo.");
+            return;
         }
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Eliminar Caballo");
-        confirm.setHeaderText("¿Esta seguro de eliminar a \"" + caballo.getNombre() + "\"?");
-        confirm.setContentText(
-                "Se eliminará también su historial de carreras y apuestas.\n" +
-                        "Esta acción no se puede deshacer."
+        confirm.setHeaderText("¿Estás seguro de eliminar a \"" + caballo.getNombre() + "\"?");
+        confirm.setContentText("Se eliminará también su historial de carreras y apuestas.\n" + "Esta acción no se puede deshacer."
         );
         confirm.initOwner((Stage) caballosTable.getScene().getWindow());
 
@@ -180,15 +175,14 @@ public class CaballosRegistradosController {
         ButtonType btnCancelar  = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
         confirm.getButtonTypes().setAll(btnConfirmar, btnCancelar);
 
-        confirm.showAndWait().ifPresent(respuesta -> {
-            if (respuesta == btnConfirmar) {
-                if (caballoDAO.deleteConCascada(caballo.getIdCaballo())) {
-                    cargarTodos();
-                } else {
-                    mostrarError("Error", "No se pudo eliminar el caballo.");
-                }
+        Optional<ButtonType> respuesta = confirm.showAndWait();
+        if (respuesta.isPresent() && respuesta.get() == btnConfirmar) {
+            if (caballoDAO.deleteConCascada(caballo.getIdCaballo())) {
+                cargarTodos();
+            } else {
+                mostrarError("Error", "No se pudo eliminar el caballo.");
             }
-        });
+        }
     }
 
     private void mostrarError(String titulo, String mensaje) {

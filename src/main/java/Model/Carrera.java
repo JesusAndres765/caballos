@@ -4,7 +4,6 @@ import Model.enums.EstadoCarrera;
 import java.time.LocalDateTime;
 
 public class Carrera {
-
     private int idCarrera;
     private int idAdmin;
     private int numCaballos;

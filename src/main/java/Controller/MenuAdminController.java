@@ -25,68 +25,80 @@ import java.util.List;
 
 public class MenuAdminController {
 
-    @FXML private Label    adminLabel;
-    @FXML private TabPane  tabPane;
-    @FXML private Tab      inicioTab;
-    @FXML private Label    inicioMensajeLabel;
-    @FXML private VBox     carrerasAdminContainer;
-    @FXML private Tab      tabCrearCarrera;
-    @FXML private Tab      tabRegistrarCaballo;
-    @FXML private Tab      tabRegistrarAdmin;
-    @FXML private Tab      tabCaballos;
+    @FXML private Label adminLabel;
+    @FXML private TabPane tabPane;
+    @FXML private Tab inicioTab;
+    @FXML private Label inicioMensajeLabel;
+    @FXML private VBox carrerasAdminContainer;
+    @FXML private Tab tabCrearCarrera;
+    @FXML private Tab tabRegistrarCaballo;
+    @FXML private Tab tabRegistrarAdmin;
+    @FXML private Tab tabCaballos;
 
-    private final CarreraDAO        carreraDAO        = new CarreraDAO();
+    private final CarreraDAO carreraDAO = new CarreraDAO();
     private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
-    private final CaballoDAO        caballoDAO        = new CaballoDAO();
+    private final CaballoDAO caballoDAO = new CaballoDAO();
 
     @FXML
     private void initialize() {
-        adminLabel.setText("Administrador: " +
-                SessionManager.getInstancia().getUsuarioActual().getUsername());
+        adminLabel.setText("Administrador: " + SessionManager.getInstancia().getUsuarioActual().getUsername());
 
-        // Carga el FXML de cada tab y pasa la referencia de este controlador
-        cargarEnTab(tabCrearCarrera,     "crear-carrera.fxml",      loader ->
-                ((CrearCarreraController)     loader.getController()).setMenuController(this));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/taqueardeelestablo/view/crear-carrera.fxml"));
+            tabCrearCarrera.setContent(loader.load());
+            CrearCarreraController ctrl = loader.getController();
+            ctrl.setMenuController(this);
+        } catch (IOException e) {
+            System.err.println("Error al cargar crear-carrera.fxml: " + e.getMessage());
+        }
 
-        cargarEnTab(tabRegistrarCaballo, "registrar-caballo.fxml",  loader ->
-                ((RegistrarCaballoController) loader.getController()).setMenuController(this));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/taqueardeelestablo/view/registrar-caballo.fxml"));
+            tabRegistrarCaballo.setContent(loader.load());
+            RegistrarCaballoController ctrl = loader.getController();
+            ctrl.setMenuController(this);
+        } catch (IOException e) {
+            System.err.println("Error al cargar registrar-caballo.fxml: " + e.getMessage());
+        }
 
-        cargarEnTab(tabRegistrarAdmin,   "registrar-admin.fxml",    loader ->
-                ((RegistrarAdminController)   loader.getController()).setMenuController(this));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/taqueardeelestablo/view/registrar-admin.fxml"));
+            tabRegistrarAdmin.setContent(loader.load());
+            RegistrarAdminController ctrl = loader.getController();
+            ctrl.setMenuController(this);
+        } catch (IOException e) {
+            System.err.println("Error al cargar registrar-admin.fxml: " + e.getMessage());
+        }
 
-        cargarEnTab(tabCaballos,         "caballos-registrados.fxml", loader ->
-                ((CaballosRegistradosController) loader.getController()).setMenuController(this));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/taqueardeelestablo/view/caballos-registrados.fxml"));
+            tabCaballos.setContent(loader.load());
+            CaballosRegistradosController ctrl = loader.getController();
+            ctrl.setMenuController(this);
+        } catch (IOException e) {
+            System.err.println("Error al cargar caballos-registrados.fxml: " + e.getMessage());
+        }
 
-        // Refresca el dashboard de Inicio cada vez que se selecciona esa tab
-        tabPane.getSelectionModel().selectedItemProperty().addListener(
-                (obs, anterior, actual) -> {
-                    if (actual == inicioTab) cargarCarrerasActivas();
-                }
-        );
+        inicioTab.setOnSelectionChanged(e -> {
+            if (inicioTab.isSelected()) cargarCarrerasActivas();
+        });
 
-        // Carga inicial
         cargarCarrerasActivas();
     }
 
-    // ── API pública para sub-controladores ───────────────────────────────────
-
-    // Muestra un mensaje en Inicio y vuelve a esa pestaña
     public void mostrarMensajeEnInicio(String mensaje) {
         inicioMensajeLabel.setText(mensaje);
         irAInicio();
     }
 
-    // Cambia a la tab Inicio y refresca la lista de carreras
     public void irAInicio() {
         tabPane.getSelectionModel().select(inicioTab);
         cargarCarrerasActivas();
     }
 
-    // ── Dashboard de carreras en Inicio ──────────────────────────────────────
-
     private void cargarCarrerasActivas() {
         carrerasAdminContainer.getChildren().clear();
-        List<Carrera> carreras = carreraDAO.findActivas();
+        List<Carrera> carreras = carreraDAO.buscarActivas();
 
         if (carreras.isEmpty()) {
             carrerasAdminContainer.getChildren().add(
@@ -102,8 +114,7 @@ public class MenuAdminController {
     }
 
     private List<Caballo> getCaballosDeCarrera(Carrera carrera) {
-        List<CarreraCaballo> inscripciones =
-                carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
+        List<CarreraCaballo> inscripciones = carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
         List<Caballo> lista = new ArrayList<>();
         for (CarreraCaballo cc : inscripciones) {
             Caballo c = caballoDAO.findById(cc.getIdCaballo());
@@ -113,78 +124,53 @@ public class MenuAdminController {
     }
 
     private VBox crearTarjetaAdmin(Carrera carrera, List<Caballo> caballos) {
-        VBox card = new VBox(6);
-        card.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-padding: 10;");
+        VBox card = new VBox(8);
+        card.getStyleClass().add("card");
 
-        // Estado en texto legible
-        String estadoTexto = carrera.getEstado() == EstadoCarrera.EN_GATERA
-                ? "En Espera" : "En Progreso";
+        String estadoTexto = carrera.getEstado() == EstadoCarrera.EN_GATERA ? "En Espera" : "En Progreso";
+
         Label headerLabel = new Label(
-                "Carrera #" + carrera.getIdCarrera() + " — " + estadoTexto
-                        + " | Duración: " + carrera.getDuracionSeg() + " seg"
-        );
+                "Carrera #" + carrera.getIdCarrera() + " — " + estadoTexto + " | Duración: " + carrera.getDuracionSeg() + " seg");
+        headerLabel.getStyleClass().add("section-title");
 
-        // Hora de inicio
+        // Calcula y muestra la hora de inicio
         String horaInicio = "—";
         if (carrera.getFechaCreacion() != null) {
-            LocalDateTime inicio = carrera.getFechaCreacion()
-                    .plusMinutes(carrera.getTiempoGatera());
+            LocalDateTime inicio = carrera.getFechaCreacion().plusMinutes(carrera.getTiempoGatera());
             horaInicio = inicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
         }
         Label inicioLabel = new Label("Inicio: " + horaInicio);
+        inicioLabel.getStyleClass().add("header-subtitle");
 
-        // Tabla de caballos
         TableView<Caballo> tabla = crearTablaCaballos(caballos);
+        tabla.getStyleClass().add("table-view");
 
         card.getChildren().addAll(headerLabel, inicioLabel, tabla);
         return card;
     }
 
+    // Construye la tabla de caballos de una tarjeta
     private TableView<Caballo> crearTablaCaballos(List<Caballo> caballos) {
         TableView<Caballo> tabla = new TableView<>();
         tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tabla.setPrefHeight(160);
 
         TableColumn<Caballo, String> nombreCol = new TableColumn<>("Nombre");
-        nombreCol.setCellValueFactory(d ->
-                new SimpleStringProperty(d.getValue().getNombre()));
+        nombreCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getNombre()));
 
         TableColumn<Caballo, Number> numeroCol = new TableColumn<>("Numero");
-        numeroCol.setCellValueFactory(d ->
-                new SimpleIntegerProperty(d.getValue().getNumero()));
+        numeroCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getNumero()));
 
         TableColumn<Caballo, Number> corridasCol = new TableColumn<>("Carreras Corridas");
-        corridasCol.setCellValueFactory(d ->
-                new SimpleIntegerProperty(d.getValue().getCarrerasCorridas()));
+        corridasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasCorridas()));
 
         TableColumn<Caballo, Number> ganadasCol = new TableColumn<>("Carreras Ganadas");
-        ganadasCol.setCellValueFactory(d ->
-                new SimpleIntegerProperty(d.getValue().getCarrerasGanadas()));
+        ganadasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasGanadas()));
 
         tabla.getColumns().addAll(nombreCol, numeroCol, corridasCol, ganadasCol);
         tabla.setItems(FXCollections.observableArrayList(caballos));
         return tabla;
     }
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
-    // Carga un FXML y lo establece como contenido del tab dado
-    @FunctionalInterface
-    interface LoaderConsumer { void accept(FXMLLoader loader); }
-
-    private void cargarEnTab(Tab tab, String fxmlFile, LoaderConsumer setup) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/taqueardeelestablo/view/" + fxmlFile)
-            );
-            tab.setContent(loader.load());
-            if (setup != null) setup.accept(loader);
-        } catch (IOException e) {
-            System.err.println("MenuAdmin.cargarEnTab [" + fxmlFile + "]: " + e.getMessage());
-        }
-    }
-
-    // ── Sesión ────────────────────────────────────────────────────────────────
 
     @FXML
     private void handleCerrarSesion() {

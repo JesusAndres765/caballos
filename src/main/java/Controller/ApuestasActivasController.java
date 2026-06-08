@@ -20,7 +20,7 @@ import java.util.List;
 public class ApuestasActivasController {
     @FXML private Label usuarioLabel;
     @FXML private Label saldoLabel;
-    @FXML private VBox  apuestasContainer;
+    @FXML private VBox apuestasContainer;
 
     private final ApuestaDAO apuestaDAO = new ApuestaDAO();
     private final CaballoDAO caballoDAO = new CaballoDAO();

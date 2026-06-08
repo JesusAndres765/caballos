@@ -75,7 +75,7 @@ public class VerCarreraController {
     }
 
     public void setCarrera(Carrera carrera) {
-        Carrera fresca = carreraDAO.findById(carrera.getIdCarrera());
+        Carrera fresca = carreraDAO.buscarId(carrera.getIdCarrera());
         this.carrera = (fresca != null) ? fresca : carrera;
         cargarDatos();
     }
@@ -243,7 +243,6 @@ public class VerCarreraController {
                 iv.setLayoutX(Math.max(0, metaX));
                 lblEstado.setText("Terminó");
 
-                // Si estamos en muerte súbita, el primer caballo en terminar gana
                 if (muerteSubitaActiva) {
                     muerteSubitaActiva = false;
                     tituloLabel.setText(cab.getNombre() + " GANA");
@@ -301,7 +300,7 @@ public class VerCarreraController {
 
     private void iniciarPolling() {
         pollingTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            Carrera actual = carreraDAO.findById(carrera.getIdCarrera());
+            Carrera actual = carreraDAO.buscarId(carrera.getIdCarrera());
             if (actual == null) return;
 
             if (actual.getEstado() == EstadoCarrera.FINALIZADA

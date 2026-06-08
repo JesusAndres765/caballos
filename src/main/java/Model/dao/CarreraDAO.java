@@ -35,12 +35,12 @@ public class CarreraDAO {
     }
 
     // Busca por ID
-    public Carrera findById(int idCarrera) {
+    public Carrera buscarId(int idCarrera) {
         String sql = "SELECT * FROM carreras WHERE id_carrera = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idCarrera);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) return mapResultSet(rs);
+            if (rs.next()) return mapResultadosSet(rs);
         } catch (SQLException e) {
             System.err.println("CarreraDAO.findById: " + e.getMessage());
         }
@@ -48,22 +48,20 @@ public class CarreraDAO {
     }
 
 
-    // Carreras en estado EN_GATERA o EN_CURSO — para el dashboard de usuario
-    public List<Carrera> findActivas() {
+    public List<Carrera> buscarActivas() {
         List<Carrera> lista = new ArrayList<>();
         String sql = "SELECT * FROM carreras WHERE estado IN ('EN_GATERA','EN_CURSO') " +
                 "ORDER BY fecha_creacion DESC";
         try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
-            while (rs.next()) lista.add(mapResultSet(rs));
+            while (rs.next()) lista.add(mapResultadosSet(rs));
         } catch (SQLException e) {
             System.err.println("CarreraDAO.findActivas: " + e.getMessage());
         }
         return lista;
     }
 
-    // Avanza el estado — corazón del flujo pendiente→en_gatera→en_curso→finalizada
-    public boolean updateEstado(int idCarrera, EstadoCarrera nuevoEstado) {
+    public boolean actualizarEstado(int idCarrera, EstadoCarrera nuevoEstado) {
         String sql = "UPDATE carreras SET estado = ? WHERE id_carrera = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nuevoEstado.name());
@@ -75,8 +73,7 @@ public class CarreraDAO {
         return false;
     }
 
-    // Registra la fecha real de inicio al pasar a EN_CURSO
-    public boolean updateFechaInicio(int idCarrera, LocalDateTime fechaInicio) {
+    public boolean actualizarFechaInicio(int idCarrera, LocalDateTime fechaInicio) {
         String sql = "UPDATE carreras SET fecha_inicio = ? WHERE id_carrera = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setTimestamp(1, Timestamp.valueOf(fechaInicio));
@@ -89,7 +86,7 @@ public class CarreraDAO {
     }
 
 
-    private Carrera mapResultSet(ResultSet rs) throws SQLException {
+    private Carrera mapResultadosSet(ResultSet rs) throws SQLException {
         Carrera c = new Carrera();
         c.setIdCarrera(rs.getInt("id_carrera"));
         c.setIdAdmin(rs.getInt("id_admin"));

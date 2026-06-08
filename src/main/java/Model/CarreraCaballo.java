@@ -1,7 +1,6 @@
 package Model;
 
 public class CarreraCaballo {
-
     private int id;
     private int idCarrera;
     private int idCaballo;

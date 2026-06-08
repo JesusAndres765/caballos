@@ -45,7 +45,7 @@ public class CarreraService {
     private void revisarCarrera() {
         try {
             LocalDateTime ahora = LocalDateTime.now();
-            for (Carrera c : carreraDAO.findActivas()) {
+            for (Carrera c : carreraDAO.buscarActivas()) {
                 revisarCarrera(c, ahora);
             }
         } catch (Exception ex) {
@@ -59,8 +59,8 @@ public class CarreraService {
             case EN_GATERA:
                 LocalDateTime inicio = c.getFechaInicio();
                 if (inicio != null && !ahora.isBefore(inicio)) {
-                    carreraDAO.updateEstado(c.getIdCarrera(), EstadoCarrera.EN_CURSO);
-                    carreraDAO.updateFechaInicio(c.getIdCarrera(), ahora);
+                    carreraDAO.actualizarEstado(c.getIdCarrera(), EstadoCarrera.EN_CURSO);
+                    carreraDAO.actualizarFechaInicio(c.getIdCarrera(), ahora);
                 }
                 break;
 
@@ -84,7 +84,7 @@ public class CarreraService {
                 carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
 
         if (inscripciones.isEmpty()) {
-            carreraDAO.updateEstado(carrera.getIdCarrera(), EstadoCarrera.FINALIZADA);
+            carreraDAO.actualizarEstado(carrera.getIdCarrera(), EstadoCarrera.FINALIZADA);
             return;
         }
 
@@ -128,7 +128,7 @@ public class CarreraService {
             if (pos == 0) idCaballoGanador = cc.getIdCaballo();
         }
 
-        carreraDAO.updateEstado(carrera.getIdCarrera(), EstadoCarrera.FINALIZADA);
+        carreraDAO.actualizarEstado(carrera.getIdCarrera(), EstadoCarrera.FINALIZADA);
         liquidarApuestas(carrera.getIdCarrera(), idCaballoGanador);
     }
 

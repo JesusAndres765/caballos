@@ -33,7 +33,7 @@ public class DashboardUsuarioController {
 
     @FXML private Label usuarioLabel;
     @FXML private Label saldoLabel;
-    @FXML private VBox  carrerasContainer;
+    @FXML private VBox carrerasContainer;
 
     private final CarreraDAO carreraDAO = new CarreraDAO();
     private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
@@ -56,7 +56,7 @@ public class DashboardUsuarioController {
     private void cargarCarreras() {
         carrerasContainer.getChildren().clear();
 
-        List<Carrera> carreras = carreraDAO.findActivas();
+        List<Carrera> carreras = carreraDAO.buscarActivas();
 
         if (carreras.isEmpty()) {
             carrerasContainer.getChildren().add(

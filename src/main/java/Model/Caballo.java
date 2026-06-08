@@ -1,7 +1,6 @@
 package Model;
 
 public class Caballo {
-
     private int idCaballo;
     private String nombre;
     private int numero;

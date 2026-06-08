@@ -13,8 +13,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,15 +20,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class CrearCarreraController {
-
     @FXML private ComboBox<Integer> numCaballosCombo;
-    @FXML private TextField      duracionField;
-    @FXML private ToggleGroup    gateraGroup;
+    @FXML private TextField duracionField;
+    @FXML private ToggleGroup gateraGroup;
     @FXML private TableView<Caballo> caballosTable;
-    @FXML private Label          mensajeLabel;
+    @FXML private Label mensajeLabel;
 
-    private final CaballoDAO       caballoDAO       = new CaballoDAO();
-    private final CarreraDAO       carreraDAO       = new CarreraDAO();
+    private final CaballoDAO caballoDAO = new CaballoDAO();
+    private final CarreraDAO carreraDAO = new CarreraDAO();
     private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
     private MenuAdminController menuController;
 
@@ -39,8 +36,6 @@ public class CrearCarreraController {
 
     @FXML
     private void initialize() {
-        String username = SessionManager.getInstancia().getUsuarioActual().getUsername();
-
         // Rellena el ComboBox con opciones 2 a 10
         List<Integer> opciones = new ArrayList<>();
         for (int i = 2; i <= 10; i++) opciones.add(i);
@@ -50,7 +45,6 @@ public class CrearCarreraController {
         configurarTabla();
     }
 
-    // Método nuevo a agregar en la clase
     private void configurarTabla() {
         TableColumn<Caballo, Number> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getIdCaballo()));
@@ -81,13 +75,13 @@ public class CrearCarreraController {
         List<Caballo> todos = caballoDAO.findAll();
 
         if (todos.size() < n) {
-            mensajeLabel.setText("No hay suficientes caballos registrados. " +
-                    "Se necesitan " + n + " y solo hay " + todos.size() + ".");
+            mensajeLabel.setText("No hay suficientes caballos registrados. " + "Se necesitan " + n + " y solo hay " + todos.size() + ".");
             caballosTable.getItems().clear();
             caballosSeleccionados.clear();
             return;
         }
 
+        // Mezcla aleatoriamente y toma los primeros N
         Collections.shuffle(todos);
         caballosSeleccionados = new ArrayList<>(todos.subList(0, n));
         caballosTable.setItems(FXCollections.observableArrayList(caballosSeleccionados));
@@ -96,13 +90,11 @@ public class CrearCarreraController {
 
     @FXML
     private void handleCrearCarrera() {
-        // Validación: caballos cargados
         if (caballosSeleccionados.isEmpty()) {
             mensajeLabel.setText("Primero carga los caballos.");
             return;
         }
 
-        // Validación: duración
         String duracionTexto = duracionField.getText().trim();
         int duracion;
         try {
@@ -116,7 +108,6 @@ public class CrearCarreraController {
             return;
         }
 
-        // Validación: tiempo de gatera seleccionado
         Toggle toggleSeleccionado = gateraGroup.getSelectedToggle();
         if (toggleSeleccionado == null) {
             mensajeLabel.setText("Selecciona el tiempo de gatera.");
@@ -124,7 +115,7 @@ public class CrearCarreraController {
         }
         int tiempoGatera = Integer.parseInt((String) toggleSeleccionado.getUserData());
 
-        // Construye y persiste la carrera
+        // Crea y guarda la carrera en la base de datos
         Carrera carrera = new Carrera();
         carrera.setIdAdmin(SessionManager.getInstancia().getUsuarioActual().getIdUsuario());
         carrera.setNumCaballos(caballosSeleccionados.size());
@@ -146,8 +137,7 @@ public class CrearCarreraController {
             carreraCaballoDAO.insert(cc);
         }
 
-        menuController.mostrarMensajeEnInicio(
-                "Carrera #" + carrera.getIdCarrera() + " creada correctamente."
+        menuController.mostrarMensajeEnInicio("Carrera #" + carrera.getIdCarrera() + " creada correctamente."
         );
     }
 
