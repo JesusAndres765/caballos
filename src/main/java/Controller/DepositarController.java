@@ -34,11 +34,8 @@ public class DepositarController {
 
     @FXML
     private void handleConfirmar() {
-        if (cantidadField.getText().trim().isEmpty() ||
-                tarjetaField.getText().trim().isEmpty()  ||
-                titularField.getText().trim().isEmpty()  ||
-                vigField.getText().trim().isEmpty()      ||
-                cvcField.getText().trim().isEmpty()) {
+        if (cantidadField.getText().trim().isEmpty() || tarjetaField.getText().trim().isEmpty()  || titularField.getText().trim().isEmpty()  ||
+                vigField.getText().trim().isEmpty()      || cvcField.getText().trim().isEmpty()) {
             mensajeLabel.setText("Completa todos los campos.");
             return;
         }
@@ -94,8 +91,6 @@ public class DepositarController {
 
     private String ultimosCuatro(String numero) {
         String limpio = numero.replaceAll("\\s+", "");
-        return limpio.length() >= 4
-                ? limpio.substring(limpio.length() - 4)
-                : limpio;
+        return limpio.length() >= 4 ? limpio.substring(limpio.length() - 4) : limpio;
     }
 }

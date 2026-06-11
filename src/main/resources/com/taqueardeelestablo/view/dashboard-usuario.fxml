@@ -5,11 +5,9 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.DashboardUsuarioController"
-      stylesheets="@styles.css"
-      styleClass="root-layout"
+      stylesheets="@styles.css" styleClass="root-layout"
       prefWidth="920" prefHeight="660">
 
-    <!-- HEADER -->
     <HBox styleClass="header-bar" alignment="CENTER_LEFT">
         <VBox spacing="2">
             <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
@@ -21,7 +19,7 @@
 
     <TabPane VBox.vgrow="ALWAYS" styleClass="main-tab-pane">
 
-        <Tab text="🏁  Carreras Disponibles" closable="false">
+        <Tab text="Carreras Disponibles" closable="false">
             <ScrollPane fitToWidth="true" styleClass="scroll-pane-dark">
                 <VBox fx:id="carrerasContainer" styleClass="container-padding" spacing="16"/>
             </ScrollPane>
@@ -43,13 +41,12 @@
 
                 <Region VBox.vgrow="ALWAYS"/>
 
-                <Button text="🚪  Cerrar Sesión" onAction="#handleCerrarSesion" styleClass="btn-logout"/>
+                <Button text="Cerrar Sesión" onAction="#handleCerrarSesion" styleClass="btn-logout"/>
             </VBox>
         </Tab>
 
     </TabPane>
 
-    <!-- FOOTER -->
     <HBox styleClass="footer-bar">
         <Button text="VER MIS APUESTAS ACTIVAS" onAction="#handleVerApuestasActivas" styleClass="button-primary" prefHeight="38"/>
     </HBox>

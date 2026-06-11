@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class RegistrarCaballoController {
-
     @FXML private TextField nombreField;
     @FXML private TextField numeroField;
     @FXML private Label mensajeLabel;
@@ -16,8 +15,7 @@ public class RegistrarCaballoController {
     private MenuAdminController menuController;
 
     @FXML
-    private void initialize() {
-    }
+    private void initialize() {}
 
     public void setMenuController(MenuAdminController ctrl) {
         this.menuController = ctrl;

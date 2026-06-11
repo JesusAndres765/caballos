@@ -5,11 +5,9 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.ApuestasActivasController"
-      stylesheets="@styles.css"
-      styleClass="root-layout"
+      stylesheets="@styles.css" styleClass="root-layout"
       prefWidth="920" prefHeight="660">
 
-    <!-- HEADER -->
     <HBox alignment="CENTER_LEFT" styleClass="header-bar header-orange-border">
         <VBox spacing="2">
             <Label text="Ta' QueArdeElEstablo" styleClass="header-title"/>
@@ -19,23 +17,17 @@
         <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <!-- TITULO DE SECCION -->
     <VBox styleClass="title-section">
         <Label text="MIS APUESTAS ACTIVAS" styleClass="section-orange-title"/>
         <Separator styleClass="dark-separator"/>
     </VBox>
 
-    <!-- LISTA DE APUESTAS -->
-    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS"
-                styleClass="scroll-pane-dark">
-        <VBox fx:id="apuestasContainer" spacing="10"
-              styleClass="container-padding-alt"/>
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-dark">
+        <VBox fx:id="apuestasContainer" spacing="10" styleClass="container-padding-alt"/>
     </ScrollPane>
 
-    <!-- FOOTER -->
     <HBox alignment="CENTER_RIGHT" styleClass="footer-bar">
-        <Button text="&lt;- VOLVER AL INICIO" onAction="#handleVolver"
-                styleClass="btn-back"/>
+        <Button text="&lt;- VOLVER AL INICIO" onAction="#handleVolver" styleClass="btn-back"/>
     </HBox>
 
 </VBox>

@@ -112,8 +112,8 @@ public class VerCarreraController {
 
     // Crea la fila de un caballo [Nombre | Carril | Estado]
     private void crearFilaCaballo(Caballo caballo, int index) {
-        Image sprite1 = cargarImagen("/images/caballos/caballo" + (index + 1) + "-1.png");
-        Image sprite2 = cargarImagen("/images/caballos/caballo" + (index + 1) + "-2.png");
+        Image sprite1 = cargarImagen("/images/caballos/caballo" + index + "-1.png");
+        Image sprite2 = cargarImagen("/images/caballos/caballo" + index + "-2.png");
         spritesHorse.add(new Image[]{ sprite1, sprite2 });
 
         ImageView imageView = new ImageView(sprite1 != null ? sprite1 : null);
@@ -257,7 +257,7 @@ public class VerCarreraController {
             hilo.start();
         }
 
-        // Alterna los dos frames del sprite cada 120 ms para simular movimiento
+        // Alterna los dos frames para simular movimiento
         int[] frame = { 0 };
         spriteTimeline = new Timeline(new KeyFrame(Duration.millis(120), e -> {
             frame[0]++;
@@ -303,8 +303,7 @@ public class VerCarreraController {
             Carrera actual = carreraDAO.buscarId(carrera.getIdCarrera());
             if (actual == null) return;
 
-            if (actual.getEstado() == EstadoCarrera.FINALIZADA
-                    && carrera.getEstado() != EstadoCarrera.FINALIZADA) {
+            if (actual.getEstado() == EstadoCarrera.FINALIZADA && carrera.getEstado() != EstadoCarrera.FINALIZADA) {
                 pollingTimeline.stop();
                 carrera = actual;
                 mostrarFinalizacion();
@@ -322,8 +321,7 @@ public class VerCarreraController {
         timerLabel.setText("0:00");
         verResultadosBtn.setDisable(false);
 
-        Usuario refreshed = usuarioDAO.findById(
-                SessionManager.getInstancia().getUsuarioActual().getIdUsuario());
+        Usuario refreshed = usuarioDAO.findById(SessionManager.getInstancia().getUsuarioActual().getIdUsuario());
         if (refreshed != null) {
             SessionManager.getInstancia().refrescarSaldo(refreshed.getSaldo());
             saldoLabel.setText(String.format("Saldo: %.2f", refreshed.getSaldo()));

@@ -1,10 +1,3 @@
-/* ═══════════════════════════════════════════════════════════════
-   TA' QUEARDEEL ESTABLO — STYLESHEET
-   Tema: dark horse-racing betting terminal
-   Paleta: #11141A · #1E222B · #FF6B00 · #F1C40F · #2ECC71
-═══════════════════════════════════════════════════════════════ */
-
-/* ── ROOT ─────────────────────────────────────────────────── */
 .root {
     -fx-background-color: #11141A;
     -fx-font-family: "Segoe UI", sans-serif;
@@ -16,7 +9,6 @@
     -fx-background-color: #11141A;
 }
 
-/* ── HEADER BAR ───────────────────────────────────────────── */
 .header-bar {
     -fx-background-color: #1A1E27;
     -fx-padding: 10 20 10 20;
@@ -26,7 +18,6 @@
     -fx-spacing: 10;
 }
 
-/* Variante con borde inferior naranja — para pantallas de carrera */
 .header-orange-border {
     -fx-border-color: transparent transparent #FF6B00 transparent;
     -fx-border-width: 0 0 2 0;
@@ -55,7 +46,6 @@
     -fx-padding: 5 14 5 14;
 }
 
-/* ── FOOTER BAR ───────────────────────────────────────────── */
 .footer-bar {
     -fx-background-color: #1A1E27;
     -fx-padding: 10 16 10 16;
@@ -64,7 +54,6 @@
     -fx-alignment: CENTER_LEFT;
 }
 
-/* ── TAB PANE ─────────────────────────────────────────────── */
 .main-tab-pane {
     -fx-background-color: transparent;
     -fx-tab-min-height: 40;
@@ -99,7 +88,6 @@
     -fx-padding: 0;
 }
 
-/* ── SCROLL PANE ──────────────────────────────────────────── */
 .scroll-pane-dark {
     -fx-background-color: #11141A;
     -fx-background: #11141A;
@@ -125,7 +113,6 @@
     -fx-pref-height: 0;
 }
 
-/* ── CONTENEDORES ─────────────────────────────────────────── */
 .container-padding {
     -fx-padding: 20;
     -fx-spacing: 16;
@@ -137,13 +124,11 @@
     -fx-background-color: #11141A;
 }
 
-/* Contenedor del título de sección (con padding lateral) */
 .title-section {
     -fx-padding: 18 24 10 24;
     -fx-background-color: #11141A;
 }
 
-/* ── CARDS ────────────────────────────────────────────────── */
 .card {
     -fx-background-color: #1E222B;
     -fx-background-radius: 10;
@@ -154,7 +139,6 @@
     -fx-padding: 18;
 }
 
-/* ── BOTONES — PRIMARY ────────────────────────────────────── */
 .button-primary {
     -fx-background-color: #FF6B00;
     -fx-text-fill: white;
@@ -167,7 +151,6 @@
 .button-primary:hover  { -fx-background-color: #E66000; }
 .button-primary:pressed { -fx-background-color: #CC5500; }
 
-/* ── BOTONES — SECONDARY ──────────────────────────────────── */
 .btn-secondary {
     -fx-background-color: transparent;
     -fx-text-fill: #95A5A6;
@@ -183,7 +166,6 @@
     -fx-text-fill: #D5D8DC;
 }
 
-/* ── BOTONES — VOLVER ─────────────────────────────────────── */
 .btn-back {
     -fx-background-color: #2C313D;
     -fx-text-fill: #BDC3C7;
@@ -195,7 +177,6 @@
 }
 .btn-back:hover { -fx-background-color: #3D4454; }
 
-/* ── BOTONES — VER CARRERA / HISTORIAL ───────────────────── */
 .btn-history {
     -fx-background-color: transparent;
     -fx-text-fill: #95A5A6;
@@ -211,7 +192,6 @@
     -fx-text-fill: white;
 }
 
-/* ── BOTONES — MONEDERO ───────────────────────────────────── */
 .btn-deposit {
     -fx-background-color: #1A3A2A;
     -fx-text-fill: #2ECC71;
@@ -257,7 +237,6 @@
     -fx-border-color: #E74C3C;
 }
 
-/* ── LABELS ───────────────────────────────────────────────── */
 .section-title {
     -fx-text-fill: white;
     -fx-font-size: 15px;
@@ -269,53 +248,45 @@
     -fx-font-size: 11px;
 }
 
-/* Título naranja de sección (HISTORIAL DE APUESTAS, CLASIFICACIÓN FINAL, etc.) */
 .section-orange-title {
     -fx-text-fill: #FF6B00;
     -fx-font-weight: bold;
     -fx-font-size: 12px;
 }
 
-/* Título grande de pantalla (Resultados, Depositar, etc.) */
 .page-title {
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 17px;
 }
 
-/* Título de estado de la carrera */
 .titulo-carrera {
     -fx-text-fill: #ECEFF1;
     -fx-font-weight: bold;
     -fx-font-size: 15px;
 }
 
-/* Timer / cronómetro de la carrera */
 .timer-carrera {
     -fx-text-fill: #FF6B00;
     -fx-font-size: 26px;
     -fx-font-weight: bold;
 }
 
-/* Labels de formulario (CANTIDAD A DEPOSITAR, NÚMERO DE CUENTA, etc.) */
 .form-label {
     -fx-text-fill: #7F8C8D;
     -fx-font-size: 10px;
     -fx-font-weight: bold;
 }
 
-/* Label de mensaje de error */
 .error-label {
     -fx-text-fill: #E74C3C;
     -fx-font-size: 12px;
 }
 
-/* ── SEPARADOR OSCURO ─────────────────────────────────────── */
 .dark-separator {
     -fx-background-color: #2C313D;
 }
 
-/* ── TABLAS ───────────────────────────────────────────────── */
 .table-view {
     -fx-background-color: #11141A;
     -fx-border-color: #2C313D;
@@ -357,7 +328,6 @@
 .table-view .scroll-bar         { -fx-opacity: 0; }
 .table-view .corner             { -fx-background-color: #1E222B; }
 
-/* ── INPUTS ───────────────────────────────────────────────── */
 .text-field {
     -fx-background-color: #2C313D;
     -fx-text-fill: white;
@@ -418,7 +388,6 @@
 .combo-box-popup > .list-view .list-cell:hover    { -fx-background-color: rgba(255,107,0,0.2); }
 .combo-box-popup > .list-view .list-cell:selected { -fx-background-color: rgba(255,107,0,0.35); }
 
-/* ── BADGES DE RESULTADO (Historial) ─────────────────────── */
 .badge-ganada {
     -fx-background-color: #1A3A2A;
     -fx-text-fill: #2ECC71;

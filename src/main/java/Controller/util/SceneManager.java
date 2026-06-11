@@ -10,12 +10,11 @@ import javafx.scene.layout.Region;
 import java.io.IOException;
 
 public class SceneManager {
-
     private static Stage primaryStage;
 
     private SceneManager() {}
 
-    // Se llama una sola vez desde MainApp al arrancar la aplicacion
+    // Se llama una vez desde MainApp al arrancar la aplicacion
     public static void setPrimaryStage(Stage stage) {
         primaryStage = stage;
     }
@@ -26,10 +25,7 @@ public class SceneManager {
 
     public static FXMLLoader cambiarEscena(String fxmlFile) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    SceneManager.class.getResource(
-                            "/com/taqueardeelestablo/view/" + fxmlFile)
-            );
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/com/taqueardeelestablo/view/" + fxmlFile));
             Parent root = loader.load();
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -40,11 +36,9 @@ public class SceneManager {
         }
     }
 
-    // Abre el FXML en una nueva ventana independiente
     public static FXMLLoader abrirVentana(String fxmlFile, String titulo) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    SceneManager.class.getResource("/com/taqueardeelestablo/view/" + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/com/taqueardeelestablo/view/" + fxmlFile));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle(titulo);
@@ -59,8 +53,7 @@ public class SceneManager {
 
     public static FXMLLoader abrirModal(String fxmlFile, String titulo) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    SceneManager.class.getResource("/com/taqueardeelestablo/view/" + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/com/taqueardeelestablo/view/" + fxmlFile));
             Parent root = loader.load();
 
             double w = (root instanceof Region r && r.getPrefWidth()  > 0) ? r.getPrefWidth()  : 400;

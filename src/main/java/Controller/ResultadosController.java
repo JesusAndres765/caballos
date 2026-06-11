@@ -68,9 +68,7 @@ public class ResultadosController {
         apuestasUsuario = apuestaDAO.findByUsuarioYCarrera(idUsuario, carrera.getIdCarrera());
 
         if (apuestasUsuario.isEmpty()) {
-            apuestasResultContainer.getChildren().add(
-                    new Label("No realizaste apuestas en esta carrera.")
-            );
+            apuestasResultContainer.getChildren().add(new Label("No realizaste apuestas en esta carrera."));
             return;
         }
 

@@ -13,9 +13,7 @@ public class CarreraDAO {
     private final Connection conn = ConexionDB.getConnection();
 
     public boolean insert(Carrera carrera) {
-        String sql = "INSERT INTO carreras " +
-                "(id_admin, num_caballos, duracion_seg, tiempo_gatera, estado, fecha_inicio) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carreras " + "(id_admin, num_caballos, duracion_seg, tiempo_gatera, estado, fecha_inicio) " + "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, carrera.getIdAdmin());
             ps.setInt(2, carrera.getNumCaballos());
@@ -50,8 +48,7 @@ public class CarreraDAO {
 
     public List<Carrera> buscarActivas() {
         List<Carrera> lista = new ArrayList<>();
-        String sql = "SELECT * FROM carreras WHERE estado IN ('EN_GATERA','EN_CURSO') " +
-                "ORDER BY fecha_creacion DESC";
+        String sql = "SELECT * FROM carreras WHERE estado IN ('EN_GATERA','EN_CURSO') " + "ORDER BY fecha_creacion DESC";
         try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) lista.add(mapResultadosSet(rs));

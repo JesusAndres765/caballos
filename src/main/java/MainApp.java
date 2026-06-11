@@ -12,8 +12,6 @@ public class MainApp extends Application {
         primaryStage.setMaximized(true);
         SceneManager.cambiarEscena("login.fxml");
 
-        // Arranca el servicio de carreras; corre cada segundo
-        // en el hilo de JavaFX, sin problemas de concurrencia
         CarreraService.getInstancia().iniciar();
     }
 

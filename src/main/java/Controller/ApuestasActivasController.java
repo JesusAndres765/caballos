@@ -80,7 +80,7 @@ public class ApuestasActivasController {
                 ? caballo.getNombre() + "  —  No. " + caballo.getNumero()
                 : "Caballo #" + apuesta.getIdCaballo();
 
-        double porcentaje    = 100.0 / apuesta.getMultiplicador();
+        double porcentaje = 100.0 / apuesta.getMultiplicador();
         double premioEsperad = apuesta.getMonto() * apuesta.getMultiplicador();
 
         Label lblCaballo = new Label(infoCaballo);

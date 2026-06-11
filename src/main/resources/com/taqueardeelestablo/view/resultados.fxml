@@ -8,7 +8,6 @@
       stylesheets="@styles.css" styleClass="root-layout"
       prefWidth="920" prefHeight="660">
 
-    <!-- HEADER -->
     <HBox styleClass="header-bar, header-orange-border" alignment="CENTER_LEFT">
         <VBox spacing="2">
             <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
@@ -18,15 +17,13 @@
         <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <VBox alignment="CENTER" spacing="4"
-          style="-fx-padding: 20 0 16 0; -fx-background-color: #11141A;">
-        <Label text="🏁 Resultados de la Carrera" styleClass="page-title"/>
+    <VBox alignment="CENTER" spacing="4" style="-fx-padding: 20 0 16 0; -fx-background-color: #11141A;">
+        <Label text="Resultados de la Carrera" styleClass="page-title"/>
     </VBox>
 
     <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-dark">
         <HBox spacing="0" style="-fx-padding: 0 20 20 20; -fx-background-color: #11141A;">
 
-            <!-- Clasificación final -->
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-padding: 0 20 0 0;">
                 <Label text="CLASIFICACIÓN FINAL" styleClass="section-orange-title"/>
                 <Separator styleClass="dark-separator"/>

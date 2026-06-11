@@ -16,9 +16,7 @@ public class Apuesta {
 
     public Apuesta() {}
 
-    public Apuesta(int idApuesta, int idUsuario, int idCarrera, int idCaballo,
-                   double monto, int multiplicador, ResultadoApuesta resultado,
-                   double cobro, LocalDateTime fechaApuesta) {
+    public Apuesta(int idApuesta, int idUsuario, int idCarrera, int idCaballo, double monto, int multiplicador, ResultadoApuesta resultado, double cobro, LocalDateTime fechaApuesta) {
         this.idApuesta = idApuesta;
         this.idUsuario = idUsuario;
         this.idCarrera = idCarrera;
@@ -59,8 +57,6 @@ public class Apuesta {
 
     @Override
     public String toString() {
-        return "Apuesta{id=" + idApuesta + ", usuario=" + idUsuario
-                + ", caballo=" + idCaballo + ", monto=" + monto
-                + ", resultado=" + resultado + ", cobro=" + cobro + "}";
+        return "Apuesta{id=" + idApuesta + ", usuario=" + idUsuario + ", caballo=" + idCaballo + ", monto=" + monto + ", resultado=" + resultado + ", cobro=" + cobro + "}";
     }
 }

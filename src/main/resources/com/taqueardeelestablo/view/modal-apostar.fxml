@@ -6,8 +6,7 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.ModalApostarController"
-      stylesheets="@styles.css"
-      styleClass="root-layout"
+      stylesheets="@styles.css" styleClass="root-layout"
       prefWidth="520" prefHeight="500" spacing="0">
 
     <VBox style="-fx-background-color: #1E222B;
@@ -19,7 +18,7 @@
             <Label text="🏇" style="-fx-font-size: 20px;"/>
             <Label text="REALIZAR APUESTA" styleClass="page-title"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="cierreLabel" text="⏱ --:--"
+            <Label fx:id="cierreLabel" text=" --:--"
                    style="-fx-text-fill: #E74C3C; -fx-font-weight: bold; -fx-font-size: 12px;
                           -fx-background-color: #3A1A1A; -fx-background-radius: 20;
                           -fx-border-color: #C0392B; -fx-border-radius: 20; -fx-border-width: 1;
@@ -52,20 +51,14 @@
         <TextField fx:id="apuestaField" promptText="0.00" prefHeight="40" styleClass="text-field"/>
     </VBox>
 
-    <Label fx:id="mensajeLabel" text="" wrapText="true"
-           styleClass="error-label" style="-fx-padding: 6 24 0 24;"/>
+    <Label fx:id="mensajeLabel" text="" wrapText="true" styleClass="error-label" style="-fx-padding: 6 24 0 24;"/>
 
     <Region VBox.vgrow="ALWAYS"/>
 
-    <HBox spacing="12" alignment="CENTER"
-          style="-fx-padding: 14 24 20 24;
-                 -fx-background-color: #1E222B;
-                 -fx-border-color: #2C313D transparent transparent transparent;
-                 -fx-border-width: 1 0 0 0;">
-        <Button fx:id="confirmBtn" text="CONFIRMAR APUESTA" onAction="#handleConfirmar"
-                prefWidth="230" prefHeight="46" styleClass="button-primary"/>
-        <Button fx:id="cancelBtn"  text="CANCELAR" onAction="#handleCancelar"
-                prefWidth="110" prefHeight="46" styleClass="btn-secondary"/>
+    <HBox spacing="12" alignment="CENTER" style="-fx-padding: 14 24 20 24; -fx-background-color: #1E222B;
+                 -fx-border-color: #2C313D transparent transparent transparent; -fx-border-width: 1 0 0 0;">
+        <Button fx:id="confirmBtn" text="CONFIRMAR APUESTA" onAction="#handleConfirmar" prefWidth="230" prefHeight="46" styleClass="button-primary"/>
+        <Button fx:id="cancelBtn"  text="CANCELAR" onAction="#handleCancelar" prefWidth="110" prefHeight="46" styleClass="btn-secondary"/>
     </HBox>
 
 </VBox>

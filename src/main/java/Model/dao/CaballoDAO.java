@@ -75,7 +75,7 @@ public class CaballoDAO {
     }
 
 
-    // Actualiza nombre y número de un caballo existente
+    // Actualiza nombre y numero del caballo
     public boolean update(Caballo caballo) {
         String sql = "UPDATE caballos SET nombre = ?, numero = ? WHERE id_caballo = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -89,27 +89,22 @@ public class CaballoDAO {
         return false;
     }
 
-    // Elimina el caballo junto con todos sus registros dependientes.
-// Orden obligatorio por FK: apuestas → carrera_caballos → caballos.
-// Todo dentro de una transacción: si un paso falla, se hace rollback.
+    // Elimina el caballo junto con todos sus registros
     public boolean deleteConCascada(int idCaballo) {
         try {
             conn.setAutoCommit(false);
 
-            try (PreparedStatement ps = conn.prepareStatement(
-                    "DELETE FROM apuestas WHERE id_caballo = ?")) {
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM apuestas WHERE id_caballo = ?")) {
                 ps.setInt(1, idCaballo);
                 ps.executeUpdate();
             }
 
-            try (PreparedStatement ps = conn.prepareStatement(
-                    "DELETE FROM carrera_caballos WHERE id_caballo = ?")) {
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM carrera_caballos WHERE id_caballo = ?")) {
                 ps.setInt(1, idCaballo);
                 ps.executeUpdate();
             }
 
-            try (PreparedStatement ps = conn.prepareStatement(
-                    "DELETE FROM caballos WHERE id_caballo = ?")) {
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM caballos WHERE id_caballo = ?")) {
                 ps.setInt(1, idCaballo);
                 ps.executeUpdate();
             }
@@ -148,8 +143,7 @@ public class CaballoDAO {
         return false;
     }
 
-    // Busca por ID exacto, por nombre parcial, o por ambos (OR)
-// Si ambos campos están vacíos devuelve todos
+    // Busca por ID, por nombre o por ambos
     public List<Caballo> buscar(String nombre, String idTexto) {
         boolean tieneId     = idTexto != null && !idTexto.trim().isEmpty();
         boolean tieneNombre = nombre  != null && !nombre.trim().isEmpty();

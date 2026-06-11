@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ActualizarCaballoController {
-
     @FXML private TextField nombreField;
     @FXML private TextField numeroField;
     @FXML private Label mensajeLabel;

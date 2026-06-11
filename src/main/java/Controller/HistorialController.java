@@ -62,7 +62,7 @@ public class HistorialController {
     }
 
     private VBox crearTarjetaHistorial(Apuesta apuesta) {
-        Caballo caballo    = caballoDAO.findById(apuesta.getIdCaballo());
+        Caballo caballo = caballoDAO.findById(apuesta.getIdCaballo());
         String infoCaballo = caballo != null
                 ? caballo.getNombre() + "  —  No. " + caballo.getNumero()
                 : "Caballo #" + apuesta.getIdCaballo();

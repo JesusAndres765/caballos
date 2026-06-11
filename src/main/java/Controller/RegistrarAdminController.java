@@ -19,8 +19,7 @@ public class RegistrarAdminController {
     private MenuAdminController menuController;
 
     @FXML
-    private void initialize() {
-    }
+    private void initialize() {}
 
     public void setMenuController(MenuAdminController ctrl) {
         this.menuController = ctrl;

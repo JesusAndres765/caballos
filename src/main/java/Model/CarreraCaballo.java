@@ -10,8 +10,7 @@ public class CarreraCaballo {
 
     public CarreraCaballo() {}
 
-    public CarreraCaballo(int id, int idCarrera, int idCaballo,
-                          int posicionFinal, double progresoFinal, boolean terminoCarrera) {
+    public CarreraCaballo(int id, int idCarrera, int idCaballo, int posicionFinal, double progresoFinal, boolean terminoCarrera) {
         this.id = id;
         this.idCarrera = idCarrera;
         this.idCaballo = idCaballo;
@@ -40,8 +39,6 @@ public class CarreraCaballo {
 
     @Override
     public String toString() {
-        return "CarreraCaballo{carrera=" + idCarrera + ", caballo=" + idCaballo
-                + ", posicion=" + posicionFinal + ", progreso=" + progresoFinal
-                + ", termino=" + terminoCarrera + "}";
+        return "CarreraCaballo{carrera=" + idCarrera + ", caballo=" + idCaballo + ", posicion=" + posicionFinal + ", progreso=" + progresoFinal + ", termino=" + terminoCarrera + "}";
     }
 }

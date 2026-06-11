@@ -14,8 +14,7 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(int idUsuario, String username, String contrasena,
-                   Rol rol, double saldo, LocalDateTime fechaRegistro) {
+    public Usuario(int idUsuario, String username, String contrasena, Rol rol, double saldo, LocalDateTime fechaRegistro) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.contrasena = contrasena;

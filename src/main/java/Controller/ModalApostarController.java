@@ -32,7 +32,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class ModalApostarController {
-
     @FXML private Label multiplicadorLabel;
     @FXML private Label porcentajeLabel;
     @FXML private Label cierreLabel;
@@ -81,7 +80,7 @@ public class ModalApostarController {
         caballosTabla.setItems(FXCollections.observableArrayList(caballos));
         configurarComboBox();
 
-        // Calcula cuántos segundos faltan para el cierre de apuestas
+        // Calcula los segundos que faltan para el cierre de apuestas
         LocalDateTime fechaCreacion = carrera.getFechaCreacion();
 
         if (fechaCreacion == null) {
@@ -100,7 +99,7 @@ public class ModalApostarController {
         }
     }
 
-    // Cuenta regresiva que muestra cuánto tiempo queda para apostar
+    // Cuenta regresiva que muestra cuanto tiempo queda para apostar
     private void iniciarCuentaRegresiva(long segundosIniciales) {
         long[] segundos = { segundosIniciales };
         cierreLabel.setText("Las Apuestas Cierran en: " + formatearTiempo(segundos[0]));
@@ -194,7 +193,7 @@ public class ModalApostarController {
             return;
         }
 
-        // Descuenta el saldo y registra la transacción
+        // Descuenta el saldo y registra la transaccion
         double nuevoSaldo = usuario.getSaldo() - monto;
         usuarioDAO.updateSaldo(usuario.getIdUsuario(), nuevoSaldo);
         SessionManager.getInstancia().refrescarSaldo(nuevoSaldo);

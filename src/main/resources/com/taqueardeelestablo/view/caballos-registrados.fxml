@@ -14,7 +14,6 @@
             <Label fx:id="adminLabel" text="Administrador: —" styleClass="header-subtitle"/>
         </HBox>
 
-        <!-- Fila de búsqueda -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="ID:" styleClass="field-label" prefWidth="40"/>
             <TextField fx:id="buscarIdField" promptText="ID del caballo" prefHeight="36" prefWidth="120" styleClass="text-field"/>
@@ -24,7 +23,7 @@
 
             <Region HBox.hgrow="ALWAYS"/>
             <Button text="Buscar" onAction="#handleBuscar" prefHeight="36" prefWidth="100" styleClass="btn-load"/>
-            <Button text="Limpiar" onAction="#handleLimpiar" prefHeight="36" prefWidth="100" styleClass="btn-secondary"/>
+            <Button text="Actualizar" onAction="#handleLimpiar" prefHeight="36" prefWidth="100" styleClass="btn-secondary"/>
         </HBox>
     </VBox>
 

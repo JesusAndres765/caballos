@@ -9,20 +9,17 @@
            stylesheets="@stylesA.css" styleClass="root-layout"
            prefWidth="400" prefHeight="290">
 
-    <VBox spacing="18" maxWidth="340" alignment="CENTER"
-          styleClass="card">
+    <VBox spacing="18" maxWidth="340" alignment="CENTER" styleClass="card">
         <padding>
             <Insets top="26" right="36" bottom="26" left="36"/>
         </padding>
 
-        <!-- Titulo -->
         <VBox spacing="4">
             <Label text="ACTUALIZAR CABALLO" styleClass="page-title"/>
         </VBox>
 
         <Separator styleClass="dark-separator"/>
 
-        <!-- Campos -->
         <VBox spacing="12">
             <VBox spacing="6">
                 <Label text="NOMBRE" styleClass="form-label"/>
@@ -34,8 +31,7 @@
             </VBox>
         </VBox>
 
-        <Label fx:id="mensajeLabel" text="" wrapText="true"
-               styleClass="error-label"/>
+        <Label fx:id="mensajeLabel" text="" wrapText="true" styleClass="error-label"/>
 
         <HBox spacing="12" alignment="CENTER">
             <Button fx:id="actualizarBtn" text="✔  Actualizar" onAction="#handleActualizar" prefHeight="40" prefWidth="140" styleClass="button-primary"/>

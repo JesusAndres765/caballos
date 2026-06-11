@@ -31,12 +31,11 @@ public class CrearCarreraController {
     private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
     private MenuAdminController menuController;
 
-    // Guarda los caballos seleccionados al cargar para usarlos al crear la carrera
     private List<Caballo> caballosSeleccionados = new ArrayList<>();
 
     @FXML
     private void initialize() {
-        // Rellena el ComboBox con opciones 2 a 10
+        // ComboBox con opciones 2 a 10
         List<Integer> opciones = new ArrayList<>();
         for (int i = 2; i <= 10; i++) opciones.add(i);
         numCaballosCombo.setItems(FXCollections.observableArrayList(opciones));
@@ -81,7 +80,6 @@ public class CrearCarreraController {
             return;
         }
 
-        // Mezcla aleatoriamente y toma los primeros N
         Collections.shuffle(todos);
         caballosSeleccionados = new ArrayList<>(todos.subList(0, n));
         caballosTable.setItems(FXCollections.observableArrayList(caballosSeleccionados));
@@ -129,7 +127,7 @@ public class CrearCarreraController {
             return;
         }
 
-        // Inscribe cada caballo a la carrera recién creada
+        // Inscribe cada caballo a la carrera recien creada
         for (Caballo caballo : caballosSeleccionados) {
             CarreraCaballo cc = new CarreraCaballo();
             cc.setIdCarrera(carrera.getIdCarrera());
@@ -137,8 +135,7 @@ public class CrearCarreraController {
             carreraCaballoDAO.insert(cc);
         }
 
-        menuController.mostrarMensajeEnInicio("Carrera #" + carrera.getIdCarrera() + " creada correctamente."
-        );
+        menuController.mostrarMensajeEnInicio("Carrera #" + carrera.getIdCarrera() + " creada correctamente.");
     }
 
     @FXML

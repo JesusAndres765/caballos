@@ -21,7 +21,7 @@ public class UsuarioDAO {
         return null;
     }
 
-    // Busca por ID — usado para refrescar saldo en sesión
+    // Busca por ID
     public Usuario findById(int idUsuario) {
         String sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardUsuarioController {
-
     @FXML private Label usuarioLabel;
     @FXML private Label saldoLabel;
     @FXML private VBox carrerasContainer;
@@ -59,9 +59,7 @@ public class DashboardUsuarioController {
         List<Carrera> carreras = carreraDAO.buscarActivas();
 
         if (carreras.isEmpty()) {
-            carrerasContainer.getChildren().add(
-                    new Label("No hay carreras activas en este momento.")
-            );
+            carrerasContainer.getChildren().add(new Label("No hay carreras activas en este momento."));
             return;
         }
 
@@ -155,9 +153,14 @@ public class DashboardUsuarioController {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Apostar");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
 
+            double w = (root instanceof Region r && r.getPrefWidth()  > 0) ? r.getPrefWidth()  : 700;
+            double h = (root instanceof Region r && r.getPrefHeight() > 0) ? r.getPrefHeight() : 520;
+            stage.setScene(new Scene(root, w, h));
+            stage.setResizable(false);
+            stage.centerOnScreen();
+
+            stage.showAndWait();
             actualizarCabecera();
         } catch (IOException e) {
             System.err.println("DashboardUsuario.abrirModalApostar: " + e.getMessage());
@@ -174,8 +177,10 @@ public class DashboardUsuarioController {
     }
 
     @FXML
-    private void handleCerrarSesion() { SessionManager.getInstancia().cerrarSesion();
-        SceneManager.cambiarEscena("login.fxml"); }
+    private void handleCerrarSesion() {
+        SessionManager.getInstancia().cerrarSesion();
+        SceneManager.cambiarEscena("login.fxml");
+    }
 
     @FXML
     private void handleVerApuestasActivas() {

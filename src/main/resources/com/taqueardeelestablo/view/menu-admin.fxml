@@ -8,7 +8,6 @@
       stylesheets="@stylesA.css" styleClass="root-layout"
       prefWidth="1100" prefHeight="700">
 
-    <!-- HEADER -->
     <HBox styleClass="header-bar" alignment="CENTER_LEFT">
         <VBox spacing="2">
             <Label text="🏇 Ta' QueArdeElEstablo — Panel Administrador" styleClass="header-title"/>

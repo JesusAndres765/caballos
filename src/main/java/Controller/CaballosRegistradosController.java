@@ -38,7 +38,7 @@ public class CaballosRegistradosController {
         this.menuController = ctrl;
     }
 
-    // Crea todas las columnas de la tabla, incluyendo los botones de acción
+    // Crea todas las columnas de la tabla y los botones
     private void configurarTabla() {
         TableColumn<Caballo, Number> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getIdCaballo()));
@@ -60,7 +60,6 @@ public class CaballosRegistradosController {
         ganadasCol.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getCarrerasGanadas()));
         ganadasCol.setPrefWidth(140);
 
-        // Columna con botón Actualizar
         TableColumn<Caballo, Void> actualizarCol = new TableColumn<>("Actualizar");
         actualizarCol.setPrefWidth(110);
         actualizarCol.setCellFactory(c -> new TableCell<Caballo, Void>() {
@@ -78,7 +77,6 @@ public class CaballosRegistradosController {
             }
         });
 
-        // Columna con botón Eliminar
         TableColumn<Caballo, Void> eliminarCol = new TableColumn<>("Eliminar");
         eliminarCol.setPrefWidth(110);
         eliminarCol.setCellFactory(c -> new TableCell<Caballo, Void>() {
@@ -96,10 +94,7 @@ public class CaballosRegistradosController {
             }
         });
 
-        caballosTable.getColumns().addAll(
-                idCol, nombreCol, numeroCol, corridasCol, ganadasCol,
-                actualizarCol, eliminarCol
-        );
+        caballosTable.getColumns().addAll(idCol, nombreCol, numeroCol, corridasCol, ganadasCol, actualizarCol, eliminarCol);
     }
 
     private void cargarTodos() {
@@ -150,7 +145,6 @@ public class CaballosRegistradosController {
             modal.setScene(new Scene(root));
             modal.showAndWait();
 
-            // Refresca la tabla al cerrar el modal
             cargarTodos();
         } catch (IOException e) {
             System.err.println("CaballosRegistrados.abrirModalActualizar: " + e.getMessage());
@@ -167,8 +161,7 @@ public class CaballosRegistradosController {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Eliminar Caballo");
         confirm.setHeaderText("¿Estás seguro de eliminar a \"" + caballo.getNombre() + "\"?");
-        confirm.setContentText("Se eliminará también su historial de carreras y apuestas.\n" + "Esta acción no se puede deshacer."
-        );
+        confirm.setContentText("Se eliminará también su historial de carreras y apuestas.\n" + "Esta acción no se puede deshacer.");
         confirm.initOwner((Stage) caballosTable.getScene().getWindow());
 
         ButtonType btnConfirmar = new ButtonType("Confirmar");

@@ -11,10 +11,8 @@ public class TransaccionDAO {
 
     private final Connection conn = ConexionDB.getConnection();
 
-    // Log inmutable — solo se inserta, nunca se modifica
     public boolean insert(Transaccion transaccion) {
-        String sql = "INSERT INTO transacciones (id_usuario, tipo, monto, descripcion) " +
-                "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO transacciones (id_usuario, tipo, monto, descripcion) " + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, transaccion.getIdUsuario());
             ps.setString(2, transaccion.getTipo().name());
@@ -31,7 +29,6 @@ public class TransaccionDAO {
         return false;
     }
 
-    // Historial completo del usuario ordenado por más reciente
     public List<Transaccion> findByUsuario(int idUsuario) {
         List<Transaccion> lista = new ArrayList<>();
         String sql = "SELECT * FROM transacciones WHERE id_usuario = ? ORDER BY fecha DESC";

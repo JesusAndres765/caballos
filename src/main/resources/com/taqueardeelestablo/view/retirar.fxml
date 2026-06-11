@@ -6,11 +6,9 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controller.RetirarController"
-      stylesheets="@styles.css"
-      styleClass="root-layout"
+      stylesheets="@styles.css" styleClass="root-layout"
       prefWidth="920" prefHeight="900">
 
-    <!-- HEADER -->
     <HBox styleClass="header-bar" alignment="CENTER_LEFT">
         <VBox spacing="2">
             <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
@@ -21,12 +19,11 @@
     </HBox>
 
     <StackPane VBox.vgrow="ALWAYS">
-        <VBox spacing="18" maxWidth="400" alignment="CENTER" styleClass="card">
+        <VBox spacing="18" maxWidth="500" maxHeight="600"  alignment="CENTER" styleClass="card">
             <padding>
                 <Insets top="28" right="35" bottom="28" left="35"/>
             </padding>
 
-            <!-- Título -->
             <VBox spacing="3">
                 <Label text="RETIRAR FONDOS" styleClass="page-title"/>
                 <Label text="Los retiros se procesan de inmediato" styleClass="section-subtitle"/>
@@ -34,7 +31,6 @@
 
             <Separator styleClass="dark-separator"/>
 
-            <!-- Campos -->
             <VBox spacing="12">
                 <VBox spacing="6">
                     <Label text="CANTIDAD A RETIRAR ($)" styleClass="form-label"/>
@@ -42,7 +38,7 @@
                 </VBox>
 
                 <VBox spacing="6">
-                    <Label text="NÚMERO DE CUENTA DESTINO" styleClass="form-label"/>
+                    <Label text="NUMERO DE CUENTA DESTINO" styleClass="form-label"/>
                     <TextField fx:id="cuentaField" promptText="Número de cuenta" prefHeight="42" maxWidth="Infinity" styleClass="text-field"/>
                 </VBox>
             </VBox>

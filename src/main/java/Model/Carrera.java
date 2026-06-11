@@ -15,9 +15,7 @@ public class Carrera {
 
     public Carrera() {}
 
-    public Carrera(int idCarrera, int idAdmin, int numCaballos, int duracionSeg,
-                   int tiempoGatera, EstadoCarrera estado,
-                   LocalDateTime fechaCreacion, LocalDateTime fechaInicio) {
+    public Carrera(int idCarrera, int idAdmin, int numCaballos, int duracionSeg, int tiempoGatera, EstadoCarrera estado, LocalDateTime fechaCreacion, LocalDateTime fechaInicio) {
         this.idCarrera = idCarrera;
         this.idAdmin = idAdmin;
         this.numCaballos = numCaballos;
@@ -54,7 +52,6 @@ public class Carrera {
 
     @Override
     public String toString() {
-        return "Carrera{id=" + idCarrera + ", numCaballos=" + numCaballos
-                + ", duracion=" + duracionSeg + "s, estado=" + estado + "}";
+        return "Carrera{id=" + idCarrera + ", numCaballos=" + numCaballos + ", duracion=" + duracionSeg + "s, estado=" + estado + "}";
     }
 }

@@ -21,7 +21,7 @@ public class CaballoTask extends Task<Double> {
 
     @Override
     protected Double call() throws InterruptedException {
-        double maxAvancePorTick = 240.0 / (duracionSeg * 10.0);
+        double maxAvancePorTick = 230.0 / (duracionSeg * 10.0);
 
         updateProgress(progresoActual, 100.0);
 

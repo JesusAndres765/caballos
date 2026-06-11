@@ -13,8 +13,7 @@ public class Transaccion {
 
     public Transaccion() {}
 
-    public Transaccion(int idTransaccion, int idUsuario, TipoTransaccion tipo,
-                       double monto, String descripcion, LocalDateTime fecha) {
+    public Transaccion(int idTransaccion, int idUsuario, TipoTransaccion tipo, double monto, String descripcion, LocalDateTime fecha) {
         this.idTransaccion = idTransaccion;
         this.idUsuario = idUsuario;
         this.tipo = tipo;
@@ -43,7 +42,6 @@ public class Transaccion {
 
     @Override
     public String toString() {
-        return "Transaccion{id=" + idTransaccion + ", usuario=" + idUsuario
-                + ", tipo=" + tipo + ", monto=" + monto + "}";
+        return "Transaccion{id=" + idTransaccion + ", usuario=" + idUsuario + ", tipo=" + tipo + ", monto=" + monto + "}";
     }
 }

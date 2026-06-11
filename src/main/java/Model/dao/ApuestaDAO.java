@@ -11,11 +11,9 @@ public class ApuestaDAO {
 
     private final Connection conn = ConexionDB.getConnection();
 
-    // Registra una apuesta nueva (resultado=PENDIENTE, cobro=0)
     public boolean insert(Apuesta apuesta) {
         String sql = "INSERT INTO apuestas " +
-                "(id_usuario, id_carrera, id_caballo, monto, multiplicador, resultado, cobro) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "(id_usuario, id_carrera, id_caballo, monto, multiplicador, resultado, cobro) " + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, apuesta.getIdUsuario());
             ps.setInt(2, apuesta.getIdCarrera());
@@ -35,7 +33,6 @@ public class ApuestaDAO {
         return false;
     }
 
-    // Apuestas activas de un usuario en una carrera específica — panel "Apuestas Activas"
     public List<Apuesta> findByUsuarioYCarrera(int idUsuario, int idCarrera) {
         List<Apuesta> lista = new ArrayList<>();
         String sql = "SELECT * FROM apuestas WHERE id_usuario = ? AND id_carrera = ?";
@@ -50,7 +47,7 @@ public class ApuestaDAO {
         return lista;
     }
 
-    // Todas las apuestas de un usuario — historial
+    // Historial de las apuestas de un usuario
     public List<Apuesta> findByUsuario(int idUsuario) {
         List<Apuesta> lista = new ArrayList<>();
         String sql = "SELECT * FROM apuestas WHERE id_usuario = ? ORDER BY fecha_apuesta DESC";
@@ -64,7 +61,6 @@ public class ApuestaDAO {
         return lista;
     }
 
-    // Todas las apuestas de una carrera — usado al liquidar al cerrar la carrera
     public List<Apuesta> findByCarrera(int idCarrera) {
         List<Apuesta> lista = new ArrayList<>();
         String sql = "SELECT * FROM apuestas WHERE id_carrera = ?";
@@ -78,7 +74,6 @@ public class ApuestaDAO {
         return lista;
     }
 
-    // Cierra una apuesta con su veredicto y cobro final
     public boolean liquidar(int idApuesta, ResultadoApuesta resultado, double cobro) {
         String sql = "UPDATE apuestas SET resultado = ?, cobro = ? WHERE id_apuesta = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

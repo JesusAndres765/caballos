@@ -24,16 +24,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuAdminController {
-
-    @FXML private Label adminLabel;
-    @FXML private TabPane tabPane;
-    @FXML private Tab inicioTab;
-    @FXML private Label inicioMensajeLabel;
-    @FXML private VBox carrerasAdminContainer;
-    @FXML private Tab tabCrearCarrera;
-    @FXML private Tab tabRegistrarCaballo;
-    @FXML private Tab tabRegistrarAdmin;
-    @FXML private Tab tabCaballos;
+    @FXML
+    private Label adminLabel;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab inicioTab;
+    @FXML
+    private Label inicioMensajeLabel;
+    @FXML
+    private VBox carrerasAdminContainer;
+    @FXML
+    private Tab tabCrearCarrera;
+    @FXML
+    private Tab tabRegistrarCaballo;
+    @FXML
+    private Tab tabRegistrarAdmin;
+    @FXML
+    private Tab tabCaballos;
 
     private final CarreraDAO carreraDAO = new CarreraDAO();
     private final CarreraCaballoDAO carreraCaballoDAO = new CarreraCaballoDAO();
@@ -129,8 +137,7 @@ public class MenuAdminController {
 
         String estadoTexto = carrera.getEstado() == EstadoCarrera.EN_GATERA ? "En Espera" : "En Progreso";
 
-        Label headerLabel = new Label(
-                "Carrera #" + carrera.getIdCarrera() + " — " + estadoTexto + " | Duración: " + carrera.getDuracionSeg() + " seg");
+        Label headerLabel = new Label("Carrera #" + carrera.getIdCarrera() + " — " + estadoTexto + " | Duración: " + carrera.getDuracionSeg() + " seg");
         headerLabel.getStyleClass().add("section-title");
 
         // Calcula y muestra la hora de inicio

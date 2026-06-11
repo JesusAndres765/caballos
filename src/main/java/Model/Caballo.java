@@ -9,8 +9,7 @@ public class Caballo {
 
     public Caballo() {}
 
-    public Caballo(int idCaballo, String nombre, int numero,
-                   int carrerasCorridas, int carrerasGanadas) {
+    public Caballo(int idCaballo, String nombre, int numero, int carrerasCorridas, int carrerasGanadas) {
         this.idCaballo = idCaballo;
         this.nombre = nombre;
         this.numero = numero;

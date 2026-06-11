@@ -80,8 +80,7 @@ public class CarreraService {
     }
 
     private void finalizarCarrera(Carrera carrera) {
-        List<CarreraCaballo> inscripciones =
-                carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
+        List<CarreraCaballo> inscripciones = carreraCaballoDAO.findByCarrera(carrera.getIdCarrera());
 
         if (inscripciones.isEmpty()) {
             carreraDAO.actualizarEstado(carrera.getIdCarrera(), EstadoCarrera.FINALIZADA);
@@ -96,7 +95,7 @@ public class CarreraService {
 
         for (int i = 0; i < inscripciones.size(); i++) {
             double progreso   = 0;
-            int    tickFinish = Integer.MAX_VALUE;
+            int tickFinish = Integer.MAX_VALUE;
 
             for (int t = 0; t < totalTicks; t++) {
                 progreso = Math.min(100.0, progreso + rng.nextDouble() * maxAvance);

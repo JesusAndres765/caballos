@@ -40,9 +40,7 @@ public class CarreraCaballoDAO {
     }
 
     public boolean updateResultado(int id, int posicion, double progreso, boolean termino) {
-        String sql = "UPDATE carrera_caballos " +
-                "SET posicion_final = ?, progreso_final = ?, termino_carrera = ? " +
-                "WHERE id = ?";
+        String sql = "UPDATE carrera_caballos " + "SET posicion_final = ?, progreso_final = ?, termino_carrera = ? " + "WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, posicion);
             ps.setDouble(2, progreso);

@@ -10,7 +10,6 @@
       styleClass="root-layout"
       prefWidth="920" prefHeight="660">
 
-    <!-- HEADER -->
     <HBox styleClass="header-bar" alignment="CENTER_LEFT">
         <VBox spacing="2">
             <Label text="🏇 Ta' QueArdeElEstablo" styleClass="header-title"/>
@@ -20,14 +19,12 @@
         <Label fx:id="saldoLabel" text="0.00" styleClass="saldo-badge"/>
     </HBox>
 
-    <!-- FORMULARIO CENTRADO -->
     <StackPane VBox.vgrow="ALWAYS">
-        <VBox spacing="18" maxWidth="420" alignment="CENTER" styleClass="card">
+        <VBox spacing="18" maxWidth="500" maxHeight="600" alignment="CENTER" styleClass="card">
             <padding>
                 <Insets top="28" right="35" bottom="28" left="35"/>
             </padding>
 
-            <!-- Título -->
             <VBox spacing="3">
                 <Label text="DEPOSITAR FONDOS" styleClass="page-title"/>
                 <Label text="Todos los datos son simulados" styleClass="section-subtitle"/>
@@ -35,42 +32,31 @@
 
             <Separator styleClass="dark-separator"/>
 
-            <!-- Monto -->
             <VBox spacing="6">
                 <Label text="CANTIDAD A DEPOSITAR ($)" styleClass="form-label"/>
-                <TextField fx:id="cantidadField" promptText="0.00"
-                           prefHeight="48" maxWidth="Infinity" styleClass="text-field"
+                <TextField fx:id="cantidadField" promptText="0.00" prefHeight="48" maxWidth="Infinity" styleClass="text-field"
                            style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2ECC71;"/>
             </VBox>
 
-            <!-- Datos de tarjeta -->
             <VBox spacing="4">
                 <Label text="DATOS DE TARJETA" styleClass="form-label"/>
                 <Separator styleClass="dark-separator"/>
             </VBox>
 
             <VBox spacing="10">
-                <TextField fx:id="tarjetaField" promptText="0000 0000 0000 0000"
-                           prefHeight="42" maxWidth="Infinity" styleClass="text-field"/>
-                <TextField fx:id="titularField" promptText="Nombre del titular"
-                           prefHeight="42" maxWidth="Infinity" styleClass="text-field"/>
+                <TextField fx:id="tarjetaField" promptText="0000 0000 0000 0000" prefHeight="42" maxWidth="Infinity" styleClass="text-field"/>
+                <TextField fx:id="titularField" promptText="Nombre del titular" prefHeight="42" maxWidth="Infinity" styleClass="text-field"/>
                 <HBox spacing="12">
-                    <TextField fx:id="vigField" promptText="MM/AA"
-                               prefHeight="42" prefWidth="140" styleClass="text-field"/>
-                    <TextField fx:id="cvcField" promptText="CVC"
-                               prefHeight="42" prefWidth="100" styleClass="text-field"/>
+                    <TextField fx:id="vigField" promptText="MM/AA" prefHeight="42" prefWidth="140" styleClass="text-field"/>
+                    <TextField fx:id="cvcField" promptText="CVC" prefHeight="42" prefWidth="100" styleClass="text-field"/>
                 </HBox>
             </VBox>
 
-            <!-- Mensaje de error -->
             <Label fx:id="mensajeLabel" text="" wrapText="true" styleClass="error-label"/>
 
-            <!-- Botones -->
             <HBox spacing="12" alignment="CENTER">
-                <Button text="CONFIRMAR DEPÓSITO" onAction="#handleConfirmar"
-                        prefHeight="45" styleClass="button-primary"/>
-                <Button text="Volver" onAction="#handleVolver"
-                        prefHeight="45" prefWidth="100" styleClass="btn-secondary"/>
+                <Button text="CONFIRMAR DEPÓSITO" onAction="#handleConfirmar" prefHeight="45" styleClass="button-primary"/>
+                <Button text="Volver" onAction="#handleVolver" prefHeight="45" prefWidth="100" styleClass="btn-secondary"/>
             </HBox>
 
         </VBox>
